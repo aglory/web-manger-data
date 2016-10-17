@@ -72,6 +72,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 						bt.disabled=false;
 					}
 				});
+				return false;
 			}
 		</script>
 	</head>

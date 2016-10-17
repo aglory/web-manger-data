@@ -1,5 +1,20 @@
 <?php
 	ob_start();
+	session_start();
+	
+	$model="home";
+	$action="login";
+	if(array_key_exists('model',$_GET)){
+		$model=$_GET['model'];
+	}
+	if(array_key_exists('action',$_GET)){
+		$action=$_GET['action'];
+	}
+	
+	define('Model',$model);
+	define('Action',$action);
+	define('Execute',true);
+	
 	function ActionLink($model='',$action='',$opts=null,$echo=true){
 		$result = array();
 		$result[] = 'model='.urlencode($model);
@@ -31,18 +46,15 @@
 		array_unshift($params,'.','lib');
 		
 		$file = implode(DIRECTORY_SEPARATOR,$params).'.php';
-		//if(file_exists($file)){
+		if(file_exists($file)){
 			require $file;
-		//}
+		}
 	}
 	
 	function CurrentUserId(){		
 		$params = func_get_args();
 		if(!empty($params)){
 			foreach($params as $item){
-				if(!isset($_SESSION)){ 
-					session_start(); 
-				} 
 				$_SESSION['UserId'] = $item;
 				return $item;
 			}
@@ -56,18 +68,6 @@
 		return $_SESSION['UserId'];
 	}
 	
-	$model="index";
-	$action="index";
-	if(array_key_exists('model',$_GET)){
-		$model=$_GET['model'];
-	}
-	if(array_key_exists('action',$_GET)){
-		$action=$_GET['action'];
-	}
 	
-	define('Model',$model);
-	define('Action',$action);
-	define('Execute',true);
-	
+
 	Render($model,$action);
-?>

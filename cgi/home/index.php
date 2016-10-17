@@ -1,3 +1,9 @@
+<?php
+	if(empty(CurrentUserId())){
+		Render('home','login');
+		exit(1);
+	}
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -9,10 +15,8 @@
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" />
 		<script src="jquery/jquery.min.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
-		<style>
-			body {padding-top: 50px;}
-			.starter-template {padding: 40px 15px;text-align: center;}
-		</style>
+		
+		<link rel="stylesheet" href="css/home/index.css" />
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -24,13 +28,11 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			  </button>
-			  <a class="navbar-brand" href="#">Project name</a>
+			  <a class="navbar-brand" href="<?php ActionLink('home','index')?>">后台管理</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 			  <ul class="nav navbar-nav">
-				<li class="active"><a href="#">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#contact">Contact</a></li>
+				<li class="active"><a href="#">用户管理</a></li>
 			  </ul>
 			</div><!--/.nav-collapse -->
 		  </div>
