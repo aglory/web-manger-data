@@ -1,4 +1,14 @@
 .t_c{text-align: center;}
 .t_l{text-align: left;}
 .t_r{text-align: right;}
+.pd35{padding-top:35px;}
 .alert{position:fixed;bottom:0px;right:0px;}
+.loading{background:transparent url('image/load_128.gif') no-repeat center center;}
+.table-bordered > tfoot > tr > th,
+.table-bordered > tfoot > tr > td {
+  border-top-width: 1px;
+}
+.table-bordered > tfoot > tr > th,
+.table-bordered > tfoot > tr > td {
+  border-top-width: 2px;
+}

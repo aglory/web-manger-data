@@ -1,14 +1,28 @@
 <?php
-	ob_start();
-	session_start();
+	switch(session_status()){
+		case PHP_SESSION_NONE:
+			session_start();
+			break;
+		case PHP_SESSION_DISABLED:
+			break;
+		case PHP_SESSION_ACTIVE:
+			break;
+	}
 	
+	ob_start();	
 	$model="home";
-	$action="login";
+	$action="index";
+	
 	if(array_key_exists('model',$_GET)){
 		$model=$_GET['model'];
 	}
 	if(array_key_exists('action',$_GET)){
 		$action=$_GET['action'];
+	}
+	
+	if($model !='home' && $action != 'login'  && empty(CurrentUserId())){
+		$model = 'home';
+		$action = 'login';
 	}
 	
 	define('Model',$model);

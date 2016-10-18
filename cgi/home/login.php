@@ -1,29 +1,29 @@
 <?php
 require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
-$name = '';$password = '';
-if(array_key_exists('name',$_POST)){
-	$name = $_POST['name'];
+$Name = '';$Password = '';
+if(array_key_exists('Name',$_POST)){
+	$Name = $_POST['Name'];
 }
-if(array_key_exists('password',$_POST)){
-	$password = $_POST['password'];
+if(array_key_exists('Password',$_POST)){
+	$Password = $_POST['Password'];
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$result = array();
 	header('Content-Type: application/json;');
-	if(!empty($name) && !empty($password)){
+	if(!empty($Name) && !empty($Password)){
 		if(!isset($_SESSION)){ 
 			session_start(); 
 		} 
 		$sth = $pdomysql -> prepare('select Id from tbUserInfo where Name = :Name and Password = md5(:Password) and RoleId = :RoleId');
-		$sth -> execute(array('Name' => $name,'Password' => $password,'RoleId' => 0x7FFFFFFF));
+		$sth -> execute(array('Name' => $Name,'Password' => $Password,'RoleId' => 0x7FFFFFFF));
 		foreach($sth -> fetchAll() as $item){
 			$result['value'] = CurrentUserId($item['Id']);
 			$result['status'] = true;
-			setcookie('UserName',$name,0,'/','*',false,true);
+			setcookie('UserName',$Name,0,'/','*',false,true);
 			echo json_encode($result);
 			exit();
 		}
-		$result['dat'] = array($name,$password);
+		$result['dat'] = array($Name,$Password);
 		$result['status'] = false;
 		$result['message'] = '用户名或密码错误';
 		echo json_encode($result);
@@ -81,10 +81,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <div class="container">
 		<form class="form-signin">
 			<h2 class="form-signin-heading">登录</h2>
-			<label for="name" class="sr-only">账号</label>
-			<input type="text" id="name" name="name" class="form-control" placeholder="账号" required="required" autofocus="autofocus">
-			<label for="password" class="sr-only">密码</label>
-			<input type="password" id="password" name="password" class="form-control" placeholder="密码" required="required">
+			<label for="Name" class="sr-only">账号</label>
+			<input type="text" id="Name" name="Name" class="form-control" placeholder="账号" required="required" autofocus="autofocus">
+			<label for="Password" class="sr-only">密码</label>
+			<input type="password" id="Password" name="Password" class="form-control" placeholder="密码" required="required">
 			<div class="checkbox hide">
 				<label>
 					<input type="checkbox" value="remember-me"> Remember me

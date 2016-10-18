@@ -1,0 +1,9 @@
+footer{
+	position:fixed;
+	bottom:0px;right:auto;left:auto;
+	width:100%;
+}
+
+body{
+	padding-bottom:35px;
+}
