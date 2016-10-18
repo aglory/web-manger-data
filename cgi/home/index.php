@@ -22,10 +22,21 @@
 		<script src="pager/pager.js"></script>
 		
 		<link rel="stylesheet" href="css/common.css" />
+		<script src="js/common.js"></script>
+		
 		<link rel="stylesheet" href="css/home/index.css" />
 		
 		<script>
-		
+			$(function(){
+				$("#frmSubmit button[type='submit']").click(function(e){
+					e.preventDefault();
+					doSearch(null,this);
+				});
+				$("#frmSubmit button[type='button']").click(function(e){
+					e.preventDefault();
+					doSearch(1,this);
+				});
+			});
 		</script>
 	</head>
 	<body>
@@ -53,32 +64,40 @@
 		  <div class="pd35 t_c">
 			<h1>Bootstrap starter template</h1>
 			<div class="col-md-12">
-					<form id="frmSubmit" class="form-inline" action="<?php ActionLink('home','userinfolist')?>">
-				<div class="panel panel-primary">
+				<form id="frmSubmit" class="form-inline" action="<?php ActionLink('home','userinfolist')?>">
+					<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
+					<input id="PageSize" name="PageSize" type="hidden" value="20" />
+					<div class="panel panel-default">
 						<div class="panel-heading">
-							<div class="panel-title">
-								<label for="Name" class="control-label">名字</label><input id="Name" name="Name" type="text" class="form-control" />
-								<label for="NickName" class="control-label">昵称</label><input id="NickName" name="NickName" type="text" class="form-control" />
+							<div class="panel-title t_r">
+								<div class="form-group">
+									<input id="Name" name="Name" type="text" class="form-control input-sm input-sm-4" placeholder="名字" />
+									<input id="NickName" name="NickName" type="text" class="form-control input-sm input-sm-4" placeholder="昵称" />
+									<button type="submit" class="btn btn-info btn-sm">查询</button>
+									<button type="button" class="btn btn-default btn-sm">刷新</button>
+								</div>
 							</div>
 						</div>
 						<div class="panel-body">
 							<table class="table table-striped table-bordered">
 								<thead>
 									<tr>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
+										<th>名称</th>
+										<th>昵称</th>
+										<th>性别</th>
+										<th>头像</th>
+										<th>时间（创建/登录）</th>
+										<th>角色</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="recordList">
 								</tbody>
-								<tfoot>
+								<tfoot id="recordStatic">
 								</tfoot>
 							</table>
 						</div>
-				</div>
-					</form>
+					</div>
+				</form>
 			</div>
 		</div>
 		<footer class="footer t_c">

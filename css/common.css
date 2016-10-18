@@ -3,7 +3,7 @@
 .t_r{text-align: right;}
 .pd35{padding-top:35px;}
 .alert{position:fixed;bottom:0px;right:0px;}
-.loading{background:transparent url('image/load_128.gif') no-repeat center center;}
+.loading{background:transparent url('image/load_128.gif') no-repeat center center;height:128px;}
 .table-bordered > tfoot > tr > th,
 .table-bordered > tfoot > tr > td {
   border-top-width: 1px;
@@ -11,4 +11,40 @@
 .table-bordered > tfoot > tr > th,
 .table-bordered > tfoot > tr > td {
   border-top-width: 2px;
+}
+.input-sm-12 {
+width: 100% !important;
+}
+.input-sm-11 {
+width: 91.66666667% !important;
+}
+.input-sm-10 {
+width: 83.33333333% !important;
+}
+.input-sm-9 {
+width: 75% !important;
+}
+.input-sm-8 {
+width: 66.66666667% !important;
+}
+.input-sm-7 {
+width: 58.33333333% !important;
+}
+.input-sm-6 {
+width: 50% !important;
+}
+.input-sm-5 {
+width: 41.66666667% !important;
+}
+.input-sm-4 {
+width: 33.33333333% !important;
+}
+.input-sm-3 {
+width: 25% !important;
+}
+.input-sm-2 {
+width: 16.66666667% !important;
+}
+.input-sm-1 {
+width: 8.33333333% !important;
 }

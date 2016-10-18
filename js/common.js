@@ -15,3 +15,36 @@ function UI_Tips(t,h,m){
 		});
 	},2000);
 }
+
+function doSearch(pageIndex,sender){
+	var frm = $("#frmSubmit");
+	if(pageIndex != undefined && pageIndex != null){
+		$("#PageIndex").val(pageIndex);
+	}
+	$("#recordList").html('<tr><td class="loading" colspan="100">&nbsp;</td></tr>');
+	if(sender){
+		$(sender).prop('disabed',true);
+	}
+	$.ajax({
+		url:frm.attr("action"),
+		type:"post",
+		data:frm.serialize(),
+		//dataType:"json",
+		success:function(rest){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+			if(!rest)return;
+			if(!rest.status){
+				UI_Tips('错误',rest.message);
+				return;
+			}
+			
+		},error:function(){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+			$("#recordList").html();
+		}
+	});
+}
