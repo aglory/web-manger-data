@@ -1,7 +1,6 @@
 .t_c{text-align: center;}
 .t_l{text-align: left;}
 .t_r{text-align: right;}
-.pd35{padding-top:35px;}
 .alert{position:fixed;bottom:0px;right:0px;}
 .loading{background:transparent url('image/load_128.gif') no-repeat center center;height:128px;}
 .table-bordered > tfoot > tr > th,
@@ -47,4 +46,34 @@ width: 16.66666667% !important;
 }
 .input-sm-1 {
 width: 8.33333333% !important;
+}
+.wd20{
+width:20px !important;
+}
+.wd40{
+width:40px !important;
+}
+.wd60{
+width:60px !important;
+}
+.wd80{
+width:80px !important;
+}
+.wd100{
+width:100px !important;
+}
+.wd120{
+width:120px !important;
+}
+.wd140{
+width:140px !important;
+}
+.wd160{
+width:160px !important;
+}
+.wd180{
+width:180px !important;
+}
+.wd200{
+width:200px !important;
 }

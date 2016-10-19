@@ -1,4 +1,4 @@
-﻿#pager ul.pages {
+﻿.pager ul.pages {
 display:block;
 border:none;
 text-transform:uppercase;
@@ -6,14 +6,14 @@ font-size:10px;
 padding:0;
 float:right;
 }
-#pager ul.pages:after{
+.pager ul.pages:after{
 	content:"&nbsp;"
 	clear:both;
 	display:block;
 	visibility:visibility;
 	height:0;
 }
-#pager ul.pages li {
+.pager ul.pages li {
 list-style:none;
 float:left;
 border:1px solid #ccc;
@@ -21,17 +21,14 @@ text-decoration:none;
 margin:0 5px 0 0;
 padding:5px;
 }
-
-#pager ul.pages li:hover {
+.pager ul.pages li:hover {
 border:1px solid #003f7e;
 }
-
-#pager ul.pages li.pgEmpty {
+.pager ul.pages li.pgEmpty {
 border:1px solid #eee;
 color:#eee;
 }
-
-#pager ul.pages li.pgCurrent {
+.pager ul.pages li.pgCurrent {
 border:1px solid #003f7e;
 color:#000;
 font-weight:700;

@@ -1,0 +1,18 @@
+<div class='modal'>
+{{if (model)}}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">编辑 {{if (model.Id)}} -{{model.Name}} {{/if}}</h3>
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="control-lable" for="">账号</label>
+				<input type="text" id="Name" name="Name" class="form-control" />
+			</div>
+		</div>
+		<div class="panel-footer">
+			<button></button>
+		</div>
+	</div>
+{{/if}}
+</div>
