@@ -1,8 +1,8 @@
 <?php
-	if(!defined('Execute')) exit(0);
+	if(!defined('Execute')) exit();
 	if(empty(CurrentUserId())){
 		Render('home','login');
-		exit(1);
+		exit();
 	}
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
 	$id = 0;
@@ -22,8 +22,9 @@
 	$result = array();
 	
 	if(empty($errors)){
+		$model = $sth -> fetch(PDO::FETCH_ASSOC);
 		$result['status'] = true;
-		$result['model'] = $sth -> fetchAll(PDO::FETCH_ASSOC);
+		$result['model'] = empty($model)?null:$model;
 	}else{
 		$result['status'] = false;
 		$result['message'] = implode('\r\n',$errors);
@@ -31,4 +32,4 @@
 	
 	header('Content-Type: application/json;');
 	echo json_encode($result);
-	exit(1);
+	exit();

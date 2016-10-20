@@ -1,8 +1,8 @@
 <?php
-	if(!defined('Execute')) exit(0);
+	if(!defined('Execute')) exit();
 	if(empty(CurrentUserId())){
 		Render('home','login');
-		exit(1);
+		exit();
 	}
 ?>
 <!DOCTYPE html>
@@ -31,8 +31,7 @@
 		<script src="My97DatePicker/WdatePicker.js"></script>
 		<script src="My97DatePicker/lang/zh-cn.js"></script>
 		
-		<link rel="stylesheet" href="pager/pager.css" />
-		<script src="pager/pager.js"></script>
+		<script src="common/pager.js"></script>
 		
 		<link rel="stylesheet" href="common/common.css" />
 		<script src="common/common.js"></script>
@@ -44,15 +43,6 @@
 		
 		<script>
 			$(function(){
-				$("#mainForm button[type='submit']").click(function(e){
-					e.preventDefault();
-					doQuery(null,null,this);
-				});
-				$("#mainForm button[type='button']").click(function(e){
-					e.preventDefault();
-					doQuery(1,null,this);
-				});
-				
 				doQuery();
 			});
 		</script>
@@ -90,7 +80,7 @@
 								<div class="panel-title clearfix">
 									<div class="col-sm-2 t_l">
 										<div class="form-group">
-											<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,0)">编辑</button>
+											<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,0)">添加</button>
 										</div>
 									</div>
 									<div class="col-sm-10 t_r">
@@ -108,12 +98,19 @@
 											</select>
 										</div>
 										<div class="form-group">
-											<input id="ModifyDateTimeStart" name="ModifyDateTimeStart" class="form-control input-sm date Wdate wd100" placeholder="开始日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'ModifyDateTimeEnd\')}'});" />
-											<input id="ModifyDateTimeEnd" name="ModifyDateTimeEnd" class="form-control input-sm date Wdate wd100" placeholder="结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'ModifyDateTimeStart\')}'});" />
+											<input id="DateTimeModifyStart" name="DateTimeModifyStart" class="form-control input-sm date Wdate wd100" placeholder="开始日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'DateTimeModifyEnd\')}'});" />
+											<input id="DateTimeModifyEnd" name="DateTimeModifyEnd" class="form-control input-sm date Wdate wd100" placeholder="结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeModifyStart\')}'});" />
 										</div>
 										<div class="form-group">
-											<button type="submit" class="btn btn-info btn-sm">查询</button>
-											<button type="button" class="btn btn-default btn-sm">刷新</button>
+											<select id="Status" name="Status" class="form-control input-sm" placeholder="性别">
+												<option value="">全部</option>
+												<option value="1">启用</option>
+												<option value="0">禁用</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-info btn-sm btn-query">查询</button>
+											<button type="button" class="btn btn-default btn-sm btn-refresh">刷新</button>
 										</div>
 									</div>
 								</div>
@@ -128,7 +125,7 @@
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Follow"> 关注者</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Sex"> 性别</a></th>
 											<th class="t_c">头像</th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="ModifyDateTime"> 时间（创建/登录）</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeModify"> 时间（创建/登录）</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="RoleId"> 角色</a></th>
 											<th class="t_c">操作</th>
 										</tr>
@@ -137,7 +134,7 @@
 									</tbody>
 									<tfoot id="recordStatic">
 										<tr>
-											<td colspan="9" class="pager"></td>
+											<td colspan="9" class="t_r"></td>
 										</tr>
 									</tfoot>
 								</table>

@@ -71,7 +71,7 @@ template.helper("renderEnums",function(i,l,d){
 });
 
 template.helper("renderEmpty",function(i,d){
-	if(i==null || i.length==0){
+	if(i == undefined || i==null || i.length==0){
 		if(d==undefined)
 			return '-';
 		return d;

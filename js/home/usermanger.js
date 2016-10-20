@@ -1,4 +1,13 @@
-function doQuery(pageIndex,pageSize,sender){
+function doQuery(opts){
+	var sender = null;
+	var pageIndex = null;
+	var pageSize = null;
+	if(opts){
+		sender = opts.sender;
+		pageIndex = opts.pageIndex;
+		pageSize = opts.pageSize;
+	}
+	
 	var frm = $("#mainForm");
 	if(pageIndex != undefined && pageIndex != null){
 		$("#PageIndex").val(pageIndex);
@@ -23,7 +32,7 @@ function doQuery(pageIndex,pageSize,sender){
 			}
 			if(!rest)return;
 			if(!rest.status){
-				UI_Tips('错误',rest.message);
+				UI_Tips('danger',rest.message);
 				return;
 			}
 			$("#recordList").html(template('usermanger',rest));
@@ -39,6 +48,14 @@ function doQuery(pageIndex,pageSize,sender){
 }
 
 $(function(){	
+	$("#mainForm .btn-query").click(function(e){
+		e.preventDefault();
+		doQuery({sender:this,pageIndex:1});
+	});
+	$("#mainForm .btn-refresh").click(function(e){
+		e.preventDefault();
+		doQuery({sender:this});
+	});
 	$("#mainForm").on("click",".btn-sort",function(e){
 		$(this).removeClass("icon-sort icon-sort-up icon-sort-down");
 		var lis = ($("#PageSort").val().length==0)? (new Array()) : $("#PageSort").val().split(",");
@@ -78,6 +95,10 @@ $(function(){
 });
 
 function userEditor(sender,id){
+	if(id == 0){
+		userEditorRender(sender,{status:true,model:null});
+		return;
+	}
 	if(sender){
 		$(sender).prop('disabed',true);
 	}
@@ -92,14 +113,122 @@ function userEditor(sender,id){
 			}
 			if(!rest)return;
 			if(!rest.status){
-				UI_Tips('错误',rest.message);
+				UI_Tips('danger',rest.message);
 				return;
 			}
-			$(template('usereditor',rest)).appendTo('body').modal();
+			userEditorRender(sender,rest);
 		},error:function(){
 			if(sender){
 				$(sender).prop('disabed',false);
 			}
 		}
 	});
+}
+
+function userEditorRender(sender,model){
+	var modal = $(template('usereditor',model)).appendTo('body').modal();
+	modal.find(".modal-dialog").draggable({handle:".modal-header"});
+	modal.find(".btn-save").click(function(){
+		userSave(this,modal);
+	});
+	return modal;
+}
+
+function userSave(sender,modal){
+	var form = modal.find(".editorForm");
+	if(sender){
+		$(sender).prop('disabed',true);
+	}
+	$.ajax({
+		url:form.attr("action"),
+		type:"post",
+		data:form.serialize(),
+		dataType:"json",
+		success:function(rest){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}			
+			if(!rest)return;
+			if(!rest.status){
+				UI_Tips('danger',rest.message);
+				return;
+			}
+			modal.modal('hide');
+			doQuery();
+		},error:function(){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+		}
+	});
+}
+
+function userChangeStatus(sender,id,status){
+	var modal = $(template('confirm',{message:'确定'+(status?"启用":"禁用")+"该用户?"})).appendTo('body').modal();
+	modal.find(".modal-dialog").draggable({handle:".modal-header"});
+	modal.find(".btn-yes").click(function(){
+		var sender = this;
+		$.ajax({
+			url:'?modal=home&action=userchangestatus',
+			type:"post",
+			data:{Id:id,Status:status},
+			dataType:"json",
+			success:function(rest){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}			
+				modal.modal('hide');
+				if(!rest)return;
+				if(!rest.status){
+					UI_Tips('danger',rest.message);
+					return;
+				}
+				UI_Tips('success',(status?"启用":"禁用")+"成功");
+				doQuery();
+			},error:function(){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}
+			}
+		});
+	});
+	modal.find(".btn-no").click(function(){
+		modal.modal("hide");
+	});
+	return modal;
+}
+
+function userDelete(sender,id){
+	var modal = $(template('confirm',{message:'确定删除该用户?'})).appendTo('body').modal();
+	modal.find(".modal-dialog").draggable({handle:".modal-header"});
+	modal.find(".btn-yes").click(function(){
+		var sender = this;
+		$.ajax({
+			url:'?modal=home&action=userdelete',
+			type:"post",
+			data:{Id:id,Status:status},
+			dataType:"json",
+			success:function(rest){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}			
+				modal.modal('hide');
+				if(!rest)return;
+				if(!rest.status){
+					UI_Tips('danger',rest.message);
+					return;
+				}
+				UI_Tips('success',"删除成功");
+				doQuery();
+			},error:function(){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}
+			}
+		});
+	});
+	modal.find(".btn-no").click(function(){
+		modal.modal("hide");
+	});
+	return modal;
 }

@@ -1,5 +1,7 @@
 function UI_Tips(t,h,m){
 	t = t || 'info';
+	h = h || '';
+	m = m || '';
 	var dom = $('<div class="alert alert-'+t+'"><strong>'+h+'</strong>'+m+'</div>').appendTo("body")
 	.click(function(){
 		$(this).hide("slow",function(){$(this).remove();});

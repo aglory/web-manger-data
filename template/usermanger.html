@@ -8,9 +8,9 @@
 		<td class="t_c">{{if ($value.Sex==null)}} - {{else if ($value.Sex == 0)}}女{{else if($value.Sex == 1)}}男{{/if}}</td>
 		<td class="t_c">{{if ($value.Img==null)}}-{{else}}<a href="{{$value.Img}}" target="_blank"><img class="img-thumbnail" src="{{$value.Img}}" /></a>{{/if}}</td>
 		<td class="t_c">
-		{{if ($value.CreateDateTime == null) }} / {{else}} {{$value.CreateDateTime.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}} {{/if}}
+		{{if ($value.DateTimeCreate == null) }} / {{else}} {{$value.DateTimeCreate.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}} {{/if}}
 			/
-		{{if ($value.ModifyDateTime == null) }} / {{else}} {{$value.ModifyDateTime.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}} {{/if}}
+		{{if ($value.DateTimeModify == null) }} / {{else}} {{$value.DateTimeModify.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}} {{/if}}
 		</td>
 		<td class="t_c">{{if ($value.RoleId==2147483647)}}管理员{{else}}普通用户{{/if}}</td>
 		<td class="t_c">

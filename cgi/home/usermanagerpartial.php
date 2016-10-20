@@ -1,12 +1,12 @@
 <?php
-	if(!defined('Execute')) exit(0);
+	if(!defined('Execute')) exit();
 	if(empty(CurrentUserId())){
 		Render('home','login');
-		exit(1);
+		exit();
 	}
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
 
-	$PageSort = '';
+	$PageSort = 'Id desc';
 	$PageIndex = 1;
 	$PageSize = 20;
 
@@ -16,12 +16,12 @@
 	if(array_key_exists('PageSize',$_POST) && is_numeric($_POST['PageSize'])){
 		$PageSize = intval($_POST['PageSize']);
 	}
-	if(array_key_exists('PageSort',$_POST)){
+	if(array_key_exists('PageSort',$_POST) && !empty($_POST['PageSort'])){
 		$PageSort = $_POST['PageSort'];
 	}
 
-	$PageStart = ($PageIndex - 1) * $PageSize;
-	$PageEnd = $PageStart + $PageSize;
+	$PageStart = $PageIndex - 1;
+	$PageEnd = $PageSize;
 	$PageOrderBy = empty($PageSort)?'':" order by $PageSort ";
 
 	$whereSql = array('1=1');
@@ -38,14 +38,18 @@
 	if(array_key_exists('Sex',$_POST) && is_numeric($_POST['Sex'])){
 		$whereSql[] = 'Sex = '.$_POST['Sex'];
 	}
-	if(array_key_exists('ModifyDateTimeStart',$_POST) && !empty($_POST['ModifyDateTimeStart'])){
-		$whereSql[] = 'ModifyDateTime >= :ModifyDateTimeStart';
-		$whereParams['ModifyDateTimeStart'] = $_POST['ModifyDateTimeStart'];
+	if(array_key_exists('DateTimeModifyStart',$_POST) && !empty($_POST['DateTimeModifyStart'])){
+		$whereSql[] = 'DateTimeModify >= :DateTimeModifyStart';
+		$whereParams['DateTimeModifyStart'] = $_POST['DateTimeModifyStart'];
 	}
-	if(array_key_exists('ModifyDateTimeEnd',$_POST) && !empty($_POST['ModifyDateTimeEnd'])){
-		$whereSql[] = 'ModifyDateTime <= date_add(:ModifyDateTimeEnd,INTERVAL 1 DAY)';
-		$whereParams['ModifyDateTimeEnd'] = $_POST['ModifyDateTimeEnd'];
+	if(array_key_exists('DateTimeModifyEnd',$_POST) && !empty($_POST['DateTimeModifyEnd'])){
+		$whereSql[] = 'DateTimeModify <= date_add(:DateTimeModifyEnd,INTERVAL 1 DAY)';
+		$whereParams['DateTimeModifyEnd'] = $_POST['DateTimeModifyEnd'];
 	}
+	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
+		$whereSql[] = 'Status = '.$_POST['Status'];
+	}
+	
 	
 	$sthList = null;
 	$sthCount = null;
@@ -61,6 +65,7 @@
 	}
 
 	$errors = array();
+	
 	$error = $sthList -> errorInfo();
 	if($error[0] > 0){
 		$errors[] = $error[2];
@@ -71,6 +76,9 @@
 	}
 
 	$result = array();
+	
+	$result['sql'] ='select * from tbUserInfo where '.implode(' and ',$whereSql)."$PageOrderBy limit $PageStart,$PageEnd;";
+	
 	if(empty($errors)){
 		$result['status'] = true;
 		$result['recordList'] = $sthList -> fetchAll(PDO::FETCH_ASSOC);
@@ -80,6 +88,7 @@
 		$result['recordCount'] = 0; 
 		$result['message'] = implode('\r\n',$errors);
 	}
+	
 	header('Content-Type: application/json;');
 	echo json_encode($result);
 	exit();

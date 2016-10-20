@@ -1,6 +1,7 @@
 .t_c{text-align: center;}
 .t_l{text-align: left;}
 .t_r{text-align: right;}
+.t_j{text-align: justify;}
 .alert{position:fixed;bottom:0px;right:0px;}
 .loading{background:transparent url('image/load_128.gif') no-repeat center center;height:128px;}
 .table-bordered > tfoot > tr > th,
@@ -76,4 +77,22 @@ width:180px !important;
 }
 .wd200{
 width:200px !important;
+}
+.col4-1{
+	width:15%;text-align:right;
+}
+.col4-2{
+	width:35%;text-align:left;
+}
+.col4-3{
+	width:15%;text-align:right;
+}
+.col4-4{
+	text-align:left;
+}
+.table-none{
+	border-style:none;
+}
+.table-none>tbody>tr>td, .table-none>tbody>tr>th, .table-none>tfoot>tr>td, .table-none>tfoot>tr>th, .table-none>thead>tr>td, .table-none>thead>tr>th{
+	border-style:none;
 }

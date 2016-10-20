@@ -1,5 +1,5 @@
 <?php
-	if(!defined('Execute')) exit(0);
+	if(!defined('Execute')) exit();
 	CurrentUserId(0);
 	Render('home','login');
-	exit(1);
+	exit();
