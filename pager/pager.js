@@ -57,7 +57,7 @@
         {
             var currentButton = $('<li class="page-number">' + (page) + '</li>');
 
-            page == pageIndex ? currentButton.addClass('pgCurrent') : currentButton.click(function () { pageIndexChanged(this.firstChild.data, pageSize); });
+            page == pageIndex ? currentButton.addClass('pgCurrent') : currentButton.click(function () { pageIndexChanged({sender:this,pageIndex:this.firstChild.data, pageSize:pageSize}); });
             currentButton.appendTo($pager);
         }
 
@@ -95,11 +95,11 @@
         // disable and 'grey' out buttons if not needed.
         if (buttonLabel == "<<" || buttonLabel == "<")
         {
-            pageIndex <= 1 ? $Button.addClass('pgEmpty') : $Button.click(function () { pageIndexChanged(destPage, pageSize); });
+            pageIndex <= 1 ? $Button.addClass('pgEmpty') : $Button.click(function () { pageIndexChanged({sender:this,pageIndex:destPage, pageSize:pageSize}); });
         }
         else
         {
-            pageIndex >= pageCount ? $Button.addClass('pgEmpty') : $Button.click(function () { pageIndexChanged(destPage, pageSize); });
+            pageIndex >= pageCount ? $Button.addClass('pgEmpty') : $Button.click(function () { pageIndexChanged({sender:this,pageIndex:destPage, pageSize:pageSize}); });
         }
 
         return $Button;

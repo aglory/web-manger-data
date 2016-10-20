@@ -1,8 +1,8 @@
 <?php
-	if(!defined('Execute')) exit(0);
+	if(!defined('Execute')) exit();
 	if(empty(CurrentUserId())){
 		Render('home','login');
-		exit(1);
+		exit();
 	}
 ?>
 <!DOCTYPE html>
@@ -74,8 +74,76 @@
 		</nav>
 
 		<div class="container">
-		  <div class="pd35">
-			<h1>Bootstrap starter template</h1>
+		  <div style="padding-top:120px;">
+		  
+		  
+  <form class="form-inline">
+    <fieldset>
+      <div id="legend" class="">
+        <legend class="">表单名</legend>
+      </div>
+    
+
+    <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">Text input</label>
+          <div class="controls">
+            <input type="text" placeholder="placeholder" class="input-xlarge">
+            <p class="help-block">Supporting help text</p>
+          </div>
+        </div><div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">Text input</label>
+          <div class="controls">
+            <input type="text" placeholder="placeholder" class="input-xlarge">
+            <p class="help-block">Supporting help text</p>
+          </div>
+        </div>
+
+    <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label" for="input01">Text input</label>
+          <div class="controls">
+            <input type="text" placeholder="placeholder" class="input-xlarge">
+            <p class="help-block">Supporting help text</p>
+          </div>
+        </div>
+
+    <div class="control-group">
+          <label class="control-label">Checkboxes</label>
+          <div class="controls">
+
+            <!-- Multiple Checkboxes -->
+            <label class="checkbox">
+              <input type="checkbox" value="Option one">
+              Option one
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" value="Option two">
+              Option two
+            </label>
+          </div>
+
+        </div>
+
+    <div class="control-group">
+          <label class="control-label">Button</label>
+
+          <!-- Button -->
+          <div class="controls">
+            <button class="btn btn-success">Button</button>
+          </div>
+        </div>
+
+    
+
+    </fieldset>
+  </form>
+
+		  
 		</div>
 		<footer class="footer t_c">
 		  <div class="container">
