@@ -126,7 +126,9 @@ function userEditor(sender,id){
 }
 
 function userEditorRender(sender,model){
-	var modal = $(template('usereditor',model)).appendTo('body').modal();
+	var html = $(template('usereditor',model)).appendTo('body');
+	html.find("input[type='checkbox']").bootstrapSwitch({ onText : '男',offText : '女'});
+	var modal = html.modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-save").click(function(){
 		userSave(this,modal);

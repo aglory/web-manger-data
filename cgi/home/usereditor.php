@@ -15,7 +15,7 @@
 	
 	$errors = array();
 	$error = $sth -> errorInfo();
-	if($error[0] > 0){
+	if($error[1] > 0){
 		$errors[] = $error[2];
 	}
 	

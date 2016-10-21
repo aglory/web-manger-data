@@ -14,13 +14,15 @@
 		</td>
 		<td class="t_c">{{if ($value.RoleId==2147483647)}}管理员{{else}}普通用户{{/if}}</td>
 		<td class="t_c">
-			<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,{{$value.Id}})">编辑</button>
-			{{if ($value.Status)}}
-			<button class="btn btn-sm btn-warning" type="button" onclick="userChangeStatus(this,{{$value.Id}},0)">禁用</button>
-			{{else}}
-			<button class="btn btn-sm btn-success" type="button" onclick="userChangeStatus(this,{{$value.Id}},1)">启用</button>
-			{{/if}}
-			<button class="btn btn-sm btn-danger" type="button" onclick="userDelete(this,{{$value.Id}})">删除</button>
+			<div class="btn-group">
+				<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,{{$value.Id}})">编辑</button>
+				{{if ($value.Status)}}
+				<button class="btn btn-sm btn-warning" type="button" onclick="userChangeStatus(this,{{$value.Id}},0)">禁用</button>
+				{{else}}
+				<button class="btn btn-sm btn-success" type="button" onclick="userChangeStatus(this,{{$value.Id}},1)">启用</button>
+				{{/if}}
+				<button class="btn btn-sm btn-danger" type="button" onclick="userDelete(this,{{$value.Id}})">删除</button>
+			</div>
 		</td>
 	</tr>                                               
 	{{/each}}

@@ -52,9 +52,9 @@
 		$errors = array();
 
 		$error = $sth -> errorInfo();
-		if($error[0] == 23000){
+		if($error[1] == 1062){
 			$errors[] = '改账号已存在';
-		}else if($error[0] > 0){
+		}else if($error[1] > 0){
 			$errors[] = $error[2];
 		}
 		
@@ -77,7 +77,7 @@
 	$errors = array();
 
 	$error = $sth -> errorInfo();
-	if($error[0] > 0){
+	if($error[1] > 0){
 		$errors[] = $error[2];
 	}
 	
