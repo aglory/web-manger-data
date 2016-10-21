@@ -1,0 +1,22 @@
+{{if (status && recordList.length > 0)}}
+	<tr><td colspan="4">
+	{{each recordList}}
+	<div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+			<img src="{{$value.Src}}" alt="">
+			<div class="caption">
+				<p>{{if (!$value.Description)}}{{$value.Description}}{{/if}}</p>
+				<p>
+					<a href="#" class="btn btn-primary" role="button">Button</a> 
+					<a href="#" class="btn btn-default" role="button">Button</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	{{/each}}
+	</td></tr>
+{{else}}
+	<tr class="odd_color">
+		<td class="align_l p10_l bgr_eb" colspan="4">暂无数据</td>
+	</tr>
+{{/if}}
