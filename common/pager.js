@@ -52,7 +52,7 @@
 			btns.push('<a class="'+ btnClass +'" rel="' + i + '">' + i + '</a>');
 		}
 		
-		if(pageIndex == pageCount){
+		if(pageIndex >= pageCount){
 			btns.push('<a class="'+ btnClass +'" disabled="disabled"><i class="icon-angle-right"></i></a>');
 		}else{
 			btns.push('<a class="'+ btnClass +'" rel="' + (pageIndex + 1) + '"><i class="icon-angle-right"></i></a>');

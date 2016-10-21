@@ -94,7 +94,7 @@ $(function(){
 	});
 });
 
-function userEditor(sender,id){
+function userimageEditor(sender,id){
 	if(id == 0){
 		userEditorRender(sender,{status:true,model:null});
 		return;
@@ -103,7 +103,7 @@ function userEditor(sender,id){
 		$(sender).prop('disabed',true);
 	}
 	$.ajax({
-		url:"?model=home&action=usereditor",
+		url:"?model=home&action=userimageeditor",
 		type:'post',
 		dataType:'json',
 		data:{"id":id},
@@ -126,7 +126,7 @@ function userEditor(sender,id){
 }
 
 function userEditorRender(sender,model){
-	var modal = $(template('usereditor',model)).appendTo('body').modal();
+	var modal = $(template('userimageeditor',model)).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-save").click(function(){
 		userSave(this,modal);
@@ -141,8 +141,11 @@ function userSave(sender,modal){
 	}
 	$.ajax({
 		url:form.attr("action"),
-		type:"post",
-		data:form.serialize(),
+		data: new FormData(document.querySelector('.editorForm')),
+		type:'post',
+		cache: false,
+		contentType: false,
+		processData: false,
 		dataType:"json",
 		success:function(rest){
 			if(sender){

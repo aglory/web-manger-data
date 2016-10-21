@@ -1,0 +1,34 @@
+<div class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">编辑</h4>
+			</div>
+			<div class="modal-body">
+				<form class="editorForm form-horizontal" enctype="multipart/form-data" action="?model=userimage&action=userimagesave">
+					<input id="Id" name="Id" value="{{if (model)}}{{model}}{{/if}}" type="hidden" />
+					<div class="row"> 
+						<label class="btn btn-default btn-file col-sm-12">
+							本地上传 
+							<input type="file" id="imgs" name="imgs" multiple="multiple" />
+						</label>
+					</div>
+					<div class="row">
+						<div class="input-group">
+							<span class="input-group-addon">网络路径</span>
+							<input id="Src" name="Src" type="text" class="form-control">
+						</div>
+					</div>
+					<div class="row">
+						<textarea id="Description" name="Description" class="form-control" placeholder="介绍说明"></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary btn-save">保存</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -6,33 +6,35 @@
 				<h4 class="modal-title">编辑 {{if (model)}} -{{model.Name}} {{/if}}</h4>
 			</div>
 			<div class="modal-body">
-				<form class="editorForm form-inline" action="?model=home&action=userSave">
+				<form class="editorForm form-inline" action="?model=home&action=usersave">
 					<input id="Id" name="Id" value="{{if (model)}}{{model.Id}}{{else}}0{{/if}}" type="hidden" />
 					<fieldset>
 						<table class="table table-none">
 							<tr>
-								<td class="col4-1"><label class="control-label" for="Name">账号：</label></td>
-								<td class="col4-2">
-									<input id="Name" name="Name" type="text" {{if (model)}}disabled = "disabled"{{/if}} placeholder="账号" class="form-control input-sm" value="{{if (model)}}{{#model.Name}}{{/if}}">
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon">账号：</span>
+										<input id="Name" name="Name" type="text" {{if (model)}}disabled = "disabled"{{/if}} placeholder="账号" class="form-control input-sm" value="{{if (model)}}{{#model.Name}}{{/if}}">
+									</div>
 								</td>
-								<td class="col4-3"><label class="control-label" for="Password">密码：</label></td>
-								<td class="col4-4">
-									<input id="Password" name="Password" type="password" {{if (model)}}disabled = "disabled"{{/if}} placeholder="密码" class="form-control input-sm">
-								</td>
+								<td class="col2-2">
+									<div class="input-group">
+										<span class="input-group-addon">密码：</span>
+										<input id="Password" name="Password" type="password" {{if (model)}}disabled = "disabled"{{/if}} placeholder="密码" class="form-control input-sm">
+									</div>
 							</tr>
 							<tr>
-								<td class="col4-1"><label class="control-label" for="NickName">昵称：</label></td>
-								<td class="col4-2">
-									<input id="NickName" name="NickName" type="text" placeholder="昵称" class="form-control input-sm" value="{{if (model)}}{{#model.NickName}}{{/if}}">
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon">昵称：</span>
+										<input id="NickName" name="NickName" type="text" placeholder="昵称" class="form-control input-sm" value="{{if (model)}}{{#model.NickName}}{{/if}}">
+									</div>
 								</td>
-								<td class="col4-3"><label class="control-label" for="NickName">性别：</label></td>
-								<td class="col4-4">
-									<label class="radio">
-										男<input id="Sex1" name="Sex" type="radio" class="radio" value="1" {{if (model && model.Sex)}}checked="checked"{{/if}}>
-									</label>
-									<label class="radio">
-										女<input id="Sex0" name="Sex" type="radio" class="radio" value="0" {{if (!model || !model.Sex)}}checked="checked"{{/if}}>
-									</label>
+								<td class="col2-2">
+									<div class="input-group">
+										<span class="input-group-addon">性别：</span>
+										<input id="Sex" name="Sex" type="checkbox" class="radio" value="1" {{if (model && model.Sex)}}checked="checked"{{/if}}>
+									</div>
 								</td>
 							</tr>
 						</table>

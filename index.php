@@ -1,4 +1,5 @@
 <?php
+	ob_start();
 	switch(session_status()){
 		case PHP_SESSION_NONE:
 			session_start();
@@ -8,8 +9,6 @@
 		case PHP_SESSION_ACTIVE:
 			break;
 	}
-	
-	ob_start();	
 	$model="home";
 	$action="index";
 	
@@ -20,7 +19,7 @@
 		$action=$_GET['action'];
 	}
 	
-	if($model !='home' && $action != 'login'  && empty(CurrentUserId())){
+	if($model !='home' && $action != 'login'  && !CurrentUserId()){
 		$model = 'home';
 		$action = 'login';
 	}
@@ -65,7 +64,7 @@
 		}
 	}
 	
-	function CurrentUserId(){		
+	function CurrentUserId(){
 		$params = func_get_args();
 		if(!empty($params)){
 			foreach($params as $item){

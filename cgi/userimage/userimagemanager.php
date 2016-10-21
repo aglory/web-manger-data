@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>后台管理</title>
+		<title>图片管理</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,9 +20,6 @@
 		
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
 		<script src="bootstrap/js/bootstrap.js"></script>
-		
-		<link rel="stylesheet" href="bootstrap/css/bootstrap-switch.css" />
-		<script src="bootstrap/js/bootstrap-switch.js"></script>
 		
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" />
 		
@@ -41,8 +38,8 @@
 		
 		<script src="common/template.js"></script>
 		
-		<link href="resource/home/usermanger.css" rel="stylesheet" />
-		<script src="resource/home/usermanger.js"></script>
+		<link href="resource/userimage/userimagemanager.css"  rel="stylesheet"/>
+		<script src="resource/userimage/userimagemanager.js"></script>
 		
 		<script>
 			$(function(){
@@ -54,29 +51,28 @@
 		<?php
 			Render('header');
 		?>
-
 		<div class="container">
 			<div id="main">
 				<div class="col-md-12">
-					<form id="mainForm" class="form-inline" action="<?php ActionLink('home','usermanagerpartial')?>">
+					<form id="mainForm" class="form-inline" action="<?php ActionLink('userimage','userimagemanagerpartial')?>">
 						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
 						<input id="PageSize" name="PageSize" type="hidden" value="20" />
 						<input id="PageSort" name="PageSort" type="hidden" value="" />
+						<input id="User_Id" name="User_Id" type="hidden" value="<?php if(array_key_exists('User_Id',$_GET) && is_numeric($_GET['User_Id'])){ echo $_GET['User_Id'];}?>"/>
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="panel-title clearfix">
 									<div class="col-sm-2 t_l">
 										<div class="form-group">
-											<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,0)">添加</button>
-
+											<button class="btn btn-sm btn-info" type="button" onclick="userimageEditor(this,0)">添加</button>
 										</div>
 									</div>
 									<div class="col-sm-10 t_r">
 										<div class="form-group">
-											<input id="Name" name="Name" type="text" class="form-control input-sm" placeholder="名字" />
+											<input id="Name" name="Name" type="text" class="form-control input-sm wd120" placeholder="名字" />
 										</div>
 										<div class="form-group">
-											<input id="NickName" name="NickName" type="text" class="form-control input-sm" placeholder="昵称" />
+											<input id="NickName" name="NickName" type="text" class="form-control input-sm wd120" placeholder="昵称" />
 										</div>
 										<div class="form-group">
 											<select id="Sex" name="Sex" class="form-control input-sm" placeholder="性别">
@@ -97,6 +93,13 @@
 											</select>
 										</div>
 										<div class="form-group">
+											<select id="$User_Id" name ="$User_Id" class="form-control input-sm">
+												<option value="">全部</option>
+												<option value="1">已分配</option>
+												<option value="0">未分配</option>
+											</select>
+										</div>
+										<div class="form-group">
 											<button type="submit" class="btn btn-info btn-sm btn-query">查询</button>
 											<button type="button" class="btn btn-default btn-sm btn-refresh">刷新</button>
 										</div>
@@ -107,22 +110,16 @@
 								<table class="table table-striped table-bordered">
 									<thead>
 										<tr>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Name"> 名称</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="NickName"> 昵称</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Score"> 积分</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Follow"> 关注者</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Sex"> 性别</a></th>
-											<th class="t_c">头像</th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeModify"> 时间（创建/登录）</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="RoleId"> 角色</a></th>
-											<th class="t_c">操作</th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Name"> 名称</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserImageInfo.IsDefault"> 是否为默认图片</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserImageInfo.DateTimeModify"> 时间（创建/修改）</a></th>
 										</tr>
 									</thead>
 									<tbody id="recordList">
 									</tbody>
 									<tfoot id="recordStatic">
 										<tr>
-											<td colspan="9" class="t_r"></td>
+											<td colspan="3" class="t_r"></td>
 										</tr>
 									</tfoot>
 								</table>
