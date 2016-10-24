@@ -94,20 +94,22 @@ $(function(){
 	});
 });
 
-function userimageEditor(sender,id){
+
+function userImageEditor(sender,id){
 	if(id == 0){
-		userEditorRender(sender,{status:true,model:null});
+		userImageEditorRender(sender,{status:true,model:{Id:id,Description:''}});
 		return;
 	}
 	if(sender){
 		$(sender).prop('disabed',true);
 	}
 	$.ajax({
-		url:"?model=home&action=userimageeditor",
+		url:"?model=userimage&action=userimageeditor",
 		type:'post',
 		dataType:'json',
 		data:{"id":id},
 		success:function(rest){
+			
 			if(sender){
 				$(sender).prop('disabed',false);
 			}
@@ -116,8 +118,9 @@ function userimageEditor(sender,id){
 				UI_Tips('danger',rest.message);
 				return;
 			}
-			userEditorRender(sender,rest);
-		},error:function(){
+			userImageEditorRender(sender,rest);
+		},error:function(e,x,r){
+			console.info(e);
 			if(sender){
 				$(sender).prop('disabed',false);
 			}
@@ -125,16 +128,18 @@ function userimageEditor(sender,id){
 	});
 }
 
-function userEditorRender(sender,model){
-	var modal = $(template('userimageeditor',model)).appendTo('body').modal();
+
+function userImageEditorRender(sender,model){
+	var html = $(template('userimageeditor',model)).appendTo('body');
+	var modal = html.modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-save").click(function(){
-		userSave(this,modal);
+		userImageSave(this,modal);
 	});
 	return modal;
 }
 
-function userSave(sender,modal){
+function userImageSave(sender,modal){
 	var form = modal.find(".editorForm");
 	if(sender){
 		$(sender).prop('disabed',true);
@@ -166,13 +171,14 @@ function userSave(sender,modal){
 	});
 }
 
-function userChangeStatus(sender,id,status){
+
+function userImageChangeStatus(sender,id,status){
 	var modal = $(template('confirm',{message:'确定'+(status?"启用":"禁用")+"该用户?"})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
 		$.ajax({
-			url:'?modal=home&action=userchangestatus',
+			url:'?modal=userimage&action=userimagechangestatus',
 			type:"post",
 			data:{Id:id,Status:status},
 			dataType:"json",

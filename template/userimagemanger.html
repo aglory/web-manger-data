@@ -5,10 +5,24 @@
 		<div class="thumbnail">
 			<img src="{{$value.Src}}" alt="">
 			<div class="caption">
-				<p>{{if (!$value.Description)}}{{$value.Description}}{{/if}}</p>
+				<p>{{if ($value.Description)}}{{$value.Description}}{{/if}}</p>
 				<p>
-					<a href="#" class="btn btn-primary" role="button">Button</a> 
-					<a href="#" class="btn btn-default" role="button">Button</a>
+					<div class="btn-group">
+						<button type="button" class="btn btn-sm btn-info" onclick="userImageEditor(this,{{$value.Id}})">编辑</button> 
+						{{if ($value.Status)}}
+							<button type="button" class="btn btn-sm btn-warning" onclick="userImageChangeStatus(this,{{$value.Id}},0)">禁用</button> 
+						{{else}}
+							<button type="button" class="btn btn-sm btn-success" onclick="userImageChangeStatus(this,{{$value.Id}},1)">启用</button> 
+						{{/if}}
+						{{if ($value.IsDefault)}}
+							<button type="button" class="btn btn-sm btn-warning" onclick="userImageChangeDefault(this,{{$value.Id}},0)">配图</button> 
+						{{else}}
+							<button type="button" class="btn btn-sm btn-success" onclick="userImageChangeDefault(this,{{$value.Id}},1)">主图</button> 
+						{{/if}}
+						<button type="button" class="btn btn-sm btn-default" onclick="userImageMoveUp(this,{{$value.Id}})"><span class="glyphicon glyphicon-arrow-up"></span></button>
+						<button type="button" class="btn btn-sm btn-default" onclick="userImageMoveDown(this,{{$value.Id}})"><span class="glyphicon glyphicon-arrow-down"></span></button>
+						<button type="button" class="btn btn-sm btn-danger" onclick="userImageDelete(this,{{$value.Id}})">删除</button> 
+					</div>
 				</p>
 			</div>
 		</div>

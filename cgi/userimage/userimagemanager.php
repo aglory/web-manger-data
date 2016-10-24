@@ -64,7 +64,7 @@
 								<div class="panel-title clearfix">
 									<div class="col-sm-2 t_l">
 										<div class="form-group">
-											<button class="btn btn-sm btn-info" type="button" onclick="userimageEditor(this,0)">添加</button>
+											<button class="btn btn-sm btn-info" type="button" onclick="userImageEditor(this,0)">添加</button>
 										</div>
 									</div>
 									<div class="col-sm-10 t_r">

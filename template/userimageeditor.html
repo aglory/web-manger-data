@@ -7,9 +7,10 @@
 			</div>
 			<div class="modal-body">
 				<form class="editorForm form-horizontal" enctype="multipart/form-data" action="?model=userimage&action=userimagesave">
-					<input id="Id" name="Id" value="{{if (model)}}{{model}}{{/if}}" type="hidden" />
+					<input id="Id" name="Id" value="{{model.Id}}" type="hidden" />
+					{{if (!model)}}
 					<div class="row">
-						<div class="input-group">
+						<div class="input-group ">
 							<span class="input-group-addon">本地上传</span>
 							<input id="imgs[]" name="imgs[]" type="file" multiple="multiple" class="form-control">
 						</div>
@@ -20,8 +21,9 @@
 							<input id="Src" name="Src" type="text" class="form-control">
 						</div>
 					</div>
+					{{/if}}
 					<div class="row">
-						<textarea id="Description" name="Description" class="form-control" placeholder="介绍说明"></textarea>
+						<textarea id="Description" name="Description" class="form-control" placeholder="介绍说明">{{model.Description}}</textarea>
 					</div>
 				</form>
 			</div>

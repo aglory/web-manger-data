@@ -6,12 +6,15 @@
 	}
 	
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
-	
-	//header('Content-Type: application/json;');
+		
+	$Id = 0;
+	if(array_key_exists('Id',$_POST) && is_numeric($_POST['Id'])){
+		$Id = intval($_POST['Id']);
+	}
 	
 	$SrcList = GetServerPath();
 	
-	if(empty($SrcList)){
+	if(empty($SrcList) && empty($Id)){
 		echo json_encode(array('status' => false,'message' => '缺少图片信息'));
 		exit();
 	}
@@ -27,36 +30,61 @@
 	
 	$timespan = date('Y-m-d H:i:s',time());
 	
-	$sth = $pdomysql -> prepare('insert into tbUserImageInfo(User_Id,OrderNumber,Src,Description,IsDefault,Status,DateTimeCreate,DateTimeModify)values(:User_Id,:OrderNumber,:Src,:Description,:IsDefault,:Status,:DateTimeCreate,:DateTimeModify);');
+	if(empty($Id)){
+		$sth = $pdomysql -> prepare('insert into tbUserImageInfo(User_Id,OrderNumber,Src,Description,IsDefault,Status,DateTimeCreate,DateTimeModify)values(:User_Id,:OrderNumber,:Src,:Description,:IsDefault,:Status,:DateTimeCreate,:DateTimeModify);');
+			
+		$errors = array();
 		
+		foreach($SrcList as $key => $val){
+			$sth -> execute(array(
+				'User_Id' => $User_Id,
+				'OrderNumber' => $key,
+				'Src' => $val,
+				'Description' => $Description,
+				'IsDefault' => 0,
+				'Status' => 1,
+				'DateTimeCreate' => $timespan,
+				'DateTimeModify' => $timespan
+			));
+			
+			$error = $sth -> errorInfo();
+			if($error[1] > 0){
+				$errors[] = $error[2];
+			}
+		}
+
+		
+		if(empty($errors)){
+			echo json_encode(array('status' => true));
+		}else{
+			echo json_encode(array('status' => false,'message' => implode('\r\n',$errors)));
+		}
+		
+		exit();
+	}
+	
+	$sth = $pdomysql -> prepare('update tbUserImageInfo set Description = :Description,DateTimeModify = :DateTimeModify where Id = :Id;');
+	$sth -> execute(array(
+		'Id' => $Id,
+		'Description' => $Description,
+		'DateTimeModify' => $timespan
+	));
+	
 	$errors = array();
 	
-	foreach($SrcList as $key => $val){
-		$sth -> execute(array(
-			'User_Id' => $User_Id,
-			'OrderNumber' => $key,
-			'Src' => $val,
-			'Description' => $Description,
-			'IsDefault' => 0,
-			'Status' => 1,
-			'DateTimeCreate' => $timespan,
-			'DateTimeModify' => $timespan
-		));
-		
-		$error = $sth -> errorInfo();
-		if($error[1] > 0){
-			$errors[] = $error[2];
-		}
+	$error = $sth -> errorInfo();
+	if($error[1] > 0){
+		$errors[] = $error[2];
 	}
-
 	
 	if(empty($errors)){
 		echo json_encode(array('status' => true));
 	}else{
 		echo json_encode(array('status' => false,'message' => implode('\r\n',$errors)));
 	}
-	
+
 	exit();
+	
 	
 	function GetServerPath(){
 		$ls = array();
