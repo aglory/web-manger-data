@@ -173,7 +173,36 @@ function userImageSave(sender,modal){
 
 
 function userImageChangeStatus(sender,id,status){
-	var modal = $(template('confirm',{message:'确定'+(status?"启用":"禁用")+"图片?"})).appendTo('body').modal();
+	if(sender){
+		$(sender).prop('disabed',true);
+	}
+	if(status){
+		var sender = this;
+		$.ajax({
+			url:'?model=userimage&action=userimagechangestatus',
+			type:"post",
+			data:{Id:id,Status:status},
+			dataType:"json",
+			success:function(rest){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}			
+				if(!rest)return;
+				if(!rest.status){
+					UI_Tips('danger',rest.message);
+					return;
+				}
+				UI_Tips('success',"启用成功");
+				doQuery();
+			},error:function(){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}
+			}
+		});
+		return;
+	}
+	var modal = $(template('confirm',{message:'确定禁用图片'})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
@@ -192,7 +221,7 @@ function userImageChangeStatus(sender,id,status){
 					UI_Tips('danger',rest.message);
 					return;
 				}
-				UI_Tips('success',(status?"启用":"禁用")+"成功");
+				UI_Tips('success',"禁用成功");
 				doQuery();
 			},error:function(){
 				if(sender){
@@ -208,7 +237,37 @@ function userImageChangeStatus(sender,id,status){
 }
 
 function userImageChangeDefault(sender,id,isdefault){
-	var modal = $(template('confirm',{message:'确定'+(status?"设置主图":"取消主图")})).appendTo('body').modal();
+	if(isdefault){
+		var sender = this;
+		if(sender){
+			$(sender).prop('disabed',true);
+		}
+		$.ajax({
+			url:'?model=userimage&action=userimagechangedefault',
+			type:"post",
+			data:{Id:id,IsDefault:isdefault},
+			dataType:"json",
+			success:function(rest){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}			
+				if(!rest)return;
+				if(!rest.status){
+					UI_Tips('danger',rest.message);
+					return;
+				}
+				UI_Tips('success',"设置主图成功");
+				doQuery();
+			},error:function(){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}
+			}
+		});
+		return;
+	}
+	
+	var modal = $(template('confirm',{message:'确定取消主图'})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
@@ -227,7 +286,7 @@ function userImageChangeDefault(sender,id,isdefault){
 					UI_Tips('danger',rest.message);
 					return;
 				}
-				UI_Tips('success',(status?"启用":"禁用")+"成功");
+				UI_Tips('success',"取消主图成功");
 				doQuery();
 			},error:function(){
 				if(sender){
@@ -242,11 +301,43 @@ function userImageChangeDefault(sender,id,isdefault){
 	return modal;
 }
 
+function userImageChangeOrderNumber(sender,id,type){
+	var sender = this;
+	if(sender){
+		$(sender).prop('disabed',true);
+	}
+	$.ajax({
+		url:'?model=userimage&action=userimagechangeordernumber',
+		type:"post",
+		data:{Id:id,OrderType:type,User_Id:$("#User_Id").val()},
+		dataType:"json",
+		success:function(rest){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+			if(!rest)return;
+			if(!rest.status){
+				UI_Tips('danger',rest.message);
+				return;
+			}
+			UI_Tips('success',"移动成功");
+			doQuery();
+		},error:function(){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+		}
+	});
+}
+
 function userImageDelete(sender,id){
 	var modal = $(template('confirm',{message:'确定删除该图片?'})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
+		if(sender){
+			$(sender).prop('disabed',true);
+		}
 		$.ajax({
 			url:'?model=userimage&action=userimagedelete',
 			type:"post",

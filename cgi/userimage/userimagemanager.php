@@ -95,8 +95,13 @@
 										<div class="form-group">
 											<select id="$User_Id" name ="$User_Id" class="form-control input-sm">
 												<option value="">全部</option>
-												<option value="1">已分配</option>
-												<option value="0">未分配</option>
+												<?php if(array_key_exists('User_Id',$_GET) && is_numeric($_GET['User_Id'])){ ?>
+													<option selected="selected" value="1">已分配</option>
+													<option value="-1">未分配</option>
+												<?php }else{?>
+													<option value="1">已分配</option>
+													<option selected="selected" value="-1">未分配</option>
+												<?php } ?>
 											</select>
 										</div>
 										<div class="form-group">

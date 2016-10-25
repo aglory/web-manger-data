@@ -6,7 +6,7 @@
 				<h4 class="modal-title">编辑</h4>
 			</div>
 			<div class="modal-body">
-				<form class="editorForm form-horizontal" enctype="multipart/form-data" action="?model=userimage&action=userimagesave">
+				<form method="post" class="editorForm form-horizontal" enctype="multipart/form-data" action="?model=userimage&action=userimagesave">
 					<input id="Id" name="Id" value="{{model.Id}}" type="hidden" />
 					<input id="User_Id" name="User_Id" value="{{model.User_Id}}" type="hidden" />
 					{{if (!model.Id)}}

@@ -6,7 +6,7 @@
 				<h4 class="modal-title">编辑 {{if (model)}} -{{model.Name}} {{/if}}</h4>
 			</div>
 			<div class="modal-body">
-				<form class="editorForm form-inline" action="?model=home&action=usersave">
+				<form class="editorForm form-inline" action="?model=user&action=usersave">
 					<input id="Id" name="Id" value="{{if (model)}}{{model.Id}}{{else}}0{{/if}}" type="hidden" />
 					<fieldset>
 						<table class="table table-none">

@@ -12,13 +12,6 @@
 		$Id = intval($_POST['Id']);
 	}
 	
-	$SrcList = GetServerPath();
-	
-	if(empty($SrcList) && empty($Id)){
-		echo json_encode(array('status' => false,'message' => '缺少图片信息'));
-		exit();
-	}
-	
 	$User_Id = 0;
 	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
 		$User_Id = intval($_POST['User_Id']);
@@ -31,6 +24,14 @@
 	$timespan = date('Y-m-d H:i:s',time());
 	
 	if(empty($Id)){
+	
+		$SrcList = GetServerPath();
+		
+		if(empty($SrcList) && empty($Id)){
+			echo json_encode(array('status' => false,'message' => '缺少图片信息'));
+			exit();
+		}
+		
 		$sth = $pdomysql -> prepare('insert into tbUserImageInfo(User_Id,OrderNumber,Src,Description,IsDefault,Status,DateTimeCreate,DateTimeModify)values(:User_Id,:OrderNumber,:Src,:Description,:IsDefault,:Status,:DateTimeCreate,:DateTimeModify);');
 			
 		$errors = array();
@@ -55,7 +56,7 @@
 
 		
 		if(empty($errors)){
-			echo json_encode(array('status' => true));
+			echo json_encode(array('status' => true,'ls' => $SrcList,'file' => $_FILES));
 		}else{
 			echo json_encode(array('status' => false,'message' => implode('\r\n',$errors)));
 		}

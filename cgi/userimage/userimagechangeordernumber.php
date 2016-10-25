@@ -36,11 +36,9 @@
 	}
 	
 	$sql = 'select Id,OrderNumber from tbUserImageInfo where User_Id='.$User_Id;
-	if($OrderType>0){
-		$sql = $sql.' order by OrderNumber asc,Id asc;';
-	}
-	if($OrderType<0){
-		$sql = $sql.' order by OrderNumber desc,Id desc;';
+	switch($OrderType){
+		case 1: $sql = $sql.' order by OrderNumber asc,Id asc;'; break;
+		case -1:$sql = $sql.' order by OrderNumber desc,Id desc;'; break;
 	}
 	
 	$sth = $pdomysql -> prepare($sql);
@@ -55,19 +53,35 @@
 		$errors[] = $error[2];
 	}
 	
-	$tag = null;
-	$group = array();
-	$total = $th -> rowCount();
-	if(!empty($errors)){
-		foreach($th -> fetchAll(PDO::FETCH_ASSOC) as $key = >$val){
-			if($val['Id'] == $Id){
-				$tag = $val;
+	$itemChange = null;
+	$total = $sth -> rowCount();
+	$indexCurrent = 0;
+	$indexLast = 0;
+	
+	
+	if(empty($errors)){
+		switch($OrderType){
+			case 1:$indexCurrent = 1;break;
+			case -1:$indexCurrent = $total;break;
+		}
+		$sthChangeOrderNumber = $pdomysql -> prepare('Update tbUserImageInfo set OrderNumber = :OrderNumber,DateTimeModify = :DateTimeModify where Id = :Id');
+		foreach($sth -> fetchAll(PDO::FETCH_ASSOC) as $val){			
+			if($val['Id'] == $Id){			
+				$indexCurrent +=  $OrderType;
+				$itemChange = $val;
+				continue;
 			}
-			if(empty($tag)){
-				$group[] = 'Update from tbUserImageInfo set OrderNumber ='.$key.'where Id = '.$val['Id'];
+			if(empty($itemChange)){
+				$sthChangeOrderNumber -> execute(array('Id' => $val['Id'],'OrderNumber' => $indexCurrent, 'DateTimeModify' => $timespan));
 			}else{
-				$group[] = 'Update from tbUserImageInfo set OrderNumber ='.$key.'where Id = '.$val['Id'];
+				$sthChangeOrderNumber -> execute(array('Id' => $itemChange['Id'],'OrderNumber' => $indexCurrent, 'DateTimeModify' => $timespan));
+				$sthChangeOrderNumber -> execute(array('Id' => $val['Id'],'OrderNumber' => $indexCurrent - $OrderType, 'DateTimeModify' => $timespan));
+				$itemChange = null;
 			}
+			$indexCurrent +=  $OrderType;
+		}
+		if(!empty($itemChange)){
+			$sthChangeOrderNumber -> execute(array('Id' => $itemChange['Id'],'OrderNumber' => $indexCurrent, 'DateTimeModify' => $timespan));
 		}
 	}
 	

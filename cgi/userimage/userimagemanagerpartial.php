@@ -6,7 +6,7 @@
 	}
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
 
-	$PageSort = 'tbUserImageInfo.Id desc';
+	$PageSort = 'tbUserImageInfo.OrderNumber desc,tbUserImageInfo.Id desc';
 	$PageIndex = 1;
 	$PageSize = 20;
 
@@ -23,7 +23,7 @@
 	$PageStart = $PageIndex - 1;
 	$PageEnd = $PageSize;
 	$PageOrderBy = empty($PageSort)?'':" order by $PageSort ";
-
+	
 	$whereSql = array('1=1');
 	$whereParams = array();
 
@@ -54,10 +54,10 @@
 		$whereSql[] = 'tbUserImageInfo.User_Id = '.$_POST['User_Id'];
 	}
 	if(array_key_exists('$User_Id',$_POST) && is_numeric($_POST['$User_Id'])){
-		if($_POST['$User_Id']){
+		if($_POST['$User_Id'] == 1){
 			$whereSql[] = 'tbUserImageInfo.User_Id != 0';
-		}else{
-			$whereSql[] = 'tbUserImageInfo.User_Id != 1';
+		}else if($_POST['$User_Id'] == -1){
+			$whereSql[] = 'tbUserImageInfo.User_Id = 0';
 		}
 	}
 	
@@ -87,6 +87,8 @@
 	}
 
 	$result = array();
+
+	$result['sql'] ='select tbUserImageInfo.*,tbUserInfo.Name as User_Name,tbUserInfo.NickName as User_NickName from tbUserImageInfo left join tbUserInfo on tbUserImageInfo.User_Id = tbUserInfo.Id where '.implode(' and ',$whereSql)."$PageOrderBy limit $PageStart,$PageEnd;";
 	
 	if(empty($errors)){
 		$result['status'] = true;
@@ -97,8 +99,6 @@
 		$result['recordCount'] = 0; 
 		$result['message'] = implode('\r\n',$errors);
 	}
-	
-	$result['sql'] = 'select tbUserImageInfo.*,tbUserInfo.Name as User_Name,tbUserInfo.NickName as User_NickName from tbUserImageInfo left join tbUserInfo on tbUserImageInfo.User_Id = tbUserInfo.Id where '.implode(' and ',$whereSql)."$PageOrderBy limit $PageStart,$PageEnd;";
 	
 	header('Content-Type: application/json;');
 	echo json_encode($result);

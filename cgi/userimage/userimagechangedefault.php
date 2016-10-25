@@ -34,7 +34,7 @@
 		$errors[] = $error[2];
 	}
 	
-	if(empty($errors) && empty($IsDefault)){
+	if(empty($errors) && !empty($IsDefault)){
 		$sth = $pdomysql -> prepare('update tbUserInfo inner join tbUserImageInfo on tbUserInfo.Id= tbUserImageInfo.User_Id set tbUserInfo.Img = tbUserImageInfo.Src where tbUserImageInfo.Id = '.$Id.';');
 		$sth -> execute();
 		
