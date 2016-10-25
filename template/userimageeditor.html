@@ -8,7 +8,8 @@
 			<div class="modal-body">
 				<form class="editorForm form-horizontal" enctype="multipart/form-data" action="?model=userimage&action=userimagesave">
 					<input id="Id" name="Id" value="{{model.Id}}" type="hidden" />
-					{{if (!model)}}
+					<input id="User_Id" name="User_Id" value="{{model.User_Id}}" type="hidden" />
+					{{if (!model.Id)}}
 					<div class="row">
 						<div class="input-group ">
 							<span class="input-group-addon">本地上传</span>

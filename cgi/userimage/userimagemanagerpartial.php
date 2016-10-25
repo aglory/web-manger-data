@@ -50,6 +50,9 @@
 	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
 		$whereSql[] = 'tbUserImageInfo.Status = '.$_POST['Status'];
 	}
+	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
+		$whereSql[] = 'tbUserImageInfo.User_Id = '.$_POST['User_Id'];
+	}
 	if(array_key_exists('$User_Id',$_POST) && is_numeric($_POST['$User_Id'])){
 		if($_POST['$User_Id']){
 			$whereSql[] = 'tbUserImageInfo.User_Id != 0';
@@ -94,6 +97,8 @@
 		$result['recordCount'] = 0; 
 		$result['message'] = implode('\r\n',$errors);
 	}
+	
+	$result['sql'] = 'select tbUserImageInfo.*,tbUserInfo.Name as User_Name,tbUserInfo.NickName as User_NickName from tbUserImageInfo left join tbUserInfo on tbUserImageInfo.User_Id = tbUserInfo.Id where '.implode(' and ',$whereSql)."$PageOrderBy limit $PageStart,$PageEnd;";
 	
 	header('Content-Type: application/json;');
 	echo json_encode($result);

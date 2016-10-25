@@ -171,7 +171,7 @@ function userChangeStatus(sender,id,status){
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
 		$.ajax({
-			url:'?modal=home&action=userchangestatus',
+			url:'?model=home&action=userchangestatus',
 			type:"post",
 			data:{Id:id,Status:status},
 			dataType:"json",
@@ -206,7 +206,7 @@ function userDelete(sender,id){
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
 		$.ajax({
-			url:'?modal=home&action=userdelete',
+			url:'?model=home&action=userdelete',
 			type:"post",
 			data:{Id:id,Status:status},
 			dataType:"json",
