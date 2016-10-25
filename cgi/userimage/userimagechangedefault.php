@@ -22,9 +22,9 @@
 	$sth = $pdomysql -> prepare('update tbUserImageInfo set IsDefault = :IsDefaultNew,DateTimeModify = :timespan where Id = :Id and IsDefault != :IsDefaultOld;');
 	$sth -> execute(array(
 		'Id' => $Id,
-		'IsDefaultNew' => $Status,
+		'IsDefaultNew' => $IsDefault,
 		'timespan' => $timespan,
-		'IsDefaultOld' => $Status,
+		'IsDefaultOld' => $IsDefault,
 	));	
 		
 	$errors = array();

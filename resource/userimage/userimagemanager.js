@@ -97,7 +97,7 @@ $(function(){
 
 function userImageEditor(sender,id){
 	if(id == 0){
-		userImageEditorRender(sender,{status:true,model:{Id:id,Description:''}});
+		userImageEditorRender(sender,{status:true,model:{Id:id,User_Id:$("#User_Id").val(),Description:''}});
 		return;
 	}
 	if(sender){
@@ -173,12 +173,12 @@ function userImageSave(sender,modal){
 
 
 function userImageChangeStatus(sender,id,status){
-	var modal = $(template('confirm',{message:'确定'+(status?"启用":"禁用")+"该用户?"})).appendTo('body').modal();
+	var modal = $(template('confirm',{message:'确定'+(status?"启用":"禁用")+"图片?"})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
 		$.ajax({
-			url:'?modal=userimage&action=userimagechangestatus',
+			url:'?model=userimage&action=userimagechangestatus',
 			type:"post",
 			data:{Id:id,Status:status},
 			dataType:"json",
@@ -207,15 +207,50 @@ function userImageChangeStatus(sender,id,status){
 	return modal;
 }
 
-function userDelete(sender,id){
-	var modal = $(template('confirm',{message:'确定删除该用户?'})).appendTo('body').modal();
+function userImageChangeDefault(sender,id,isdefault){
+	var modal = $(template('confirm',{message:'确定'+(status?"设置主图":"取消主图")})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
 		$.ajax({
-			url:'?modal=home&action=userdelete',
+			url:'?model=userimage&action=userimagechangedefault',
 			type:"post",
-			data:{Id:id,Status:status},
+			data:{Id:id,IsDefault:isdefault},
+			dataType:"json",
+			success:function(rest){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}			
+				modal.modal('hide');
+				if(!rest)return;
+				if(!rest.status){
+					UI_Tips('danger',rest.message);
+					return;
+				}
+				UI_Tips('success',(status?"启用":"禁用")+"成功");
+				doQuery();
+			},error:function(){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}
+			}
+		});
+	});
+	modal.find(".btn-no").click(function(){
+		modal.modal("hide");
+	});
+	return modal;
+}
+
+function userImageDelete(sender,id){
+	var modal = $(template('confirm',{message:'确定删除该图片?'})).appendTo('body').modal();
+	modal.find(".modal-dialog").draggable({handle:".modal-header"});
+	modal.find(".btn-yes").click(function(){
+		var sender = this;
+		$.ajax({
+			url:'?model=userimage&action=userimagedelete',
+			type:"post",
+			data:{Id:id},
 			dataType:"json",
 			success:function(rest){
 				if(sender){
