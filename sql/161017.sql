@@ -12,4 +12,4 @@ CREATE TABLE `tbUserInfo` (
   UNIQUE KEY `Name_UNIQUE` (`Name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-insert into tbUserInfo(Name,Password,NickName,RoleId,DateTimeCreate,DateTimeModify)values('admin',md5(111111),'admin',0x7FFFFFFF,now(),now());
+insert into tbUserInfo(Name,Password,NickName,RoleId,CreateDateTime,ModifyDateTime)values('admin',md5(111111),'admin',0x7FFFFFFF,now(),now());
