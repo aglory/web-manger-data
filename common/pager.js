@@ -2,8 +2,6 @@
 {   
     $.fn.pager = function (options)
     {
-        var opts = $.extend({}, $.fn.pager.defaults, options);        
-
         return this.each(function ()
         {
             $(this).html(renderpager(parseInt(options.pageIndex), parseInt(options.pageSize), parseInt(options.recordCount))).find("a[rel]").click(function(e){

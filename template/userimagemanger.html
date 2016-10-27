@@ -20,9 +20,11 @@
 							<button type="button" class="btn btn-sm btn-success" onclick="userImageChangeDefault(this,{{$value.Id}},1)">主图</button> 
 						{{/if}}
 						{{if ($value.User_Id)}}
+							<button type="button" class="btn btn-sm btn-default disabled" disabled="disabled">用户</button>
 							<button type="button" class="btn btn-sm btn-default" onclick="userImageChangeOrderNumber(this,{{$value.Id}},1)"><span class="glyphicon glyphicon-arrow-up"></span></button>
 							<button type="button" class="btn btn-sm btn-default" onclick="userImageChangeOrderNumber(this,{{$value.Id}},-1)"><span class="glyphicon glyphicon-arrow-down"></span></button>
 						{{else}}
+							<button type="button" class="btn btn-sm btn-default" onclick="userImageChangeUser_Id(this,{{$value.Id}})">用户</button>
 							<button type="button" class="btn btn-sm btn-default disabled" disabled="disabled"><span class="glyphicon glyphicon-arrow-up"></span></button>
 							<button type="button" class="btn btn-sm btn-default disabled" disabled="disabled"><span class="glyphicon glyphicon-arrow-down"></span></button>
 						{{/if}}

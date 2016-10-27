@@ -301,6 +301,16 @@ function userImageChangeDefault(sender,id,isdefault){
 	return modal;
 }
 
+function userImageChangeUser_Id(sender,id){
+	userDialogOpen({
+		pageItems:[{Key:'Name',Val:'名字'}],
+		status:1,
+		callback:function(items){
+			
+		}
+	});
+}
+
 function userImageChangeOrderNumber(sender,id,type){
 	var sender = this;
 	if(sender){

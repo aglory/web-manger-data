@@ -1,0 +1,11 @@
+{{if (status && recordList.length > 0)}}
+	<tr>
+	{{each recordList}}
+		<td><input {{if multiple}}type="checkbox"{{else}}radio{{/if}} name="Id[]" value="{{$value.Id}}" autocomplete="off" /></td>
+		{{if (PageItems && PageItems.length > 0)}}
+			{{each PageItems}}
+		<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="{{$value.Key}}"> {{$value.Val}}</a></th>
+			{{/each}}
+		{{/if}}
+	{{/each}}
+{{/if}}

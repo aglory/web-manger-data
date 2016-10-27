@@ -41,6 +41,8 @@
 		<link href="resource/userimage/userimagemanager.css"  rel="stylesheet"/>
 		<script src="resource/userimage/userimagemanager.js"></script>
 		
+		<script src="resource/user/userdialog.js"></script>
+		
 		<script>
 			$(function(){
 				doQuery();
