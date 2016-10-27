@@ -7,7 +7,8 @@
             $(this).html(renderpager(parseInt(options.pageIndex), parseInt(options.pageSize), parseInt(options.recordCount))).find("a[rel]").click(function(e){
 				e.preventDefault();
 				if(options.pageIndexChanged){
-					options.pageIndexChanged({pageIndex:this.rel});
+					options.pageIndex = parseInt(this.rel);
+					options.pageIndexChanged(options);
 				}
 			});
         });

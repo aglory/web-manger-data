@@ -9,6 +9,7 @@
 	$PageSort = 'Id desc';
 	$PageIndex = 1;
 	$PageSize = 20;
+	$PageItems = array('Id','Name','Password','NickName','Sex','Img','DateTimeCreate','DateTimeModify','RoleId','Score','Score_Cost','Follow','MessageTotal','Status');
 
 	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){
 		$PageIndex = intval($_POST['PageIndex']);
@@ -18,6 +19,15 @@
 	}
 	if(array_key_exists('PageSort',$_POST) && !empty($_POST['PageSort'])){
 		$PageSort = $_POST['PageSort'];
+	}
+	if(array_key_exists('PageItems',$_POST) && !empty($_POST['PageItems'])){
+		$items = array();
+		foreach(explode(',',$_POST['PageItems']) as $item){
+			if(in_array($item,$PageItems))
+				$items[] = $item;
+		}
+		if(!empty($items))
+			$PageItems = $items;
 	}
 
 	$PageStart = $PageIndex - 1;
@@ -54,7 +64,7 @@
 	$sthList = null;
 	$sthCount = null;
 
-	$sthList = $pdomysql -> prepare('select * from tbUserInfo where '.implode(' and ',$whereSql)."$PageOrderBy limit $PageStart,$PageEnd;");
+	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from tbUserInfo where '.implode(' and ',$whereSql)."$PageOrderBy limit $PageStart,$PageEnd;");
 	$sthCount = $pdomysql -> prepare('select count(1) from tbUserInfo where '.implode(' and ',$whereSql));
 	if(empty($whereParams)){
 		$sthList -> execute();

@@ -303,10 +303,11 @@ function userImageChangeDefault(sender,id,isdefault){
 
 function userImageChangeUser_Id(sender,id){
 	userDialogOpen({
-		pageItems:[{Key:'Name',Val:'名字'}],
-		status:1,
-		callback:function(items){
-			
+	PageItems:[{Key:'Id',Val:'编号'},{Key:'Name',Val:'名字'},{Key:'NickName',Val:'昵称'},{Key:'Sex',Val:'性别'},{Key:'Status',Val:'状态'}],
+		Status:1,
+		Multiple:true,
+		CallBack:function(items){
+			console.info(items);
 		}
 	});
 }

@@ -87,8 +87,6 @@
 	}
 
 	$result = array();
-
-	$result['sql'] ='select tbUserImageInfo.*,tbUserInfo.Name as User_Name,tbUserInfo.NickName as User_NickName from tbUserImageInfo left join tbUserInfo on tbUserImageInfo.User_Id = tbUserInfo.Id where '.implode(' and ',$whereSql)."$PageOrderBy limit $PageStart,$PageEnd;";
 	
 	if(empty($errors)){
 		$result['status'] = true;

@@ -19,7 +19,7 @@ function doQuery(opts){
 	var pageSize = parseInt($("#PageSize").val());
 	$("#recordList").html('<tr><td class="loading" colspan="100">&nbsp;</td></tr>');
 	if(sender){
-		$(sender).prop('disabed',true);
+		$(sender).prop('disabled',true);
 	}
 	$.ajax({
 		url:frm.attr("action"),
@@ -28,7 +28,7 @@ function doQuery(opts){
 		dataType:"json",
 		success:function(rest){
 			if(sender){
-				$(sender).prop('disabed',false);
+				$(sender).prop('disabled',false);
 			}
 			if(!rest)return;
 			if(!rest.status){
@@ -39,7 +39,7 @@ function doQuery(opts){
 			$("#recordStatic>tr:first>td:last").pager({pageIndex:pageIndex,pageSize:pageSize,recordCount:rest.recordCount,pageIndexChanged:doQuery});
 		},error:function(){
 			if(sender){
-				$(sender).prop('disabed',false);
+				$(sender).prop('disabled',false);
 			}
 			$("#recordList").html();
 			$("#recordStatic>tr:first>td:last").html();

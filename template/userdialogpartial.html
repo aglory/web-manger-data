@@ -1,11 +1,26 @@
 {{if (status && recordList.length > 0)}}
+	{{each recordList as row}}
 	<tr>
-	{{each recordList}}
-		<td><input {{if multiple}}type="checkbox"{{else}}radio{{/if}} name="Id[]" value="{{$value.Id}}" autocomplete="off" /></td>
+		<td></td>
 		{{if (PageItems && PageItems.length > 0)}}
-			{{each PageItems}}
-		<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="{{$value.Key}}"> {{$value.Val}}</a></th>
+			{{each PageItems as column }}
+		<td class="t_c">
+			{{if (column.Key == 'Id')}}
+				<input type="{{if (Multiple)}}checkbox{{else}}radio{{/if}}" name="Id[]" value="{{row['Id']}}" autocomplete="off" />
+			{{else if (column.Key == 'Status')}}
+				{{if (row[column.Key])}}启用{{else}}禁用{{/if}}
+			{{else if (column.Key == 'Sex')}}
+				{{if (row[column.Key])}}男{{else}}女{{/if}}
+			{{else}}
+				{{row[column.Key]}}
+			{{/if}}
+		</td>
 			{{/each}}
 		{{/if}}
+	</tr>
 	{{/each}}
+{{else}}
+	<tr class="odd_color">
+		<td class="align_l p10_l bgr_eb" colspan="{{if (PageItems && PageItems.length > 0)}}{{PageItems.length+1}}{{else}}1{{/if}}">暂无数据</td>
+	</tr>
 {{/if}}
