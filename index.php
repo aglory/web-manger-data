@@ -28,6 +28,8 @@
 	define('Action',$action);
 	define('Execute',true);
 	
+	date_default_timezone_set('PRC');
+	
 	function ActionLink($model='',$action='',$opts=null,$echo=true){
 		$result = array();
 		$result[] = 'model='.urlencode($model);
