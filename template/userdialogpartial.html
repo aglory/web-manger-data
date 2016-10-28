@@ -1,16 +1,17 @@
 {{if (status && recordList.length > 0)}}
 	{{each recordList as row}}
 	<tr>
-		<td></td>
 		{{if (PageItems && PageItems.length > 0)}}
 			{{each PageItems as column }}
-		<td class="t_c">
-			{{if (column.Key == 'Id')}}
-				<input type="{{if (Multiple)}}checkbox{{else}}radio{{/if}}" name="Id[]" value="{{row['Id']}}" autocomplete="off" />
-			{{else if (column.Key == 'Status')}}
+		<td class="{{if (column.BodyCss)}}{{column.BodyCss}}{{/if}}">
+			{{if (column.Key == 'Status')}}
 				{{if (row[column.Key])}}启用{{else}}禁用{{/if}}
 			{{else if (column.Key == 'Sex')}}
 				{{if (row[column.Key])}}男{{else}}女{{/if}}
+			{{else if (column.Type == 'checkbox')}}
+				<input type="checkbox" name="{{column.Key}}" value="{{row[column.Key]}}" autocomplete="off" />
+			{{else if (column.Type == 'radio')}}
+				<input type="radio" name="{{column.Key}}" value="{{row[column.Key]}}" autocomplete="off" />
 			{{else}}
 				{{row[column.Key]}}
 			{{/if}}

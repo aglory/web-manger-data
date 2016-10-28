@@ -1035,7 +1035,7 @@ if (typeof jQuery === 'undefined') {
 
     this.escape()
     this.resize()
-
+	
     $(document).off('focusin.bs.modal')
 
     this.$element
@@ -1084,7 +1084,7 @@ if (typeof jQuery === 'undefined') {
 
   Modal.prototype.hideModal = function () {
     var that = this
-    this.$element.hide()
+    this.$element.remove()
     this.backdrop(function () {
       that.$body.removeClass('modal-open')
       that.resetAdjustments()

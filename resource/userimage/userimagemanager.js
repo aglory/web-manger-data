@@ -35,7 +35,7 @@ function doQuery(opts){
 				UI_Tips('danger',rest.message);
 				return;
 			}
-			$("#recordList").html(template('userimagemanger',rest));
+			$("#recordList").html(template($("#PageTemplate").val(),rest));
 			$("#recordStatic>tr:first>td:last").pager({pageIndex:pageIndex,pageSize:pageSize,recordCount:rest.recordCount,pageIndexChanged:doQuery});
 		},error:function(){
 			if(sender){
@@ -302,17 +302,60 @@ function userImageChangeDefault(sender,id,isdefault){
 }
 
 function userImageChangeUser_Id(sender,id){
+	if(!id && $(sender.form).find(":checked[name='Id']").length==0){
+		UI_Tips('warning',"未选择图片");
+		return;
+	}
+	
 	userDialogOpen({
-	PageItems:[{Key:'Id',Val:'编号'},{Key:'Name',Val:'名字'},{Key:'NickName',Val:'昵称'},{Key:'Sex',Val:'性别'},{Key:'Status',Val:'状态'}],
+	PageItems:[
+		{Key:'Id',Val:'',Type:'radio',Sort:false,HeadCss:'t_c wd40',BodyCss:"t_c"},
+		{Key:'Name',Val:'名字',BodyCss:"t_l"},
+		{Key:'NickName',Val:'昵称',BodyCss:"t_l"},
+		{Key:'Sex',Val:'性别',HeadCss:"wd60",BodyCss:"t_c"},
+		{Key:'Status',Val:'状态',HeadCss:"wd60",BodyCss:"t_c"}],
 		Status:1,
-		Multiple:true,
 		CallBack:function(items){
-			console.info(items);
+			if(sender){
+				$(sender).prop('disabed',true);
+			}
+			if(items && items.length>0){
+				var data = "User_Id=" + items[0].Id;
+				if(id){
+					data += '&Id[]='+id;
+				}else{
+					$(sender.form).find(":checked[name='Id']").each(function(i,o){
+						data += '&Id[]='+o.value;
+					});
+				}
+				$.ajax({
+					url:'?model=userimage&action=userimagechangeuser_id',
+					type:'post',
+					dataType:'json',
+					data:data,
+					success:function(rest){
+						if(sender){
+							$(sender).prop('disabed',false);
+						}
+						if(!rest)return;
+						if(!rest.status){
+							UI_Tips('danger',rest.message);
+							return;
+						}
+						UI_Tips('success',"修改成功");
+						doQuery();
+					},error:function(){
+						if(sender){
+							$(sender).prop('disabed',false);
+						}
+					}
+				});
+			}
 		}
 	});
 }
 
-function userImageChangeOrderNumber(sender,id,type){
+function userImageChangeOrderNumber(sender,id,user_Id,type){
 	var sender = this;
 	if(sender){
 		$(sender).prop('disabed',true);
@@ -320,7 +363,7 @@ function userImageChangeOrderNumber(sender,id,type){
 	$.ajax({
 		url:'?model=userimage&action=userimagechangeordernumber',
 		type:"post",
-		data:{Id:id,OrderType:type,User_Id:$("#User_Id").val()},
+		data:{Id:id,OrderType:type,User_Id:user_Id},
 		dataType:"json",
 		success:function(rest){
 			if(sender){
@@ -342,7 +385,23 @@ function userImageChangeOrderNumber(sender,id,type){
 }
 
 function userImageDelete(sender,id){
-	var modal = $(template('confirm',{message:'确定删除该图片?'})).appendTo('body').modal();
+	if(!id && $(sender.form).find(":checked[name='Id']").length==0){
+		UI_Tips('success',"未选择图片");
+		return;
+	}
+	var data = '';
+	if(id)
+		data = "Id[]="+id;
+	else{
+		$(sender.form).find(":checked[name='Id']").each(function(i,o){
+			if(data.length == 0){
+				data = "Id[]="+o.value;
+			}else{
+				data += "&Id[]="+o.value;
+			}
+		});
+	}
+	var modal = $(template('confirm',{message:'确定删除图片?'})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
@@ -352,7 +411,7 @@ function userImageDelete(sender,id){
 		$.ajax({
 			url:'?model=userimage&action=userimagedelete',
 			type:"post",
-			data:{Id:id},
+			data:data,
 			dataType:"json",
 			success:function(rest){
 				if(sender){
@@ -377,4 +436,17 @@ function userImageDelete(sender,id){
 		modal.modal("hide");
 	});
 	return modal;
+}
+
+function changePageTemplate(sender){
+	if($("#PageTemplate").val() == 'userimagemangerblock'){
+		$(sender).html('<span class="glyphicon glyphicon-th-large"></span>图块');
+		$("#PageTemplate").val("userimagemangerlist");
+		$("#PageItems").val("Id,User_Id,User_Name,Status,IsDefault,OrderNumber,DateTimeCreate,DateTimeModify");
+	}else{
+		$(sender).html('<span class="glyphicon glyphicon-th-list"></span>列表');
+		$("#PageTemplate").val("userimagemangerblock");
+		$("#PageItems").val("Id,User_Id,Src,Status,IsDefault,Description");
+	}
+	doQuery();
 }

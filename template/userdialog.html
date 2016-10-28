@@ -12,7 +12,7 @@
 							<div class="panel-title clearfix">
 								<div class="col-sm-12 t_r">
 									<input name="PageIndex" type="hidden" value="{{if PageIndex}}{{PageIndex}}{{else}}1{{/if}}" />
-									<input name="PageSize" type="hidden" value="{{if PageSize}}{{PageSize}}{{else}}20{{/if}}" />
+									<input name="PageSize" type="hidden" value="{{if PageSize}}{{PageSize}}{{else}}10{{/if}}" />
 									<input name="PageSort" type="hidden" value="{{if PageSort}}{{PageSort}}{{/if}}" />
 									<input name="PageItems" type="hidden" value="{{if PageItems}}{{each PageItems}}{{$value.Key}},{{/each}}{{/if}}" />
 									<div class="form-group">
@@ -49,10 +49,15 @@
 							<table class="table table-striped table-bordered">
 								<thead>
 									<tr>
-										<th class="t_c wd20">&nbsp;</th>
 										{{if (PageItems && PageItems.length > 0)}}
 											{{each PageItems}}
-										<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="{{$value.Key}}"> {{$value.Val}}</a></th>
+										<th class="{{if ($value.HeadCss)}}{{$value.HeadCss}}{{else}}t_c{{/if}}">
+											{{if $value.Sort==false}}
+												{{$value.Val}}
+											{{else}}
+												<a class="btn btn-sort icon-sort " sort-expression="{{$value.Key}}"> {{$value.Val}}</a>
+											{{/if}}
+										</th>
 											{{/each}}
 										{{/if}}
 									</tr>
@@ -70,7 +75,7 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default btn-no">取消</button>
+				<button type="button" class="btn btn-default btn-no" data-dismiss="modal">取消</button>
 				<button type="button" class="btn btn-success btn-yes">确定</button>
 			</div>
 		</div>
