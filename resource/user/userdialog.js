@@ -5,7 +5,6 @@ function userDialogOpen(opts){
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	
 	var frm = modal.find(".mainForm");
-	alert(modal.html());
 
 	modal.find(".btn-yes").click(function(){
 		if(opts && opts.CallBack){
@@ -19,8 +18,9 @@ function userDialogOpen(opts){
 					}
 				});
 			}
-			
-			opts.CallBack(selectedData);
+			if(opts.CallBack(selectedData)!=false){
+				modal.modal('hide');
+			}
 		}
 	});
 	
@@ -66,7 +66,6 @@ function userDialogOpen(opts){
 				}
 				
 				rest.PageItems = opts.PageItems;
-				rest.Multiple = opts.Multiple;
 				
 				frm.find(".recordList").html(template('userdialogpartial',rest));
 				userData = rest.recordList;
@@ -88,11 +87,6 @@ function userDialogOpen(opts){
 	frm.find(".btn-refresh").click(function(e){
 		e.preventDefault();
 		doQuery({sender:this});
-	});
-	frm.find(".btn-yes").click(function(e){
-		e.preventDefault();
-		if(!pts.CallBack)
-			CallBack();
 	});
 	
 	frm.on("click",".btn-sort",function(e){
