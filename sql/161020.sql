@@ -16,4 +16,4 @@ create table tbUserImageInfo(
 	Description varchar(200) comment '描述',
 	DateTimeCreate datetime comment '建立时间',
 	DateTimeModify datetime comment '修改时间' 
-);
+)engine=InnoDB default charset=utf8 comment='用户图片信息';;

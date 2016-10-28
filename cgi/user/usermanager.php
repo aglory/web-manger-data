@@ -62,6 +62,7 @@
 						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
 						<input id="PageSize" name="PageSize" type="hidden" value="20" />
 						<input id="PageSort" name="PageSort" type="hidden" value="" />
+						<input id="PageItems" name="PageItems" type="hidden" value="" />
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="panel-title clearfix">

@@ -30,7 +30,7 @@
 			$PageItems = $items;
 	}
 
-	$PageStart = $PageIndex - 1;
+	$PageStart = ($PageIndex - 1) * $PageSize;
 	$PageEnd = $PageSize;
 	$PageOrderBy = empty($PageSort)?'':" order by $PageSort ";
 

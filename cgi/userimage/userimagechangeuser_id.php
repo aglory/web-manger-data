@@ -6,38 +6,31 @@
 	}
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
 	
-	$Ids = array();
-	if(array_key_exists('Id',$_POST) && is_array($_POST['Id'])){
+	$Ids = [];
+	if(array_key_exists('Id',$_POST) && !empty($_POST['Id'])){
 		foreach($_POST['Id'] as $item){
 			$Ids[] = intval($item);
 		}
 	}
+	$User_Id = null;
+	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
+		$User_Id = intval($_POST['User_Id']);
+	}
 	
 	header('Content-Type: application/json');
 	
-	if(empty($Ids)){
+	if(empty($Ids) || empty($User_Id)){
 		echo json_encode(array('status' => false,'message' => '缺少数据'));
 		exit();
 	}
 	
 	$timespan = date('Y-m-d H:i:s',time());
 	
-	$sth = $pdomysql -> prepare('select Src from tbUserImageInfo where Id in('.implode(',',$Ids).');');
-	$sth -> execute();
-		
-	$errors = array();
-
-	$error = $sth -> errorInfo();
-	if($error[1] > 0){
-		$errors[] = $error[2];
-	}
-	
-	foreach($sth -> fetchAll(PDO::FETCH_ASSOC) as $item){
-		unlink($item['Src']);
-	}
-	
-	$sth = $pdomysql -> prepare('delete from tbUserImageInfo where Id in('.implode(',',$Ids).');');
-	$sth -> execute();	
+	$sth = $pdomysql -> prepare('update tbUserImageInfo set User_Id = :User_Id,DateTimeModify = :timespan where Id in('.implode(',',$Ids).');');
+	$sth -> execute(array(
+		'User_Id' => $User_Id,
+		'timespan' => $timespan
+	));	
 		
 	$errors = array();
 

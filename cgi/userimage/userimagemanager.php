@@ -60,13 +60,18 @@
 						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
 						<input id="PageSize" name="PageSize" type="hidden" value="20" />
 						<input id="PageSort" name="PageSort" type="hidden" value="" />
+						<input id="PageTemplate" type="hidden" value="userimagemangerblock" />
+						<input id="PageItems" name="PageItems" type="hidden" value="Id,User_Id,Src,Status,IsDefault,Description" />
 						<input id="User_Id" name="User_Id" type="hidden" value="<?php if(array_key_exists('User_Id',$_GET) && is_numeric($_GET['User_Id'])){ echo $_GET['User_Id'];}?>"/>
+						
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="panel-title clearfix">
 									<div class="col-sm-2 t_l">
-										<div class="form-group">
+										<div class="btn-group">
 											<button class="btn btn-sm btn-info" type="button" onclick="userImageEditor(this,0)">添加</button>
+											<button class="btn btn-sm btn-default" type="button" onclick="userImageChangeUser_Id(this,0)">用户</button>
+											<button class="btn btn-sm btn-danger" type="button" onclick="userImageDelete(this,0)">删除</button>
 										</div>
 									</div>
 									<div class="col-sm-10 t_r">
@@ -115,19 +120,22 @@
 							</div>
 							<div class="panel-body">
 								<table class="table table-striped table-bordered">
-									<thead>
+									<thead id="recordHead">
 										<tr>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Name"> 名称</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserImageInfo.IsDefault"> 是否为默认图片</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserImageInfo.OrderNumber"> 图片序号</a></th>
+											<th class="t_c wd40">&nbsp;</th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Name"> 用户</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserImageInfo.IsDefault"> 默认</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserImageInfo.Status"> 状态</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserImageInfo.OrderNumber"> 序号</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserImageInfo.DateTimeModify"> 时间（创建/修改）</a></th>
+											<th class="t_r"><button type="button" class="btn btn-sm btn-default" onclick="changePageTemplate(this,event);"><span class="glyphicon glyphicon-th-list"></span>列表</button></th>
 										</tr>
 									</thead>
 									<tbody id="recordList">
 									</tbody>
 									<tfoot id="recordStatic">
 										<tr>
-											<td colspan="4" class="t_r"></td>
+											<td colspan="7" class="t_r"></td>
 										</tr>
 									</tfoot>
 								</table>
