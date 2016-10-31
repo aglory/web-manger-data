@@ -9,3 +9,5 @@ add column `Score` int not null default 0 comment '积分',
 add column `Follow` int not null default 0 comment '关注者',
 add column `MessageTotal` int not null default 0 comment '消息记录数',
 add column `Status` int not null default 0 comment '状态';
+
+update tbUserInfo set Status = 1;

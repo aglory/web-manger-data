@@ -1,7 +1,7 @@
 <?php
 	if(!defined('Execute')) exit();
 	if(empty(CurrentUserId())){
-		Render('home','login');
+		Render('account','login');
 		exit();
 	}
 ?>
@@ -43,12 +43,6 @@
 		
 		<link href="resource/user/usermanger.css" rel="stylesheet" />
 		<script src="resource/user/usermanger.js"></script>
-		
-		<script>
-			$(function(){
-				doQuery();
-			});
-		</script>
 	</head>
 	<body>
 		<?php

@@ -7,33 +7,180 @@
 			</div>
 			<div class="modal-body">
 				<form class="editorForm form-inline" action="?model=user&action=usersave">
-					<input id="Id" name="Id" value="{{if (model)}}{{model.Id}}{{else}}0{{/if}}" type="hidden" />
+					<input name="Id" value="{{if (model)}}{{model.Id}}{{else}}0{{/if}}" type="hidden" />
 					<fieldset>
 						<table class="table table-none">
 							<tr>
-								<td class="col2-1">
+								<td colspan="2">
 									<div class="input-group">
 										<span class="input-group-addon">账号：</span>
-										<input id="Name" name="Name" type="text" {{if (model)}}disabled = "disabled"{{/if}} placeholder="账号" class="form-control input-sm" value="{{if (model)}}{{#model.Name}}{{/if}}">
+										<input name="Name" type="text" placeholder="账号" class="form-control input-sm" value="{{if (model)}}{{#model.Name}}{{/if}}">
+									</div>
+								</td>
+							</tr>
+							{{if (!model)}}
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon">密码：</span>
+										<input name="Password" type="password" placeholder="密码" class="form-control input-sm">
 									</div>
 								</td>
 								<td class="col2-2">
 									<div class="input-group">
-										<span class="input-group-addon">密码：</span>
-										<input id="Password" name="Password" type="password" {{if (model)}}disabled = "disabled"{{/if}} placeholder="密码" class="form-control input-sm">
+										<span class="input-group-addon">来源：</span>
+										<select name="SourceId" class="form-control input-sm">
+											<option value="0">-</option>
+											<option value="1" selected="selected">伴游</option>
+											<option value="2" selected="">世纪佳缘</option>
+										</select>
+										<span class="input-group-addon">角色：</span>
+										<select name="RoleId" class="form-control input-sm">
+											<option value="0" selected="selected">普通客户</option>
+											<option value="1">管理员</option>
+										</select>
 									</div>
+								</td>
 							</tr>
+							{{/if}}
 							<tr>
 								<td class="col2-1">
 									<div class="input-group">
 										<span class="input-group-addon">昵称：</span>
-										<input id="NickName" name="NickName" type="text" placeholder="昵称" class="form-control input-sm" value="{{if (model)}}{{#model.NickName}}{{/if}}">
+										<input name="NickName" type="text" placeholder="昵称" class="form-control input-sm" value="{{if (model)}}{{#model.NickName}}{{/if}}">
 									</div>
 								</td>
 								<td class="col2-2">
 									<div class="input-group">
 										<span class="input-group-addon">性别：</span>
-										<input id="Sex" name="Sex" type="checkbox" class="radio" value="1" {{if (model && model.Sex)}}checked="checked"{{/if}}>
+										<input name="Sex" type="checkbox" class="radio" value="1" {{if (model && model.Sex)}}checked="checked"{{/if}}>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon">身高</span>
+										<input name="BodyHeight" type="text" placeholder="身高" class="form-control input-sm" value="{{if (model)}}{{#model.BodyHeight}}{{/if}}">
+									</div>
+								</td>
+								<td class="col2-2">
+									<div class="input-group">
+										<span class="input-group-addon">体重</span>
+										<input name="BodyWeight" type="text" placeholder="体重" class="form-control input-sm" value="{{if (model)}}{{#model.BodyWeight}}{{/if}}">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon">学历</span>
+										<select id="EducationalHistory" name="EducationalHistory">
+											<option value="0">-</option>
+											{{each EducationalHistory as item}}
+												<option{{if (model && model.EducationalHistory == item.Key)}} selected="true"{{/if}}>{{item.Value}}</option>
+											{{/each}}
+										</select>
+									</div>
+								</td>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon">星座</span>
+										<select id="Constellation" name="Constellation">
+											<option value="0">-</option>
+											{{each Constellation as item}}
+												<option{{if (model && model.Constellation == item.Key)}} selected="true"{{/if}}>{{item.Value}}</option>
+											{{/each}}
+										</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon">婚姻状况</span>
+										<select name="CivilState">
+											<option value="0">-</option>
+											{{each CivilState as item}}
+												<option{{if (model && model.CivilState == item.Key)}} selected="true"{{/if}}>{{item.Value}}</option>
+											{{/each}}
+										</select>
+									</div>
+								</td>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon">职业</span>
+										<input name="Career" type="text" placeholder="职业" class="form-control" value="{{if (model)}}{{model.Career}}{{/if}}"
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon"></span>
+										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+									</div>
+								</td>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon"></span>
+										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon"></span>
+										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+									</div>
+								</td>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon"></span>
+										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon"></span>
+										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+									</div>
+								</td>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon"></span>
+										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon"></span>
+										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+									</div>
+								</td>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon"></span>
+										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon"></span>
+										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+									</div>
+								</td>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon"></span>
+										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
 									</div>
 								</td>
 							</tr>

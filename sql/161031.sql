@@ -58,6 +58,9 @@ create table tbUserConfiguration(
 	ConfigurationVewCost int not null default 0 comment '观看消耗积分'
 ) engine=innodb default charset=utf8 comment '用户配置信息';
 
+insert into tbUserConfiguration(Id)
+select Id from tbUserInfo;
+
 alter table tbUserInfo
 drop Score_Cost;
 

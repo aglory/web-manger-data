@@ -9,8 +9,8 @@
 		case PHP_SESSION_ACTIVE:
 			break;
 	}
-	$model="home";
-	$action="index";
+	$model="account";
+	$action="login";
 	
 	if(array_key_exists('model',$_GET)){
 		$model=$_GET['model'];
@@ -19,8 +19,8 @@
 		$action=$_GET['action'];
 	}
 	
-	if($model !='home' && $action != 'login'  && !CurrentUserId()){
-		$model = 'home';
+	if($model !='account' && $action != 'login'  && !CurrentUserId()){
+		$model = 'account';
 		$action = 'login';
 	}
 	

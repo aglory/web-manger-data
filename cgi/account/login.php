@@ -14,8 +14,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		if(!isset($_SESSION)){ 
 			session_start(); 
 		} 
-		$sth = $pdomysql -> prepare('select Id from tbUserInfo where Name = :Name and Password = md5(:Password) and RoleId = :RoleId');
-		$sth -> execute(array('Name' => $Name,'Password' => $Password,'RoleId' => 0x7FFFFFFF));
+		$sth = $pdomysql -> prepare('select Id from tbAccountInfo where Account = :Account and Password = md5(concat(md5(:Password),Salt)) and Status = 1 and RoleId = :RoleId');
+		$sth -> execute(array('Account' => $Name,'Password' => $Password,'RoleId' => 0x7FFFFFFF));
 		foreach($sth -> fetchAll() as $item){
 			$result['value'] = CurrentUserId($item['Id']);
 			$result['status'] = true;

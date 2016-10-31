@@ -1,7 +1,7 @@
 <?php
 	if(!defined('Execute')) exit();
 	if(empty(CurrentUserId())){
-		Render('home','login');
+		Render('account','login');
 		exit();
 	}
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
@@ -18,8 +18,8 @@
 	header('Content-Type: application/json');	
 	
 	$timespan = date('Y-m-d H:i:s',time());
-	
-	$sth = $pdomysql -> prepare('update tbUserInfo set Status = :StatusNew,DateTimeModify = :timespan where Id = :Id and Status != :StatusOld;');
+
+	$sth = $pdomysql -> prepare('update tbAccountInfo set Status = :StatusNew,DateTimeModify = :timespan where Id = :Id and Status != :StatusOld;');
 	$sth -> execute(array(
 		'Id' => $Id,
 		'StatusNew' => $Status,
