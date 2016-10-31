@@ -1,7 +1,7 @@
 <?php
 	if(!defined('Execute')) exit();
 	if(empty(CurrentUserId())){
-		Render('home','login');
+		Render('account','login');
 		exit();
 	}
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';

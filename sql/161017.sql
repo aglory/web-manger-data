@@ -8,8 +8,8 @@ CREATE TABLE `tbUserInfo` (
   `CreateDateTime` datetime DEFAULT NULL COMMENT '创建时间',
   `ModifyDateTime` datetime DEFAULT NULL COMMENT '修改时间',
   `RoleId` int default 0 comment '角色编号',
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `Name_UNIQUE` (`Name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  primary key (`Id`),
+  unique key `UNIQUE_Name` (`Name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 comment='用户信息';
 
 insert into tbUserInfo(Name,Password,NickName,RoleId,CreateDateTime,ModifyDateTime)values('admin',md5(111111),'admin',0x7FFFFFFF,now(),now());

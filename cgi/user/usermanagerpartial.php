@@ -1,7 +1,7 @@
 <?php
 	if(!defined('Execute')) exit();
 	if(empty(CurrentUserId())){
-		Render('home','login');
+		Render('account','login');
 		exit();
 	}
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
@@ -9,8 +9,11 @@
 	$PageSort = 'Id desc';
 	$PageIndex = 1;
 	$PageSize = 20;
-	$PageItems = array('Id','Name','Password','NickName','Sex','Img','DateTimeCreate','DateTimeModify','RoleId','Score','Score_Cost','Follow','MessageTotal','Status');
-
+	$PageItems = array('Id','Name','NickName','Sex','Img','BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career','Description','ContactWay','ContactQQ','ContactEmail','ContactMobile','InterestAndFavorites','DateTimeModify','Birthday');
+	$PageItems_Account = array('RoleId','Status');
+	$PageItems_Statistics = array('CountFollow,CountFollowed,CountView,CountScore,CountPoint,CountMessage');
+	$PageItems_Configuration = array('ConfigurationProtected','ConfigurationVewCost');
+	
 	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){
 		$PageIndex = intval($_POST['PageIndex']);
 	}
@@ -24,10 +27,34 @@
 		$items = array();
 		foreach(explode(',',$_POST['PageItems']) as $item){
 			if(in_array($item,$PageItems))
-				$items[] = $item;
+				$items[] = 'tbUserInfo.'.$item;
+			else if(in_array($item,$PageItems_Account)){
+				$items[] = 'tbAccountInfo.'.$item;
+			}else if(in_array($item,$PageItems_Statistics)){
+				$items[] = 'tbUserStatisticsInfo.'.$item;
+			}else if(in_array($item,$PageItems_Configuration)){
+				$items[] = 'tbUserConfiguration.'.$item;
+			}
 		}
 		if(!empty($items))
 			$PageItems = $items;
+		else
+			$PageItems = array('1');
+	}else{
+		$items = array();
+		foreach($PageItems as $item){
+			$items[] = 'tbUserInfo.'.$item;
+		}
+		foreach($PageItems_Account as $item){
+			$items[] = 'tbAccountInfo.'.$item;
+		}
+		foreach($PageItems_Statistics as $item){
+			$items[] = 'tbUserStatisticsInfo.'.$item;
+		}
+		foreach($PageItems_Configuration as $item){
+			$items[] = 'tbUserConfiguration.'.$item;
+		}
+		$PageItems = $items;
 	}
 
 	$PageStart = ($PageIndex - 1) * $PageSize;
@@ -38,34 +65,47 @@
 	$whereParams = array();
 
 	if(array_key_exists('Name',$_POST) && !empty($_POST['Name'])){
-		$whereSql[] = 'Name like :Name';
+		$whereSql[] = 'tbUserInfo.Name like :Name';
 		$whereParams['Name'] = '%'.$_POST['Name'].'%';
 	}
 	if(array_key_exists('NickName',$_POST) && !empty($_POST['NickName'])){
-		$whereSql[] = 'NickName like :NickName';
+		$whereSql[] = 'tbUserInfo.NickName like :NickName';
 		$whereParams['NickName'] = '%'.$_POST['NickName'].'%';
 	}
 	if(array_key_exists('Sex',$_POST) && is_numeric($_POST['Sex'])){
 		$whereSql[] = 'Sex = '.$_POST['Sex'];
 	}
 	if(array_key_exists('DateTimeModifyStart',$_POST) && !empty($_POST['DateTimeModifyStart'])){
-		$whereSql[] = 'DateTimeModify >= :DateTimeModifyStart';
+		$whereSql[] = 'tbUserInfo.DateTimeModify >= :DateTimeModifyStart';
 		$whereParams['DateTimeModifyStart'] = $_POST['DateTimeModifyStart'];
 	}
 	if(array_key_exists('DateTimeModifyEnd',$_POST) && !empty($_POST['DateTimeModifyEnd'])){
-		$whereSql[] = 'DateTimeModify <= date_add(:DateTimeModifyEnd,INTERVAL 1 DAY)';
+		$whereSql[] = 'tbUserInfo.DateTimeModify <= date_add(:DateTimeModifyEnd,INTERVAL 1 DAY)';
 		$whereParams['DateTimeModifyEnd'] = $_POST['DateTimeModifyEnd'];
 	}
+	if(array_key_exists('BirthdayStart',$_POST) && !empty($_POST['BirthdayStart'])){
+		$whereSql[] = 'tbUserInfo.Birthday >= :BirthdayStart';
+		$whereParams['BirthdayStart'] = $_POST['BirthdayStart'];
+	}
+	if(array_key_exists('BirthdayEnd',$_POST) && !empty($_POST['BirthdayEnd'])){
+		$whereSql[] = 'tbUserInfo.Birthday <= date_add(:BirthdayEnd,INTERVAL 1 DAY)';
+		$whereParams['BirthdayEnd'] = $_POST['BirthdayEnd'];
+	}
+	
+	
 	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
-		$whereSql[] = 'Status = '.$_POST['Status'];
+		$whereSql[] = 'tbAccountInfo.Status = '.$_POST['Status'];
 	}
 	
 	
 	$sthList = null;
 	$sthCount = null;
+	
+	$tbFrom = 'tbUserInfo inner join tbAccountInfo on tbUserInfo.Id = tbAccountInfo.Id inner join tbUserStatisticsInfo on tbUserInfo.Id = tbUserStatisticsInfo.Id inner join tbUserConfiguration on tbUserInfo.Id = tbUserConfiguration.Id';
+	
+	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql)."$PageOrderBy limit $PageStart,$PageEnd;");
+	$sthCount = $pdomysql -> prepare('select count(1) from '.$tbFrom.' where '.implode(' and ',$whereSql));
 
-	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from tbUserInfo where '.implode(' and ',$whereSql)."$PageOrderBy limit $PageStart,$PageEnd;");
-	$sthCount = $pdomysql -> prepare('select count(1) from tbUserInfo where '.implode(' and ',$whereSql));
 	if(empty($whereParams)){
 		$sthList -> execute();
 		$sthCount -> execute();
@@ -87,6 +127,7 @@
 
 	$result = array();
 	
+
 	if(empty($errors)){
 		$result['status'] = true;
 		$result['recordList'] = $sthList -> fetchAll(PDO::FETCH_ASSOC);

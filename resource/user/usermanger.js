@@ -92,6 +92,7 @@ $(function(){
 		$("#PageSort").val(liv.join(','));
 		doQuery();
 	});
+	doQuery();
 });
 
 function userEditor(sender,id){
@@ -126,7 +127,7 @@ function userEditor(sender,id){
 }
 
 function userEditorRender(sender,model){
-	var html = $(template('usereditor',model)).appendTo('body');
+	var html = $(template('usereditor',EnumConfig(model))).appendTo('body');
 	html.find("input[type='checkbox']").bootstrapSwitch({ onText : '男',offText : '女'});
 	var modal = html.modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
@@ -172,7 +173,7 @@ function userChangeStatus(sender,id,status){
 	if(status){
 		var sender = this;
 		$.ajax({
-			url:'?model=user&action=userchangestatus',
+			url:'?model=account&action=accountchangestatus',
 			type:"post",
 			data:{Id:id,Status:status},
 			dataType:"json",
@@ -200,7 +201,7 @@ function userChangeStatus(sender,id,status){
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
 		$.ajax({
-			url:'?model=user&action=userchangestatus',
+			url:'?model=account&action=accountchangestatus',
 			type:"post",
 			data:{Id:id,Status:status},
 			dataType:"json",

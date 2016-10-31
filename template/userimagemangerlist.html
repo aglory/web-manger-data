@@ -1,0 +1,50 @@
+{{if (status && recordList.length > 0)}}
+	{{each recordList}}
+	<tr>
+		<td class='t_c'>
+			<input name="Id" type="checkbox" value="{{$value.Id}}" />
+		</td>
+		<td class="t_r">
+			{{if ($value.User_Name)}}{{$value.User_Name}}{{else}}-{{/if}}
+		</td>
+		<td>
+			{{if ($value.IsDefault)}}主图{{else}}配图{{/if}}
+		</td>
+		<td>
+			{{if ($value.Status)}}启用{{else}}禁用{{/if}}
+		</td>
+		<td class="t_c">
+			{{$value.OrderNumber}}
+		</td>
+		<td class="t_c">
+			{{if ($value.DateTimeCreate)}}{{$value.DateTimeCreate.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}}{{else}}-{{/if}}
+			/
+			{{if ($value.DateTimeModify)}}{{$value.DateTimeModify.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}}{{else}}-{{/if}}
+		</td>
+		<td class="t_c">
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-info" onclick="userImageEditor(this,{{$value.Id}})">编辑</button> 
+
+				{{if ($value.IsDefault)}}
+					<button type="button" class="btn btn-sm btn-warning" onclick="userImageChangeDefault(this,{{$value.Id}},0)">配图</button> 
+				{{else}}
+					<button type="button" class="btn btn-sm btn-success" onclick="userImageChangeDefault(this,{{$value.Id}},1)">主图</button> 
+				{{/if}}
+				<button type="button" class="btn btn-sm btn-default" onclick="userImageChangeUser_Id(this,{{$value.Id}})">用户</button>
+				{{if ($value.User_Id)}}
+					<button type="button" class="btn btn-sm btn-default" onclick="userImageChangeOrderNumber(this,{{$value.Id}},{{$value.User_Id}},1)"><span class="glyphicon glyphicon-arrow-up"></span></button>
+					<button type="button" class="btn btn-sm btn-default" onclick="userImageChangeOrderNumber(this,{{$value.Id}},{{$value.User_Id}},-1)"><span class="glyphicon glyphicon-arrow-down"></span></button>
+				{{else}}
+					<button type="button" class="btn btn-sm btn-default disabled" disabled="disabled"><span class="glyphicon glyphicon-arrow-up"></span></button>
+					<button type="button" class="btn btn-sm btn-default disabled" disabled="disabled"><span class="glyphicon glyphicon-arrow-down"></span></button>
+				{{/if}}
+				<button type="button" class="btn btn-sm btn-danger" onclick="userImageDelete(this,{{$value.Id}})">删除</button> 
+			</div>
+		</td>
+	</tr>
+	{{/each}}
+{{else}}
+	<tr class="odd_color">
+		<td class="align_l p10_l bgr_eb" colspan="7">暂无数据</td>
+	</tr>
+{{/if}}

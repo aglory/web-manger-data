@@ -32,6 +32,8 @@
 		}
 		if(!empty($items))
 			$PageItems = $items;
+		else
+			$PageItems = array('1');
 	}else{
 		$items = array();
 		foreach($PageItems as $item){
