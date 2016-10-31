@@ -18,7 +18,7 @@ create table tbUserFollowRelativeInfo(
 	unique key `UNIQUE_User_Id_Follow_Id` (User_Id,Follow_Id)
 ) engine ='innodb'  default charset=utf8 comment '用户积分记录';
 
-create table tbUserNoteInfo(
+create table tbUserMessageInfo(
 	Id int primary key not null auto_increment,
 	User_Id int not null default 0,
 	Sender_Id int not null default 0,
@@ -28,3 +28,5 @@ create table tbUserNoteInfo(
 	DateTimeModify datetime not null default now() comment '修改时间',
 	Status int not null default 0 comment '状态'
 )engine ='innodb'  default charset=utf8 comment='用户消息信息';
+
+
