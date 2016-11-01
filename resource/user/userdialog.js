@@ -5,7 +5,7 @@ function userDialogOpen(opts){
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	
 	var frm = modal.find(".mainForm");
-
+	
 	modal.find(".btn-yes").click(function(){
 		if(opts && opts.CallBack){
 			var selectedData = [];

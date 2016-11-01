@@ -42,8 +42,8 @@
 		<script src="common/template.js"></script>
 		<script src="common/config.js"></script>
 		
-		<link href="resource/user/usermanger.css" rel="stylesheet" />
-		<script src="resource/user/usermanger.js"></script>
+		<link href="resource/user/usermanager.css" rel="stylesheet" />
+		<script src="resource/user/usermanager.js"></script>
 	</head>
 	<body>
 		<?php
@@ -61,21 +61,21 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="panel-title clearfix">
-									<div class="col-sm-2 t_l">
+									<div class="col-sm-1 t_l">
 										<div class="form-group">
 											<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,0)">添加</button>
 										</div>
 									</div>
-									<div class="col-sm-10 t_r">
+									<div class="col-sm-11 t_r">
 										<div class="form-group">
-											<input name="Name" type="text" class="form-control input-sm" placeholder="名字" />
+											<input name="Name" type="text" class="form-control input-sm wd120" placeholder="名字" />
 										</div>
 										<div class="form-group">
-											<input name="NickName" type="text" class="form-control input-sm" placeholder="昵称" />
+											<input name="NickName" type="text" class="form-control input-sm wd120" placeholder="昵称" />
 										</div>
 										<div class="form-group">
-											<input name="BirthdayStart" class="form-control input-sm date Wdate wd100" placeholder="生日" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'BirthdayEnd\')}'});" />
-											<input name="BirthdayEnd" class="form-control input-sm date Wdate wd100" placeholder="生日" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'BirthdayStart\')}'});" />
+											<input id="BirthdayStart" name="BirthdayStart" class="form-control input-sm date Wdate wd100" placeholder="生日" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'BirthdayEnd\')}'});" />
+											<input id="BirthdayEnd" name="BirthdayEnd" class="form-control input-sm date Wdate wd100" placeholder="生日" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'BirthdayStart\')}'});" />
 										</div>
 										<div class="form-group">
 											<select name="Sex" class="form-control input-sm" placeholder="性别">
@@ -122,7 +122,7 @@
 									</tbody>
 									<tfoot id="recordStatic">
 										<tr>
-											<td colspan="9" class="t_r"></td>
+											<td colspan="10" class="t_r"></td>
 										</tr>
 									</tfoot>
 								</table>

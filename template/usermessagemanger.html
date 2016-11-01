@@ -1,0 +1,22 @@
+{{if (status && recordList.length > 0)}}
+	{{each recordList}}
+	<tr>
+		<td><input name="ids[]" type="checkbox" value="{{$value.Id}}" /></td>
+		<td>{{$value.User_Name}}</td>
+		<td>{{$value.Sender_Name}}</td>
+		<td class="t_r">{{$value.Flag}}</td>
+		<td class="t_r">{{$value.Message}}</td>
+		<td class="t_c">{{if ($value.DateTimeCreate)}}{{$value.DateTimeCreate.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}}{{else}}-{{/if}}</td>
+		<td class="t_c">{{if ($value.Status==null)}} - {{else if ($value.Status == 1)}}<span class="alert-danger">未读</span>{{else if ($value.Status == 2)}}<span class="alert-success">已读</span>{{else if($value.Status == 3)}}<span class="alert-info">删除</span>{{/if}}</td>
+		<td class="t_c">
+			<div class="btn-group">
+				<button class="btn btn-sm btn-danger" type="button" onclick="userMessageDelete(this,{{$value.Id}})">删除</button>
+			</div>
+		</td>
+	</tr>                                               
+	{{/each}}
+{{else}}
+	<tr class="odd_color">
+		<td class="align_l p10_l bgr_eb" colspan="6">暂无数据</td>
+	</tr>
+{{/if}}
