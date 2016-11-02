@@ -1,7 +1,7 @@
 {{if (status && recordList.length > 0)}}
 	{{each recordList}}
 	<tr>
-		<td><input name="ids[]" type="checkbox" value="{{$value.Id}}" /></td>
+		<td><input name="Ids[]" type="checkbox" value="{{$value.Id}}" /></td>
 		<td>{{$value.User_Name}}</td>
 		<td>{{$value.Sender_Name}}</td>
 		<td class="t_r">{{$value.Flag}}</td>
