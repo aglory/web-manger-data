@@ -11,10 +11,16 @@
 					<fieldset>
 						<table class="table table-none">
 							<tr>
-								<td colspan="2">
+								<td class="col2-1">
 									<div class="input-group">
-										<span class="input-group-addon">账号：</span>
-										<input name="Name" type="text" placeholder="账号" class="form-control input-sm" value="{{if (model)}}{{#model.Name}}{{/if}}">
+										<span class="input-group-addon">{{if (model)}}名称{{else}}账号{{/if}}：</span>
+										<input name="Name" type="text" placeholder="{{if (model)}}名称{{else}}账号{{/if}}" class="form-control input-sm" value="{{if (model)}}{{model.Name}}{{/if}}">
+									</div>
+								</td>
+								<td class="col2-2">
+									<div class="input-group">
+										<span class="input-group-addon">密码：</span>
+										<input name="Password" type="password" placeholder="密码"{{if (model)}} disabled="disabled"{{/if}} class="form-control input-sm">
 									</div>
 								</td>
 							</tr>
@@ -22,18 +28,16 @@
 							<tr>
 								<td class="col2-1">
 									<div class="input-group">
-										<span class="input-group-addon">密码：</span>
-										<input name="Password" type="password" placeholder="密码" class="form-control input-sm">
-									</div>
-								</td>
-								<td class="col2-2">
-									<div class="input-group">
 										<span class="input-group-addon">来源：</span>
 										<select name="SourceId" class="form-control input-sm">
 											<option value="0">-</option>
 											<option value="1" selected="selected">伴游</option>
 											<option value="2" selected="">世纪佳缘</option>
 										</select>
+									</div>
+								</td>
+								<td class="col2-2">
+									<div class="input-group">
 										<span class="input-group-addon">角色：</span>
 										<select name="RoleId" class="form-control input-sm">
 											<option value="0" selected="selected">普通客户</option>
@@ -47,7 +51,7 @@
 								<td class="col2-1">
 									<div class="input-group">
 										<span class="input-group-addon">昵称：</span>
-										<input name="NickName" type="text" placeholder="昵称" class="form-control input-sm" value="{{if (model)}}{{#model.NickName}}{{/if}}">
+										<input name="NickName" type="text" placeholder="昵称" class="form-control input-sm" value="{{if (model)}}{{model.NickName}}{{/if}}">
 									</div>
 								</td>
 								<td class="col2-2">
@@ -60,14 +64,29 @@
 							<tr>
 								<td class="col2-1">
 									<div class="input-group">
+										<span class="input-group-addon">生日：</span>
+										<input name="Birthday" type="input" placeholder="昵称" class="form-control input-sm" value="{{if (model)}}{{model.Birthday}}{{/if}}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});">
+									</div>
+								</td>
+								<td class="col2-2">
+									<div class="input-group">
+										<span class="input-group-addon">年龄：</span>
+										<input name="Age" type="number" class="form-control input-sm" {{if (model && model.Sex)}}checked="checked"{{/if}}>
+									</div>
+								</td>
+								
+							</tr>
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
 										<span class="input-group-addon">身高</span>
-										<input name="BodyHeight" type="text" placeholder="身高" class="form-control input-sm" value="{{if (model)}}{{#model.BodyHeight}}{{/if}}">
+										<input name="BodyHeight" type="number" placeholder="身高" class="form-control input-sm" value="{{if (model)}}{{model.BodyHeight}}{{/if}}">
 									</div>
 								</td>
 								<td class="col2-2">
 									<div class="input-group">
 										<span class="input-group-addon">体重</span>
-										<input name="BodyWeight" type="text" placeholder="体重" class="form-control input-sm" value="{{if (model)}}{{#model.BodyWeight}}{{/if}}">
+										<input name="BodyWeight" type="number" placeholder="体重" class="form-control input-sm" value="{{if (model)}}{{model.BodyWeight}}{{/if}}">
 									</div>
 								</td>
 							</tr>
@@ -75,10 +94,10 @@
 								<td class="col2-1">
 									<div class="input-group">
 										<span class="input-group-addon">学历</span>
-										<select id="EducationalHistory" name="EducationalHistory">
+										<select id="EducationalHistory" name="EducationalHistory" class="form-control input-sm">
 											<option value="0">-</option>
-											{{each EducationalHistory as item}}
-												<option{{if (model && model.EducationalHistory == item.Key)}} selected="true"{{/if}}>{{item.Value}}</option>
+											{{each Enums.EducationalHistory as item}}
+												<option{{if (model && model.EducationalHistory == item.Key)}} selected="true"{{/if}} value="{{item.Key}}">{{item.Value}}</option>
 											{{/each}}
 										</select>
 									</div>
@@ -86,10 +105,10 @@
 								<td class="col2-1">
 									<div class="input-group">
 										<span class="input-group-addon">星座</span>
-										<select id="Constellation" name="Constellation">
+										<select id="Constellation" name="Constellation" class="form-control input-sm">
 											<option value="0">-</option>
-											{{each Constellation as item}}
-												<option{{if (model && model.Constellation == item.Key)}} selected="true"{{/if}}>{{item.Value}}</option>
+											{{each Enums.Constellation as item}}
+												<option{{if (model && model.Constellation == item.Key)}} selected="true"{{/if}} value="{{item.Key}}">{{item.Value}}</option>
 											{{/each}}
 										</select>
 									</div>
@@ -99,10 +118,10 @@
 								<td class="col2-1">
 									<div class="input-group">
 										<span class="input-group-addon">婚姻状况</span>
-										<select name="CivilState">
+										<select name="CivilState" class="form-control input-sm">
 											<option value="0">-</option>
-											{{each CivilState as item}}
-												<option{{if (model && model.CivilState == item.Key)}} selected="true"{{/if}}>{{item.Value}}</option>
+											{{each Enums.CivilState as item}}
+												<option{{if (model && model.CivilState == item.Key)}} selected="true"{{/if}} value="{{item.Key}}">{{item.Value}}</option>
 											{{/each}}
 										</select>
 									</div>
@@ -117,70 +136,28 @@
 							<tr>
 								<td class="col2-1">
 									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+										<span class="input-group-addon">联系方式</span>
+										<input name="ContactWay" type="text" placeholder="联系方式" class="form-control" value="{{if (model)}}{{model.ContactWay}}{{/if}}"
 									</div>
 								</td>
 								<td class="col2-1">
 									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="col2-1">
-									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
-									</div>
-								</td>
-								<td class="col2-1">
-									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+										<span class="input-group-addon">QQ</span>
+										<input name="ContactQQ" type="text" placeholder="QQ" class="form-control" value="{{if (model)}}{{model.ContactQQ}}{{/if}}"
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td class="col2-1">
 									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+										<span class="input-group-addon">邮箱</span>
+										<input name="ContactEmail" type="text" placeholder="邮箱" class="form-control" value="{{if (model)}}{{model.ContactEmail}}{{/if}}"
 									</div>
 								</td>
 								<td class="col2-1">
 									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="col2-1">
-									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
-									</div>
-								</td>
-								<td class="col2-1">
-									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="col2-1">
-									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
-									</div>
-								</td>
-								<td class="col2-1">
-									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input id="" name="" type="text" placeholder="" class="form-control" value="{{if (model)}}{{model.}}{{/if}}"
+										<span class="input-group-addon">联系电话</span>
+										<input name="ContactMobile" type="text" placeholder="电话" class="form-control" value="{{if (model)}}{{model.ContactMobile}}{{/if}}"
 									</div>
 								</td>
 							</tr>

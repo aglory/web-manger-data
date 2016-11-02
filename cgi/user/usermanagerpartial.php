@@ -9,7 +9,7 @@
 	$PageSort = 'Id desc';
 	$PageIndex = 1;
 	$PageSize = 20;
-	$PageItems = array('Id','Name','NickName','Sex','Img','BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career','Description','ContactWay','ContactQQ','ContactEmail','ContactMobile','InterestAndFavorites','DateTimeModify');
+	$PageItems = array('Id','Name','NickName','Sex','Img','BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career','Description','ContactWay','ContactQQ','ContactEmail','ContactMobile','InterestAndFavorites','DateTimeModify','Birthday');
 	$PageItems_Account = array('RoleId','Status');
 	$PageItems_Statistics = array('CountFollow,CountFollowed,CountView,CountScore,CountPoint,CountMessage');
 	$PageItems_Configuration = array('ConfigurationProtected','ConfigurationVewCost');
@@ -83,6 +83,16 @@
 		$whereSql[] = 'tbUserInfo.DateTimeModify <= date_add(:DateTimeModifyEnd,INTERVAL 1 DAY)';
 		$whereParams['DateTimeModifyEnd'] = $_POST['DateTimeModifyEnd'];
 	}
+	if(array_key_exists('BirthdayStart',$_POST) && !empty($_POST['BirthdayStart'])){
+		$whereSql[] = 'tbUserInfo.Birthday >= :BirthdayStart';
+		$whereParams['BirthdayStart'] = $_POST['BirthdayStart'];
+	}
+	if(array_key_exists('BirthdayEnd',$_POST) && !empty($_POST['BirthdayEnd'])){
+		$whereSql[] = 'tbUserInfo.Birthday <= date_add(:BirthdayEnd,INTERVAL 1 DAY)';
+		$whereParams['BirthdayEnd'] = $_POST['BirthdayEnd'];
+	}
+	
+	
 	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
 		$whereSql[] = 'tbAccountInfo.Status = '.$_POST['Status'];
 	}

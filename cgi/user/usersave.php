@@ -70,6 +70,10 @@
 	if(array_key_exists('Description',$_POST) && !empty($_POST['Description'])){
 		$Description = $_POST['Description'];
 	}
+	$Birthday = '';
+	if(array_key_exists('Birthday',$_POST) && !empty($_POST['Birthday'])){
+		$Birthday = $_POST['Birthday'];
+	}
 	
 	header('Content-Type: application/json');	
 	
@@ -126,7 +130,7 @@
 		
 		$Id = $pdomysql -> lastInsertId();
 		
-		$sthUserInfo = $pdomysql -> prepare('insert into tbUserInfo(Id,Name,NickName,Sex,BodyHeight,BodyWeight,EducationalHistory,Constellation,CivilState,Career,ContactWay,ContactQQ,ContactEmail,ContactMobile,InterestAndFavorites,Description,DateTimeModify)values(:Id,:Name,:NickName,:Sex,:BodyHeight,:BodyWeight,:EducationalHistory,:Constellation,:CivilState,:Career,:ContactWay,:ContactQQ,:ContactEmail,:ContactMobile,:InterestAndFavorites,:Description,:DateTimeModify);');
+		$sthUserInfo = $pdomysql -> prepare('insert into tbUserInfo(Id,Name,NickName,Sex,BodyHeight,BodyWeight,EducationalHistory,Constellation,CivilState,Career,ContactWay,ContactQQ,ContactEmail,ContactMobile,InterestAndFavorites,Description,DateTimeModify,Birthday)values(:Id,:Name,:NickName,:Sex,:BodyHeight,:BodyWeight,:EducationalHistory,:Constellation,:CivilState,:Career,:ContactWay,:ContactQQ,:ContactEmail,:ContactMobile,:InterestAndFavorites,:Description,:DateTimeModify,:Birthday);');
 		$sthUserInfo -> execute(array(
 			'Id' => $Id,
 			'Name' => $Name,
@@ -144,7 +148,8 @@
 			'ContactMobile' => $ContactMobile,
 			'InterestAndFavorites' => $InterestAndFavorites,
 			'Description' => $Description,
-			'DateTimeModify' => $timespan
+			'DateTimeModify' => $timespan,
+			'Birthday' => $Birthday
 		));
 
 		$errorUserInfo = $sthUserInfo -> errorInfo();
@@ -209,7 +214,7 @@
 		exit();
 	}
 		
-	$sthUserInfo = $pdomysql -> prepare('update tbUserInfo set Name=:Name,NickName=:NickName,Sex=:Sex,BodyHeight=:BodyHeight,BodyWeight=:BodyWeight,EducationalHistory=:EducationalHistory,Constellation=:Constellation,CivilState=:CivilState,Career=:Career,ContactWay=:ContactWay,ContactQQ=:ContactQQ,ContactEmail=:ContactEmail,ContactMobile=:ContactMobile,InterestAndFavorites=:InterestAndFavorites,Description=:Description,DateTimeModify=:DateTimeModify where Id = :Id;');
+	$sthUserInfo = $pdomysql -> prepare('update tbUserInfo set Name=:Name,NickName=:NickName,Sex=:Sex,BodyHeight=:BodyHeight,BodyWeight=:BodyWeight,EducationalHistory=:EducationalHistory,Constellation=:Constellation,CivilState=:CivilState,Career=:Career,ContactWay=:ContactWay,ContactQQ=:ContactQQ,ContactEmail=:ContactEmail,ContactMobile=:ContactMobile,InterestAndFavorites=:InterestAndFavorites,Description=:Description,DateTimeModify=:DateTimeModify,Birthday=:Birthday where Id = :Id;');
 	$sthUserInfo -> execute(array(
 		'Id' => $Id,
 		'Name' => $Name,
@@ -227,7 +232,8 @@
 		'ContactMobile' => $ContactMobile,
 		'InterestAndFavorites' => $InterestAndFavorites,
 		'Description' => $Description,
-		'DateTimeModify' => $timespan
+		'DateTimeModify' => $timespan,
+		'Birthday' => $Birthday
 	));
 
 	$errorUserInfo = $sthUserInfo -> errorInfo();

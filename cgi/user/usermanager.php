@@ -40,9 +40,10 @@
 		<script src="common/common.js"></script>
 		
 		<script src="common/template.js"></script>
+		<script src="common/config.js"></script>
 		
-		<link href="resource/user/usermanger.css" rel="stylesheet" />
-		<script src="resource/user/usermanger.js"></script>
+		<link href="resource/user/usermanager.css" rel="stylesheet" />
+		<script src="resource/user/usermanager.js"></script>
 	</head>
 	<body>
 		<?php
@@ -60,21 +61,24 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="panel-title clearfix">
-									<div class="col-sm-2 t_l">
+									<div class="col-sm-1 t_l">
 										<div class="form-group">
 											<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,0)">添加</button>
-
 										</div>
 									</div>
-									<div class="col-sm-10 t_r">
+									<div class="col-sm-11 t_r">
 										<div class="form-group">
-											<input id="Name" name="Name" type="text" class="form-control input-sm" placeholder="名字" />
+											<input name="Name" type="text" class="form-control input-sm wd120" placeholder="名字" />
 										</div>
 										<div class="form-group">
-											<input id="NickName" name="NickName" type="text" class="form-control input-sm" placeholder="昵称" />
+											<input name="NickName" type="text" class="form-control input-sm wd120" placeholder="昵称" />
 										</div>
 										<div class="form-group">
-											<select id="Sex" name="Sex" class="form-control input-sm" placeholder="性别">
+											<input id="BirthdayStart" name="BirthdayStart" class="form-control input-sm date Wdate wd100" placeholder="生日" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'BirthdayEnd\')}'});" />
+											<input id="BirthdayEnd" name="BirthdayEnd" class="form-control input-sm date Wdate wd100" placeholder="生日" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'BirthdayStart\')}'});" />
+										</div>
+										<div class="form-group">
+											<select name="Sex" class="form-control input-sm" placeholder="性别">
 												<option value="">全部</option>
 												<option value="0">女</option>
 												<option value="1">男</option>
@@ -85,7 +89,7 @@
 											<input id="DateTimeModifyEnd" name="DateTimeModifyEnd" class="form-control input-sm date Wdate wd100" placeholder="结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeModifyStart\')}'});" />
 										</div>
 										<div class="form-group">
-											<select id="Status" name="Status" class="form-control input-sm" placeholder="性别">
+											<select name="Status" class="form-control input-sm" placeholder="性别">
 												<option value="">全部</option>
 												<option value="1">启用</option>
 												<option value="0">禁用</option>
@@ -102,14 +106,15 @@
 								<table class="table table-striped table-bordered">
 									<thead>
 										<tr>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Name"> 名称</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="NickName"> 昵称</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Score"> 积分</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Follow"> 关注者</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Sex"> 性别</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Name"> 名称</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.NickName"> 昵称</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountScore"> 积分</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountFollowed"> 关注者</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Birthday">生日</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Sex"> 性别</a></th>
 											<th class="t_c">头像</th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeModify"> 时间（创建/登录）</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="RoleId"> 角色</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.DateTimeModify"> 时间（创建/登录）</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbAccountInfo.RoleId"> 角色</a></th>
 											<th class="t_c">操作</th>
 										</tr>
 									</thead>
@@ -117,7 +122,7 @@
 									</tbody>
 									<tfoot id="recordStatic">
 										<tr>
-											<td colspan="9" class="t_r"></td>
+											<td colspan="10" class="t_r"></td>
 										</tr>
 									</tfoot>
 								</table>

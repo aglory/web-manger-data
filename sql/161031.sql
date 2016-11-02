@@ -1,5 +1,4 @@
 
-drop table tbAccountInfo;
 
 create table tbAccountInfo (
 	Id int primary key auto_increment,
@@ -23,6 +22,7 @@ select Id,Name,md5(concat(Password,@salt)),NickName,RoleId,Status,@salt,DateTime
 
 
 alter table tbUserInfo
+change column Id Id int not null unique,
 drop primary key ,
 drop index UNIQUE_Name;
 
@@ -68,14 +68,16 @@ drop Score_Cost;
 alter table tbUserInfo
 add BodyHeight int not null default 0 comment '身高',
 add BodyWeight int not null default 0 comment '体重',
+add Birthday datetime comment '生日',
 add EducationalHistory int not null default 0 comment '学历',
 add Constellation int not null default 0 comment '星座',
 add CivilState int not null default 0 comment '婚姻状况',
 add Career varchar(50) comment '职业',
+add InterestAndFavorites varchar(80) comment '兴趣爱好',
 add Description varchar(800) comment '描述',
 add ContactWay varchar(50) comment '联系方式',
 add ContactQQ varchar(20) comment '联系QQ',
 add ContactEmail varchar(50) comment '联系邮箱',
 add ContactMobile varchar(50) comment '联系电话';
-
+add Birthday datetime comment '生日'
 
