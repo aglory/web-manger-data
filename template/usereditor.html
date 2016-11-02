@@ -32,7 +32,7 @@
 										<select name="SourceId" class="form-control input-sm">
 											<option value="0">-</option>
 											<option value="1" selected="selected">伴游</option>
-											<option value="2" selected="">世纪佳缘</option>
+											<option value="2">世纪佳缘</option>
 										</select>
 									</div>
 								</td>
@@ -159,6 +159,11 @@
 										<span class="input-group-addon">联系电话</span>
 										<input name="ContactMobile" type="text" placeholder="电话" class="form-control" value="{{if (model)}}{{model.ContactMobile}}{{/if}}"
 									</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<textarea name="Description" class="form-control" style="width:100%;" placeholder="备注">{{if (model)}}{{model.Description}}{{/if}}</textarea>
 								</td>
 							</tr>
 						</table>

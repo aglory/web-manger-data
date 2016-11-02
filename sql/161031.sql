@@ -79,5 +79,4 @@ add ContactWay varchar(50) comment '联系方式',
 add ContactQQ varchar(20) comment '联系QQ',
 add ContactEmail varchar(50) comment '联系邮箱',
 add ContactMobile varchar(50) comment '联系电话';
-add Birthday datetime comment '生日'
 

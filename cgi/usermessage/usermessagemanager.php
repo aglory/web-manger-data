@@ -66,7 +66,7 @@
 									<div class="col-sm-2 t_l">
 										<div class="form-group btn-group">
 											<button class="btn btn-sm btn-info" type="button" onclick="userMessageEditor(this,<?php if(array_key_exists('User_Id',$_GET) && is_numeric($_GET['User_Id'])){ echo $_GET['User_Id'];}else{echo '0';} ?>)">发送消息</button>
-											<button class="btn btn-sm btn-danger" type="button" onclick="userMessageDelte(this,0)">删除消息</button>
+											<button class="btn btn-sm btn-danger" type="button" onclick="userMessageDelete(this,0)">删除消息</button>
 										</div>
 									</div>
 									<div class="col-sm-10 t_r">
@@ -120,7 +120,7 @@
 									</tbody>
 									<tfoot id="recordStatic">
 										<tr>
-											<td colspan="7" class="t_r"></td>
+											<td colspan="8" class="t_r"></td>
 										</tr>
 									</tfoot>
 								</table>

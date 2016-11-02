@@ -66,7 +66,7 @@
 	if(array_key_exists('InterestAndFavorites',$_POST) && !empty($_POST['InterestAndFavorites'])){
 		$InterestAndFavorites = $_POST['InterestAndFavorites'];
 	}
-	$Description = 0;
+	$Description = '';
 	if(array_key_exists('Description',$_POST) && !empty($_POST['Description'])){
 		$Description = $_POST['Description'];
 	}

@@ -227,6 +227,21 @@ function userChangeStatus(sender,id,status){
 }
 
 function userMessageDelete(sender,id){
+	if(id == 0 && $("#mainForm :checked[type='checkbox']").length == 0){
+		$(template('alert',{message:'未选择消息!'})).appendTo('body').modal();
+		return;
+	}
+	var data = null;
+	if(id != 0){
+		data = {Id : id};
+	}else{
+		var ids = [];
+		$("#mainForm :checked[type='checkbox']").each(function(i,o){
+			ids.push('Ids[]=' + o.value);
+		});
+		ids = ids.join('&');
+		data = ids;
+	}
 	var modal = $(template('confirm',{message:'确定删除该消息?'})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
@@ -237,7 +252,7 @@ function userMessageDelete(sender,id){
 		$.ajax({
 			url:'?model=usermessage&action=usermessagedelete',
 			type:"post",
-			data:{Id:id,Status:status},
+			data:data,
 			dataType:"json",
 			success:function(rest){
 				if(sender){
