@@ -1,5 +1,5 @@
 <?php
-if(!defined('Execute')){ exit();}
+if(!defined('Execute') && !defined('Api')){ exit();}
 header('Content-Type: application/json;');
 require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
 
