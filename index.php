@@ -17,9 +17,9 @@
 	}
 	if(array_key_exists('action',$_GET)){
 		$action=$_GET['action'];
-	}
 	
-	if($model !='account' && $action != 'login'  && !CurrentUserId()){
+	}
+	if(!($model =='account' && $action == 'login') && empty(CurrentUserId())){
 		$model = 'account';
 		$action = 'login';
 	}

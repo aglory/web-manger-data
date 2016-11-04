@@ -32,6 +32,86 @@
 		<?php
 			Render('header');
 		?>
+		
+							<form id="mainForm" class="form-inline" action="<?php ActionLink('user','usermanagerpartial')?>">
+						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
+						<input id="PageSize" name="PageSize" type="hidden" value="20" />
+						<input id="PageSort" name="PageSort" type="hidden" value="" />
+						<input id="PageItems" name="PageItems" type="hidden" value="" />
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<div class="panel-title clearfix">
+									<div class="col-sm-1 t_l">
+										<div class="form-group">
+											<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,0)">添加</button>
+										</div>
+									</div>
+									<div class="col-sm-11 t_r">
+										<div class="form-group">
+											<input name="Name" type="text" class="form-control input-sm wd120" placeholder="名字" />
+										</div>
+										<div class="form-group">
+											<input name="NickName" type="text" class="form-control input-sm wd120" placeholder="昵称" />
+										</div>
+										<div class="form-group">
+											<input id="BirthdayStart" name="BirthdayStart" class="form-control input-sm date Wdate wd100" placeholder="生日" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'BirthdayEnd\')}'});" />
+											<input id="BirthdayEnd" name="BirthdayEnd" class="form-control input-sm date Wdate wd100" placeholder="生日" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'BirthdayStart\')}'});" />
+										</div>
+										<div class="form-group">
+											<select name="Sex" class="form-control input-sm" placeholder="性别">
+												<option value="">全部</option>
+												<option value="0">女</option>
+												<option value="1">男</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<input id="DateTimeModifyStart" name="DateTimeModifyStart" class="form-control input-sm date Wdate wd100" placeholder="开始日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'DateTimeModifyEnd\')}'});" />
+											<input id="DateTimeModifyEnd" name="DateTimeModifyEnd" class="form-control input-sm date Wdate wd100" placeholder="结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeModifyStart\')}'});" />
+										</div>
+										<div class="form-group">
+											<select name="Status" class="form-control input-sm" placeholder="性别">
+												<option value="">全部</option>
+												<option value="1">启用</option>
+												<option value="0">禁用</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-info btn-sm btn-query">查询</button>
+											<button type="button" class="btn btn-default btn-sm btn-refresh">刷新</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<table class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Name"> 名称</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.NickName"> 昵称</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountScore"> 积分</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountFollowed"> 关注者</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Birthday">生日</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Sex"> 性别</a></th>
+											<th class="t_c">头像</th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.DateTimeModify"> 时间（创建/登录）</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbAccountInfo.RoleId"> 角色</a></th>
+											<th class="t_c">操作</th>
+										</tr>
+									</thead>
+									<tbody id="recordList">
+									</tbody>
+									<tfoot id="recordStatic">
+										<tr>
+											<td colspan="10" class="t_r"></td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</form>
+
+		
+		
 		<?php
 			Render('footer');
 		?>

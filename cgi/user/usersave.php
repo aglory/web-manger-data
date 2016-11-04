@@ -70,7 +70,7 @@
 	if(array_key_exists('Description',$_POST) && !empty($_POST['Description'])){
 		$Description = $_POST['Description'];
 	}
-	$Birthday = '';
+	$Birthday = null;
 	if(array_key_exists('Birthday',$_POST) && !empty($_POST['Birthday'])){
 		$Birthday = $_POST['Birthday'];
 	}

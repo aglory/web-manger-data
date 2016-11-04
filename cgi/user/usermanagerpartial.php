@@ -10,7 +10,7 @@
 	$PageIndex = 1;
 	$PageSize = 20;
 	$PageItems = array('Id','Name','NickName','Sex','Img','BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career','Description','ContactWay','ContactQQ','ContactEmail','ContactMobile','InterestAndFavorites','DateTimeModify','Birthday');
-	$PageItems_Account = array('RoleId','Status');
+	$PageItems_Account = array('DateTimeCreate','RoleId','Status');
 	$PageItems_Statistics = array('CountFollow,CountFollowed,CountView,CountScore,CountPoint,CountMessage');
 	$PageItems_Configuration = array('ConfigurationProtected','ConfigurationVewCost');
 	
@@ -115,7 +115,6 @@
 	}
 
 	$errors = array();
-	
 	$error = $sthList -> errorInfo();
 	if($error[1] > 0){
 		$errors[] = $error[2];

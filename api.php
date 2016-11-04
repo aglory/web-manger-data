@@ -1,4 +1,7 @@
 <?php
+	define('Execute',true);
+	define('Api',true);
+	
 	ob_start();
 	switch(session_status()){
 		case PHP_SESSION_NONE:
@@ -19,9 +22,20 @@
 		$action=$_GET['action'];
 	}
 	
-	if($model !='account' && $action != 'login'  && !CurrentUserId()){
-		$model = 'account';
-		$action = 'login';
+	/*
+	die(json_encode(
+	array(
+		!($model =='user' && $action == 'login'),
+		empty(CurrentUserId()),
+		!($model =='user' && $action == 'login') && empty(CurrentUserId())
+		)
+	));
+	*/
+	
+	if(!($model =='user' && $action == 'login') && empty(CurrentUserId())){
+		header('Content-Type: application/json;');
+		echo json_encode(array('status' => false,'code' => 401));
+		exit();
 	}
 	
 	date_default_timezone_set('PRC');
@@ -29,23 +43,9 @@
 	function GetLibFile(){
 		$params = func_get_args();
 		if(empty($params))return;
-		array_unshift($params,'.','cgi');
+		array_unshift($params,'.','cgi','api');
 		
-		$file = implode(DIRECTORY_SEPARATOR,$params).'.php';
-		if(file_exists($file)){
-			return $file;
-		}
-	}
-	
-	function Loader(){
-		$params = func_get_args();
-		if(empty($params))return;
-		array_unshift($params,'.','lib');
-		
-		$file = implode(DIRECTORY_SEPARATOR,$params).'.php';
-		if(file_exists($file)){
-			require $file;
-		}
+		return implode(DIRECTORY_SEPARATOR,$params).'.php';
 	}
 	
 	function CurrentUserId(){
@@ -65,6 +65,6 @@
 		return $_SESSION['UserId'];
 	}
 	
-	
-
-	Render($model,$action);
+	$libFile = GetLibFile($model,$action);
+	if(file_exists($libFile))
+		include $libFile;

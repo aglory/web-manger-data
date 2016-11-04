@@ -89,7 +89,7 @@
 											<input id="DateTimeModifyEnd" name="DateTimeModifyEnd" class="form-control input-sm date Wdate wd100" placeholder="结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeModifyStart\')}'});" />
 										</div>
 										<div class="form-group">
-											<select name="Status" class="form-control input-sm" placeholder="性别">
+											<select name="Status" class="form-control input-sm" placeholder="状态">
 												<option value="">全部</option>
 												<option value="1">启用</option>
 												<option value="0">禁用</option>

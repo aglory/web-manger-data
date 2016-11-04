@@ -1,35 +1,38 @@
 <?php
-if(!defined('Execute') && !defined('Api')){ exit();}
-header('Content-Type: application/json;');
-require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
+	if(!defined('Execute') && !defined('Api')){ exit();}
+	header('Content-Type: application/json;');
+	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
 
-$name = '';$password = '';$sex = 0;
-if(array_key_exists('name',$_POST)){
-	$name = $_POST['name'];
-}
-if(array_key_exists('password',$_POST)){
-	$password = $_POST['password'];
-}
-if(array_key_exists('sex',$_POST)){
-	$sex = $_POST['sex'];
-}
-
-
-function IsLoginSuccess($pdomysql,$name,$password){
-	$sth = $pdomysql -> prepare('select Id,Password from tbUserInfo where Name = :Name');
-	$sth -> execute(array('Name' => $name));
-	foreach($sth -> fetchAll() as $item){
-		if($item['Password'] == md5($password)){
-			return CurrentUserId($item['Id']); 
-		}
-		return 0;
+	$account = '';$password = '';$sex = 0;
+	if(array_key_exists('Account',$_POST)){
+		$account = $_POST['Account'];
 	}
-	return -1;
-}
-
+	if(array_key_exists('Password',$_POST)){
+		$password = $_POST['Password'];
+	}
+	if(array_key_exists('Sex',$_POST) && is_numeric($_POST['Sex'])){
+		$sex = $_POST['Sex'];
+	}
+	
+	if(empty($account) || empty($password)){
+		echo json_encode(array('code' => 200,'status' => false,'message' => '缺少登录账号/密码'));
+		exit(1);
+	}
+	
+	$sth = $pdomysql -> prepare('select Id,Password,Salt from tbAccountInfo where Account = :Account and Status = :Status');
+	$sth -> execute(array('Account' => $account,'Status' => 1));
+	foreach($sth -> fetchAll() as $item){
+		if($item['Password'] == md5(md5($password).$item['Salt'])){
+			CurrentUserId($item['Id']);
+			echo json_encode(array('code' => 200,'status' => true,'session_id' => session_id(),'session_name' => session_name()));
+			exit(1);
+		}
+	}	
+	
+die('xx');
 function IsRegisterSuccess($pdomysql,$name,$password,$sex){
 	$timespan = date('Y-m-d H:i:s',time());
-	$sth = $pdomysql -> prepare('insert into tbUserInfo(`Name`,`Password`,`NickName`,`Sex`,`CreateDateTime`,`ModifyDateTime`)values(:Name,:Password,:NickName,:Sex,:CreateDateTime,:ModifyDateTime);');
+	$sth = $pdomysql -> prepare('insert into tbAccountInfo(`Name`,`Password`,`NickName`,`Sex`,`CreateDateTime`,`ModifyDateTime`)values(:Name,:Password,:NickName,:Sex,:CreateDateTime,:ModifyDateTime);');
 	$sth -> execute(array(
 		'Name' => $name,
 		'Password' => md5($password),
@@ -50,12 +53,7 @@ function IsRegisterSuccess($pdomysql,$name,$password,$sex){
 
 $result = array();
 
-if(empty($name) || empty($password)){
-	$result['status'] = false;
-	$result['message'] = '缺少登录账号/密码';
-	echo json_encode($result);
-	exit(1);
-}
+
 switch(IsLoginSuccess($pdomysql,$name,$password)){
 	case 0:
 		$result['status'] = false;
@@ -73,6 +71,9 @@ switch(IsLoginSuccess($pdomysql,$name,$password)){
 		exit(1);
 		break;
 }
+
+
+
 switch(IsRegisterSuccess($pdomysql,$name,$password ,$sex)){
 	case -1:
 		$result['status'] = false;
