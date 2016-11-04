@@ -32,7 +32,7 @@
 	));
 	*/
 	
-	if(!($model =='user' && $action == 'login') && empty(CurrentUserId())){
+	if(!($model =='user' && $action == 'authorize') && empty(CurrentUserId())){
 		header('Content-Type: application/json;');
 		echo json_encode(array('status' => false,'code' => 401));
 		exit();
