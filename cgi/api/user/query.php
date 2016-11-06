@@ -89,22 +89,26 @@
 		$whereParams['BirthdayMax'] = $_POST['BirthdayMax'];
 	}	
 	if(array_key_exists('BodyHeightMin',$_POST) && is_numeric($_POST['BodyHeightMin'])){
-		$whereSql[] = 'BodyHeight >= '.$_POST['BodyHeightMin'];
+		$whereSql[] = 'tbUserInfo.BodyHeight >= '.$_POST['BodyHeightMin'];
 	}
 	if(array_key_exists('BodyHeightMax',$_POST) && is_numeric($_POST['BodyHeightMax'])){
-		$whereSql[] = 'BodyHeight <= '.$_POST['BodyHeightMax'];
+		$whereSql[] = 'tbUserInfo.BodyHeight <= '.$_POST['BodyHeightMax'];
 	}
 	if(array_key_exists('BodyWeightMin',$_POST) && is_numeric($_POST['BodyWeightMin'])){
-		$whereSql[] = 'BodyWeight >= '.$_POST['BodyWeightMin'];
+		$whereSql[] = 'tbUserInfo.BodyWeight >= '.$_POST['BodyWeightMin'];
 	}
 	if(array_key_exists('BodyWeightMax',$_POST) && is_numeric($_POST['BodyWeightMax'])){
-		$whereSql[] = 'BodyWeight <= '.$_POST['BodyWeightMax'];
+		$whereSql[] = 'tbUserInfo.BodyWeight <= '.$_POST['BodyWeightMax'];
 	}
 	if(array_key_exists('EducationalHistory',$_POST) && is_numeric($_POST['EducationalHistory'])){
-		$whereSql[] = 'BodyWeight = '.$_POST['EducationalHistory'];
+		$whereSql[] = 'tbUserInfo.BodyWeight = '.$_POST['EducationalHistory'];
 	}
-	
-	//'BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career'
+	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
+		$whereSql[] = 'tbAccountInfo.Status = '.$_POST['Status'];
+	}
+	if(array_key_exists('Img',$_POST) && !empty($_POST['Img'])){
+		$whereSql[] = 'tbUserInfo.Img is not null';
+	}
 	
 	
 	$sthList = null;

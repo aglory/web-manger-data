@@ -19,6 +19,12 @@
 					<form target="_blank" method="post" action="api.php?model=user&action=authorize">
 						<fieldset>
 							<legend>用户登录</legend>
+							<dl>
+								<dt>请求地址：</dt><dd>api.php?model=user&action=authorize</dd>
+								<dt>账号：</dt><dd>Account<span class="required">*</span></dd>
+								<dt>密码：</dt><dd>Password<span class="required">*</span></dd>
+								<dt>性别：</dt><dd>Sex(0：女,1：男)</dd>
+							</dl>
 							<ul>
 								<li><input name="Account" value="" placeholder="账号" /></li>
 								<li><input name="Password" value="" placeholder="密码"</li>
@@ -36,6 +42,57 @@
 					<form target="_blank" method="post" action="api.php?model=user&action=query">
 						<fieldset>
 							<legend>用户查询</legend>
+							<dl>
+								<dt>请求地址：</dt><dd>api.php?model=user&action=query</dd>
+								<dt>分页参数：</dt>
+								<dd>
+									<ul>
+										<li>起始页：PageIndex</li>
+										<li>页码大小：PageSize</li>
+										<li>排序字段：PageSort</li>
+										<li>查询字段：<pre>PageItems（
+'Id',
+'Name',
+'NickName',
+'Sex(0:女，1：男)',
+'Img',
+'BodyHeight',
+'BodyWeight',
+'EducationalHistory:[1:"小学",2:"初中",3:"中专",4:"高中",5:"大专",6:"本科",7:"研究生",8:"博士"],
+'Constellation:[1:"白羊座",2:"金牛座",3:"双子座",4:"巨蟹座",5:"狮子座",6:"处女座",7:"天秤座",8:"天蝎座",9:"射手座",10:"魔羯座",11:水瓶座",12:"双鱼座"],
+'CivilState:[1:"未婚",2:"已婚",3:"离异"]',
+'Career',
+'Description',
+'ContactWay',
+'ContactQQ',
+'ContactEmail',
+'ContactMobile',
+'InterestAndFavorites',
+'Birthday',
+'DateTimeModify',
+'DateTimeCreate',
+'CountFollow',
+'CountFollowed',
+'CountView',
+'CountScore',
+'CountPoint',
+'CountMessage'）</pre>
+										</li>
+									</ul>
+								</dd>
+								<dt>过滤参数(可选)</dt>
+								<dd>
+									<ul>
+										<li>性别：Sex</li>
+										<li>学历：EducationalHistory</li>
+										<li>出生年月日：BirthdayMin - BirthdayMax</li>
+										<li>状态：Status（1:启用,0:禁用）</li>
+										<li>是否有主图1:有，0没有</li>
+										<li>身高:BodyHeightMin - BodyHeightMax</li>
+										<li>体重:BodyWeightMin - BodyWeightMax</li>
+									</ul>
+								</dd>
+							</dl>
 							<fieldset>
 								<legend>分页参数</legend>
 								<ul>
@@ -78,20 +135,16 @@
 										<input id="BirthdayMax" name="BirthdayMax" class="Wdate" placeholder="生日" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'BirthdayMin\')}'});" />
 									</li>
 									<li>
-										<label>性别</label>
-										<select name="Sex" class="form-control input-sm" placeholder="性别">
-											<option value="">全部</option>
-											<option value="1">男</option>
-											<option value="0">女</option>
-										</select>
-									</li>
-									<li>
 										<label>状态</label>
 										<select name="Status" class="form-control input-sm" placeholder="状态">
 											<option value="">全部</option>
 											<option value="1">启用</option>
 											<option value="0">禁用</option>
 										</select>
+									</li>
+									<li>
+										<label>是否设置主图</label>
+										<input name="Img" type="checkbox" value="true" />
 									</li>
 									<li>
 										<label>身高</label>
