@@ -1,6 +1,6 @@
 <?php
 	if(!defined('Execute') && !defined('Api')){ exit();}
-	header('Content-Type: application/json;');
+	//header('Content-Type: application/json;');
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
 
 	$account = '';$password = '';$sex = 0;
@@ -27,70 +27,81 @@
 			echo json_encode(array('code' => 200,'status' => true,'session_id' => session_id(),'session_name' => session_name()));
 			exit(1);
 		}
-	}	
+		echo json_encode(array('code' => 200,'status' => false,'message' => '用户名或密码错误'));
+		exit(1);
+	}
 	
-die('xx');
-function IsRegisterSuccess($pdomysql,$name,$password,$sex){
+	
 	$timespan = date('Y-m-d H:i:s',time());
-	$sth = $pdomysql -> prepare('insert into tbAccountInfo(`Name`,`Password`,`NickName`,`Sex`,`CreateDateTime`,`ModifyDateTime`)values(:Name,:Password,:NickName,:Sex,:CreateDateTime,:ModifyDateTime);');
+	$sth = $pdomysql -> prepare('insert into tbAccountInfo(`Account`,`Name`,`Password`,`Salt`,`RoleId`,`SourceId`,`Status`,`DateTimeCreate`,`DateTimeModify`)values(:Account,:Name,:Password,:Salt,:RoleId,:SourceId,:Status,:DateTimeCreate,:DateTimeModify);');
+		
+	$salt = rand(1,0x7FFFFFFF);
+	
 	$sth -> execute(array(
-		'Name' => $name,
-		'Password' => md5($password),
-		'NickName' => $name,
-		'Sex' => empty($sex)?0:1,
-		'CreateDateTime' => $timespan,
-		'ModifyDateTime' => $timespan
+		'Account' => $account,
+		'Name' => $account,
+		'Password' => md5(md5($password).$salt),
+		'Salt' => $salt,
+		'RoleId' => 0,
+		'SourceId' => 0,
+		'Status' => 1,
+		'DateTimeCreate' => $timespan,
+		'DateTimeModify' => $timespan
 	));
 	
 	$errors = $sth -> errorInfo();
 	
 	$error = $errors[1];
 	if($error > 0){
-		return -1;
+		echo json_encode(array('code' => 200,'status' => false,'message' => '用户名或密码错误'));
+		die(1);
 	}
-	return CurrentUserId($pdomysql -> lastInsertId());
-}
-
-$result = array();
-
-
-switch(IsLoginSuccess($pdomysql,$name,$password)){
-	case 0:
-		$result['status'] = false;
-		$result['message'] = '密码错误';
-		echo json_encode($result);
-		exit(1);
-		break;
-	case -1:
-		break;
-	default:
-		$result['status'] = true;
-		$result['session_name'] = session_name();
-		$result['session_id'] = session_id();
-		echo json_encode($result);
-		exit(1);
-		break;
-}
-
-
-
-switch(IsRegisterSuccess($pdomysql,$name,$password ,$sex)){
-	case -1:
-		$result['status'] = false;
-		$result['message'] = '该用户名已被注册';
-		echo(json_encode($result));
-		exit(1);
-		break;
-	default:
-		$result['status'] = true;
-		$result['session_name'] = session_name();
-		$result['session_id'] = session_id();
-		echo json_encode($result);
-		exit(1);
-		break;
-}
-
-$result['status'] = false; 
-$result['message'] = '未知错误';
-
-echo(json_encode($result));
+	
+	$id = $pdomysql -> lastInsertId();
+	
+	CurrentUserId($id);
+	
+	$sthUser = $pdomysql -> prepare('insert into tbUserInfo(Id,Name,NickName,Sex,Img,BodyHeight,BodyWeight,EducationalHistory,Constellation,CivilState,Career,Description,ContactWay,ContactQQ,ContactEmail,ContactMobile,InterestAndFavorites,DateTimeModify,Birthday)values(:Id,:Name,:NickName,:Sex,:Img,:BodyHeight,:BodyWeight,:EducationalHistory,:Constellation,:CivilState,:Career,:Description,:ContactWay,:ContactQQ,:ContactEmail,:ContactMobile,:InterestAndFavorites,:DateTimeModify,:Birthday)');
+	$sthUser -> execute(array(
+		'Id' => $id,
+		'Name' => $account,
+		'NickName' => $account,
+		'Sex' => empty($Sex)?0:1,
+		'Img' => null,
+		'BodyHeight' => 0,
+		'BodyWeight' => 0,
+		'EducationalHistory' => 0,
+		'Constellation' => 0,
+		'CivilState' => 1,
+		'Career' => null,
+		'Description' => null,
+		'ContactWay' => null,
+		'ContactQQ' => null,
+		'ContactEmail' => null,
+		'ContactMobile' => null,
+		'InterestAndFavorites' => null,
+		'DateTimeModify' => $timespan,
+		'Birthday' => null
+	));
+	
+	$sthUserStatisticsInfo = $pdomysql -> prepare('insert into tbUserStatisticsInfo(Id,CountFollow,CountFollowed,CountView,CountScore,CountPoint,CountMessage)values(:Id,:CountFollow,:CountFollowed,:CountView,:CountScore,:CountPoint,:CountMessage)');
+	
+	$sthUserStatisticsInfo -> execute(array(
+		'Id' => $id,
+		'CountFollow' => 0,
+		'CountFollowed' => 0,
+		'CountView' => 0,
+		'CountScore' => 0,
+		'CountPoint' => 0,
+		'CountMessage' => 0
+	));
+	
+	$sthUserConfiguration = $pdomysql -> prepare('insert into tbUserConfiguration(Id,ConfigurationProtected,ConfigurationVewCost)values(:Id,:ConfigurationProtected,:ConfigurationVewCost)');
+	$sthUserConfiguration -> execute(array(
+		'Id' => $id,
+		'ConfigurationProtected' => 0,
+		'ConfigurationVewCost' => 0
+	));
+	
+	echo json_encode(array('code' => 200,'status' => true,'session_id' => session_id(),'session_name' => session_name()));
+	
