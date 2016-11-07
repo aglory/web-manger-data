@@ -96,6 +96,32 @@ $(function(){
 	doQuery();
 });
 
-function changeCountScore(sender){
+function changeUserCountScore(sender){
+	userCountScoreRender(sender,{Mark:'系统'});
+}
+
+function userCountScoreRender(sender,model){
+	var html = $(template('userscoreeditor',model)).appendTo('body');
+	var modal = html.modal();
+	modal.find(".modal-dialog").draggable({handle:".modal-header"});
+	modal.find(".btn-save").click(function(){
+		userCountScoreSave(this,modal);
+	});
+	return modal;
+}
+
+function userCountScoreSave(sender,modal){
+	var data = new FormData(modal.find("form")[0]);
+	if($("#chkAll:checked").length>0){
+		if($("#recordList :checked").length==0)
+			return;
+		$("#recordList :checked").each(function(i,o){
+			data.append(o);
+		});
+		$(sender).prop('disabled',true);
+		$.ajax({
+			
+		});
+	}
 	
 }

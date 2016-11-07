@@ -62,7 +62,7 @@
 											<input id="chkAll" type="checkbox" /></label>
 										</div>
 										<div class="btn-group">
-											<button class="btn btn-sm btn-info" type="button" onclick="changeCountScore(this)">变化积分</button>
+											<button class="btn btn-sm btn-info" type="button" onclick="changeUserCountScore(this)">变化积分</button>
 											<button class="btn btn-sm btn-info" type="button" onclick="sendMessage(this)">发消息</button>
 										</div>
 									</div>
