@@ -61,12 +61,12 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="panel-title clearfix">
-									<div class="col-sm-1 t_l">
+									<div class="col-sm-1">
 										<div class="form-group">
 											<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,0)">添加</button>
 										</div>
 									</div>
-									<div class="col-sm-11 t_r">
+									<div class="col-sm-11">
 										<div class="form-group">
 											<input name="Name" type="text" class="form-control input-sm wd120" placeholder="名字" />
 										</div>

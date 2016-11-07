@@ -27,13 +27,28 @@
 		<!--[if IE 7]>
 		<link rel="stylesheet" href="Font-Awesome/css/font-awesome-ie7.min.css">
 		<![endif]-->
+		
+		<script src="My97DatePicker/WdatePicker.js"></script>
+		<script src="My97DatePicker/lang/zh-cn.js"></script>
+		
+		<link rel="stylesheet" href="common/common.css" />
+		<script src="common/common.js"></script>
+		<script src="common/pager.js"></script>
+		
+		<script src="common/template.js"></script>
+		<script src="common/config.js"></script>
+		
+		<link rel="stylesheet" href="resource/home/index.css" />
+		<script type="text/javascript" src="resource/home/index.js"></script>
 	</head>
 	<body>
 		<?php
 			Render('header');
 		?>
-		
-							<form id="mainForm" class="form-inline" action="<?php ActionLink('user','usermanagerpartial')?>">
+		<div class="container">
+			<div id="main">
+				<div class="col-md-12">
+					<form id="mainForm" method="post" class="form-inline" action="<?php ActionLink('user','usermanagerpartial')?>">
 						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
 						<input id="PageSize" name="PageSize" type="hidden" value="20" />
 						<input id="PageSort" name="PageSort" type="hidden" value="" />
@@ -41,12 +56,17 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="panel-title clearfix">
-									<div class="col-sm-1 t_l">
-										<div class="form-group">
-											<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,0)">添加</button>
+									<div class="col-sm-12 t_l">
+										<div class="input-group">
+											<label>全部
+											<input id="chkAll" type="checkbox" /></label>
+										</div>
+										<div class="btn-group">
+											<button class="btn btn-sm btn-info" type="button" onclick="changeCountScore(this)">变化积分</button>
+											<button class="btn btn-sm btn-info" type="button" onclick="sendMessage(this)">发消息</button>
 										</div>
 									</div>
-									<div class="col-sm-11 t_r">
+									<div class="col-sm-12 t_r">
 										<div class="form-group">
 											<input name="Name" type="text" class="form-control input-sm wd120" placeholder="名字" />
 										</div>
@@ -86,16 +106,16 @@
 								<table class="table table-striped table-bordered">
 									<thead>
 										<tr>
+											<th class="t_c wd40">&nbsp;</th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Name"> 名称</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.NickName"> 昵称</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountScore"> 积分</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountFollowed"> 关注者</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Birthday">生日</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Sex"> 性别</a></th>
-											<th class="t_c">头像</th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.DateTimeModify"> 时间（创建/登录）</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbAccountInfo.RoleId"> 角色</a></th>
-											<th class="t_c">操作</th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountScore"> 积分</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountFollow"> 关注者</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountFollowed"> 追随者</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Sex"> 性别</a></th>
+											<th class="t_c wd80">头像</th>
+											<th class="t_c wd120"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.DateTimeModify"> 登录时间</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbAccountInfo.Status"> 状态</a></th>
 										</tr>
 									</thead>
 									<tbody id="recordList">
@@ -109,9 +129,9 @@
 							</div>
 						</div>
 					</form>
-
-		
-		
+				</div>
+			</div>
+		</div>
 		<?php
 			Render('footer');
 		?>

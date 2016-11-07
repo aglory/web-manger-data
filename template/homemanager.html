@@ -1,0 +1,26 @@
+{{if (status && recordList.length > 0)}}
+	{{each recordList}}
+	<tr>
+		<td class="t_c">
+			<input name="User_Id[]" type="checkbox" value="{{$value.User_Id}}" />
+		</td>
+		<td class="t_r"><span>{{$value.Name}}</span></td>
+		<td class="t_r"><span>{{$value.NickName}}</span></td>
+		<td class="t_r">{{$value.CountScore}}</td>
+		<td class="t_r">{{$value.CountFollow}}</td>
+		<td class="t_r">{{$value.CountFollowed}}</td>
+		<td class="t_c">
+			{{if $value.Sex}}<span class="red">♂</span>{{else}}<span class="blue">♀</span>{{/if}}
+		</td>
+		<td class="t_c"><a href="?model=userimage&action=userimagemanager&User_Id={{$value.Id}}">{{if ($value.Img==null)}}-{{else}}<img class="img-thumbnail" src="{{$value.Img}}" />{{/if}}</a></td>
+		<td class="t_c">{{if ($value.DateTimeModify == null) }} / {{else}} {{$value.DateTimeModify.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}} {{/if}}</td>
+		<td class="t_c">
+			{{if ($value.Status)}}<span class="green">启用</span>{{else}}<span class="red">禁用</span>{{/if}}
+		</td>
+	</tr>                                               
+	{{/each}}
+{{else}}
+	<tr class="odd_color">
+		<td class="align_l p10_l bgr_eb" colspan="6">暂无数据</td>
+	</tr>
+{{/if}}
