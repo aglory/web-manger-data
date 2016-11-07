@@ -1,6 +1,6 @@
 <?php
 	if(!defined('Execute') && !defined('Api')){ exit();}
-	//header('Content-Type: application/json;');
+	header('Content-Type: application/json;');
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
 
 	$account = '';$password = '';$sex = 0;
