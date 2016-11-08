@@ -6,25 +6,37 @@
 				<h4 class="modal-title">编辑</h4>
 			</div>
 			<div class="modal-body">
-				<form method="post" class="editorForm form-horizontal" enctype="multipart/form-data" action="?model=userimage&action=userimagesave">
-					<input id="User_Id" name="User_Id" value="{{model.User_Id}}" type="hidden" />
-					<div class="row">
-						<div class="input-group ">
-							<span class="input-group-addon">內型</span>
-							<select class="form-control" name="Type">
-								<option value="0" selected="selected">系统</option>
-							</select>
-						</div>
-					</div>
-					<div class="row">
-						<div class="input-group">
-							<span class="input-group-addon">积分</span>
-							<input name="Number" type="number" class="form-control" value="{{model.Number}}">
-						</div>
-					</div>
-					<div class="row">
-						<textarea id="Mark" name="Mark" class="form-control" placeholder="备注">{{model.Mark}}</textarea>
-					</div>
+				<form method="post" class="editorForm form-vertical" enctype="multipart/form-data" action="?model=userimage&action=userimagesave">
+					<fieldset>
+						<input id="User_Id" name="User_Id" value="{{model.User_Id}}" type="hidden" />
+						<table class="table table-none">
+							<tr>
+								<td>
+									<div class="input-group ">
+										<span class="input-group-addon">內型</span>
+										<select class="form-control" name="Type">
+											{{each Enums.ScoreType as item}}
+											<option value="{{item.Key}}" {{if (model.Type == item.Key)}}selected="selected"{{/if}}>{{item.Value}}</option>
+											{{/each}}
+										</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">积分</span>
+										<input name="Number" type="number" class="form-control" value="{{model.Number}}">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<textarea id="Mark" name="Mark" class="form-control" placeholder="备注">{{model.Mark}}</textarea>
+								</td>
+							</tr>
+						</table>
+					</fieldset>
 				</form>
 			</div>
 			<div class="modal-footer">

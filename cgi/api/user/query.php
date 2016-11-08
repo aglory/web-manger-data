@@ -48,7 +48,7 @@
 	if(array_key_exists('PageSort',$_POST) && !empty($_POST['PageSort'])){
 		foreach(explode(',',$_POST['PageSort']) as $item){
 			$itemgroup = explode(' ',$item);
-			if(count($item)>1){
+			if(count($itemgroup)>1){
 				$column_orderby = $itemgroup[0];
 				$column_orderbytype = $itemgroup[1];
 			}else if(count($item)>0){

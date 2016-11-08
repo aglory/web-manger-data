@@ -25,7 +25,11 @@ function EnumConfig(model){
 		CivilState:[
 			{Key:1,Value:"未婚"},
 			{Key:2,Value:"已婚"},
-			{Key:3,Value:"离异"}]
+			{Key:3,Value:"离异"}],
+		ScoreType:[
+			{Key:0,Value:"系统"},
+			{Key:1,Value:"活动"}
+		]
 	}
 	if(model){
 		model.Enums = enums;

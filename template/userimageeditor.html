@@ -9,23 +9,33 @@
 				<form method="post" class="editorForm form-horizontal" enctype="multipart/form-data" action="?model=userimage&action=userimagesave">
 					<input id="Id" name="Id" value="{{model.Id}}" type="hidden" />
 					<input id="User_Id" name="User_Id" value="{{model.User_Id}}" type="hidden" />
-					{{if (!model.Id)}}
-					<div class="row">
-						<div class="input-group ">
-							<span class="input-group-addon">本地上传</span>
-							<input id="imgs[]" name="imgs[]" type="file" multiple="multiple" class="form-control">
-						</div>
-					</div>
-					<div class="row">
-						<div class="input-group">
-							<span class="input-group-addon">网络路径</span>
-							<input id="Src" name="Src" type="text" class="form-control">
-						</div>
-					</div>
-					{{/if}}
-					<div class="row">
-						<textarea id="Description" name="Description" class="form-control" placeholder="介绍说明">{{model.Description}}</textarea>
-					</div>
+					<fieldset>
+						<table class="table table-none">
+							{{if (!model.Id)}}
+							<tr>
+								<td>
+									<div class="input-group ">
+										<span class="input-group-addon">本地上传</span>
+										<input id="imgs[]" name="imgs[]" type="file" multiple="multiple" class="form-control">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">网络路径</span>
+										<input id="Src" name="Src" type="text" class="form-control">
+									</div>
+								</td>
+							</tr>
+							{{/if}}
+							<tr>
+								<td>
+									<textarea id="Description" name="Description" class="form-control" placeholder="介绍说明">{{model.Description}}</textarea>
+								</td>
+							</tr>
+						</table>
+					</fieldset>
 				</form>
 			</div>
 			<div class="modal-footer">

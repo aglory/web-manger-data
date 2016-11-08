@@ -35,15 +35,15 @@ function doQuery(opts){
 				UI_Tips('danger',rest.message);
 				return;
 			}
-			$("#recordList").html(template('homemanager',rest));
+			console.info(EnumConfig(rest));
+			$("#recordList").html(template('useruserscoremanager',EnumConfig(rest)));
 			$("#recordStatic>tr:first>td:last").pager({pageIndex:pageIndex,pageSize:pageSize,recordCount:rest.recordCount,pageIndexChanged:doQuery});
 		},error:function(){
 			if(sender){
 				$(sender).prop('disabled',false);
 			}
 			$("#recordList").html();
-			$("#recordStatic>tr:first>td:last").pager({pageIndex:pageIndex,pageSize:pageSize,recordCount:rest.recordCount,pageIndexChanged:doQuery});
-			
+			$("#recordStatic>tr:first>td:last").html();
 		}
 	});
 }
@@ -96,56 +96,41 @@ $(function(){
 	doQuery();
 });
 
-function changeUserCountScore(sender){
-	userCountScoreRender(sender,{model:{User_Id:0}});
-}
-
-function userCountScoreRender(sender,model){
-	var html = $(template('userscoreeditor',EnumConfig(model))).appendTo('body');
+function userScoreEditor(sender,id){
+	var html = $(template('userscoreeditor',EnumConfig({model:{User_Id:id}}))).appendTo('body');
 	var modal = html.modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-save").click(function(){
-		userCountScoreSave(this,modal);
+		userScoreSave(this,modal);
 	});
 	return modal;
 }
 
-function userCountScoreSave(sender,modal){
-	var data = new FormData(modal.find("form")[0]);
-	if($("#chkAll:checked").length==0){
-		if($("#recordList :checked").length==0)
-			return;
-		$("#recordList :checked").each(function(i,o){
-			console.info(o.name);
-			data.append(o.name,o.value);
-		});
-		if(sender){
-			$(sender).prop('disabed',true);
-		}
-		$.ajax({
-			url:'?model=home&action=userscoresave',
-			type:'post',
-			dataType:'json',
-			contentType: false,
-			processData: false,
-			data:data,
-			success:function(rest){
-				if(sender){
-					$(sender).prop('disabed',false);
-				}			
-				if(!rest)return;
-				if(!rest.status){
-					UI_Tips('danger',rest.message);
-					return;
-				}
-				modal.modal('hide');
-				doQuery();
-			},error:function(){
-				if(sender){
-					$(sender).prop('disabed',false);
-				}
-			}
-		});
+function userScoreSave(sender,modal){
+	if(sender){
+		$(sender).prop('disabed',true);
 	}
+	var form = modal.find(".editorForm");
+	$.ajax({
+		url:'?model=userscore&action=userscoresave',
+		type:'post',
+		dataType:'json',
+		data:form.serialize(),
+		success:function(rest){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}			
+			if(!rest)return;
+			if(!rest.status){
+				UI_Tips('danger',rest.message);
+				return;
+			}
+			modal.modal('hide');
+			doQuery();
+		},error:function(){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+		}
+	});
 }
-

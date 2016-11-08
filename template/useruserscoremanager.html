@@ -1,0 +1,17 @@
+{{if (status && recordList.length > 0)}}
+	{{each recordList}}
+	<tr>
+		<td>{{$value.Id}}</td>
+		<td>{{$value.Name}}</td>
+		<td>{{$value.NickName}}</td>
+		<td>{{renderEnums($value.Type,Enums.ScoreType)}}</td>
+		<td class="t_r">{{$value.Number}}</td>
+		<td class="t_r">{{$value.Mark}}</td>
+		<td class="t_c">{{if ($value.DateTimeCreate)}}{{$value.DateTimeCreate}}{{else}}-{{/if}}</td>
+	</tr>                                               
+	{{/each}}
+{{else}}
+	<tr class="odd_color">
+		<td class="align_l p10_l bgr_eb" colspan="6">暂无数据</td>
+	</tr>
+{{/if}}

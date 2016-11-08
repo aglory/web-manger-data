@@ -2,11 +2,11 @@
 	{{each recordList}}
 	<tr>
 		<td class="t_c">
-			<input name="User_Id[]" type="checkbox" value="{{$value.User_Id}}" />
+			<input name="User_Id[]" type="checkbox" value="{{$value.Id}}" />
 		</td>
 		<td class="t_r"><span>{{$value.Name}}</span></td>
 		<td class="t_r"><span>{{$value.NickName}}</span></td>
-		<td class="t_r">{{$value.CountScore}}</td>
+		<td class="t_r"><a href="?model=userscore&action=userscoremanager&User_Id={{$value.Id}}">{{$value.CountScore}}</a></td>
 		<td class="t_r">{{$value.CountFollow}}</td>
 		<td class="t_r">{{$value.CountFollowed}}</td>
 		<td class="t_c">
