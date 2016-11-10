@@ -67,35 +67,34 @@
 									<div class="col-sm-2 t_l">
 										<div class="form-group btn-group">
 											<?php if(array_key_exists('User_Id',$_GET) && is_numeric($_GET['User_Id'])){ ?>
-											<button class="btn btn-sm btn-info" type="button" onclick="userScoreEditor(this,<php? echo $_GET['User_Id'] ?>)">修改积分</button>
+											<button class="btn btn-sm btn-info" type="button" onclick="userScoreEditor(this,<?php echo $_GET['User_Id'] ?>)">修改积分</button>
 											<?php } ?>
 										</div>
 									</div>
-									<div class="col-sm-10 t_r">
+									<div class="col-sm-12 t_r">
+										<?php if(!array_key_exists('User_Id',$_GET) || !is_numeric($_GET['User_Id'])){ ?>
 										<div class="form-group">
 											<input name="User_Name" type="text" class="form-control input-sm wd120" placeholder="用户" />
 										</div>
 										<div class="form-group">
-											<input name="Type" type="text" class="form-control input-sm wd120" placeholder="內型" />
+											<input name="User_NickName" type="text" class="form-control input-sm wd120" placeholder="昵称" />
 										</div>
+										<?php } ?>
 										<div class="form-group">
-											<select name="Flag" class="form-control input-sm" placeholder="标记">
+											<select name="Type" class="form-control input-sm">
 												<option value="">全部</option>
 												<option value="0">系统</option>
-												<option value="1">用户</option>
+												<option value="1">活动</option>
 											</select>
 										</div>
 										<div class="form-group">
-											<input id="DateTimeCreateStart" name="DateTimeCreateStart" class="form-control input-sm date Wdate wd100" placeholder="发件开始日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'DateTimeCreateEnd\')}'});" />
-											<input id="DateTimeCreateEnd" name="DateTimeCreateEnd" class="form-control input-sm date Wdate wd100" placeholder="发件结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeCreateStart\')}'});" />
+											<input id="DateTimeCreateMin" name="DateTimeCreateMin" class="form-control input-sm date Wdate wd140" placeholder="发件开始日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'DateTimeCreateMax\')}'});" />
+											<input id="DateTimeCreateMax" name="DateTimeCreateMax" class="form-control input-sm date Wdate wd140" placeholder="发件结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'DateTimeCreateMin\')}'});" />
 										</div>
 										<div class="form-group">
-											<select name="Status" class="form-control input-sm" placeholder="状态">
-												<option value="">全部</option>
-												<option value="0">未读</option>
-												<option value="1">已读</option>
-												<option value="2">删除</option>
-											</select>
+											<input name="NumberMin" type="number" class="form-control input-sm wd100" placeholder="数量最小值" />
+											<input name="NumberMax" type="number" class="form-control input-sm wd100" placeholder="数量最大值" />
+											
 										</div>
 										<div class="form-group">
 											<button type="submit" class="btn btn-info btn-sm btn-query">查询</button>
@@ -111,7 +110,7 @@
 											<th class="t_r"><a class="btn btn-sort icon-sort " sort-expression="Id"> 编号</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Name"> 用户</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="NickName"> 昵称</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Type"> 內型</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Type"> 类型</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Number"> 数量</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Mark"> 备注</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeCreate"> 时间</a></th>

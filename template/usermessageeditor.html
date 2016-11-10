@@ -9,18 +9,41 @@
 				<form class="editorForm" action="?model=usermessage&action=usermessagesave">
 					<input name="Id" value="{{if (model)}}{{model.Id}}{{else}}0{{/if}}" type="hidden" />
 					<fieldset>
-						<div class="input-group">
-							<span class="input-group-addon">收件人：</span>
-							<input name="User_Name" type="text" placeholder="收件人：" class="form-control input-sm" value="{{if (model.User_Name)}}{{model.User_Name}}{{/if}}">
-							<input name="User_Id" type="hidden" value="{{if (model.User_Id)}}model.User_Id{{/if}}">
-						</div>
-						<div class="input-group">
-							<span>系统</span><input name="Flag" type="radio" value="0" />
-							<span>用户</span><input name="Flag" type="radio" value="1" />
-						</div>
-						<div class="input-group" style="width:100%">
-							<textarea name="Message" style="width:100%" class="form-control input-sm">{{if (model.Message)}}{{model.Message}}{{/if}}</textarea>
-						</div>
+						<table class="table table-none">
+							<tr>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">收件人：</span>
+										<input name="User_Name" type="text" placeholder="收件人：" class="form-control input-sm" value="{{if (model.User_Name)}}{{model.User_Name}}{{/if}}">
+										<input name="User_Id" type="hidden" value="{{if (model.User_Id)}}{{model.User_Id}}{{/if}}">
+									</div>									
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">发件人：</span>
+										<input name="Sender_Name" type="text" placeholder="发件人：" class="form-control input-sm" value="{{if (model.Sender_Name)}}{{model.Sender_Name}}{{/if}}">
+										<input name="Sender_Id" type="hidden" value="{{if (model.Sender_Id)}}model.Sender_Id{{/if}}">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="input-group">
+										<label>系统<input name="Flag" type="radio" value="0" /></label>
+										<label>用户<input name="Flag" type="radio" value="1" /></label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="input-group" style="width:100%">
+										<textarea name="Message" style="width:100%" class="form-control input-sm">{{if (model.Message)}}{{model.Message}}{{/if}}</textarea>
+									</div>
+								</td>
+							</tr>
+						</table>
 					</fieldset>
 				</form>
 			</div>

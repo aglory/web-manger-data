@@ -9,7 +9,7 @@
 	$PageSort = 'Id desc';
 	$PageIndex = 1;
 	$PageSize = 20;
-	$PageItems = array('Id','User_Id','Sender_Id','Flag','Message','DateTimeCreate','DateTimeModify','Status');
+	$PageItems = array('Id','User_Id','Sender_Id','Flag','Message','DateTimeCreate','DateTimeModify','Status_User','Status_Sender');
 
 	
 	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){
@@ -54,6 +54,9 @@
 	$whereSql = array('1=1');
 	$whereParams = array();
 
+	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
+		$whereSql[] = 'tbUserMessageInfo.User_Id = '.$_POST['User_Id'];
+	}
 	if(array_key_exists('User_Name',$_POST) && !empty($_POST['User_Name'])){
 		$whereSql[] = 'UserInfo.Name like :User_Name';
 		$whereParams['User_Name'] = '%'.$_POST['User_Name'].'%';
@@ -70,8 +73,8 @@
 		$whereSql[] = 'tbUserMessageInfo.DateTimeCreate <= date_add(:DateTimeCreateEnd,INTERVAL 1 DAY)';
 		$whereParams['DateTimeCreateEnd'] = $_POST['DateTimeCreateEnd'];
 	}
-	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
-		$whereSql[] = 'tbUserMessageInfo.Status = '.$_POST['Status'];
+	if(array_key_exists('Status_User',$_POST) && is_numeric($_POST['Status_User'])){
+		$whereSql[] = 'tbUserMessageInfo.Status_User = '.$_POST['Status_User'];
 	}
 	
 	

@@ -64,6 +64,15 @@
 	$whereSql = array('1=1');
 	$whereParams = array();
 
+	if(array_key_exists('Ids',$_POST) && is_array($_POST['Ids'])){
+		$ids = array();
+		foreach($_POST['Ids'] as  $item){
+			$ids[] = intval($item);
+		}
+		if(!empty($ids)){
+			$whereSql[] = 'tbUserInfo.Id in('.implode(',',$ids).')';
+		}
+	}
 	if(array_key_exists('Name',$_POST) && !empty($_POST['Name'])){
 		$whereSql[] = 'tbUserInfo.Name like :Name';
 		$whereParams['Name'] = '%'.$_POST['Name'].'%';

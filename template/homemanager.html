@@ -6,9 +6,11 @@
 		</td>
 		<td class="t_r"><span>{{$value.Name}}</span></td>
 		<td class="t_r"><span>{{$value.NickName}}</span></td>
-		<td class="t_r"><a href="?model=userscore&action=userscoremanager&User_Id={{$value.Id}}">{{$value.CountScore}}</a></td>
+		<td class="t_r">
+			<a href="?model=userscore&action=userscoremanager&User_Id={{$value.Id}}">{{$value.CountScore}}</a></td>
 		<td class="t_r">{{$value.CountFollow}}</td>
 		<td class="t_r">{{$value.CountFollowed}}</td>
+		<td class="t_r"><a href="?model=usermessage&action=usermessagemanager&User_Id={{$value.Id}}">{{$value.CountMessage}}</a></td>
 		<td class="t_c">
 			{{if $value.Sex}}<span class="red">♂</span>{{else}}<span class="blue">♀</span>{{/if}}
 		</td>

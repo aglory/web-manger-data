@@ -15,7 +15,7 @@
 	}
 	
 	if(empty($account) || empty($password)){
-		echo json_encode(array('code' => 200,'status' => false,'message' => '缺少登录账号/密码'));
+		echo json_encode(array('code' => 540,'status' => false,'message' => '缺少登录账号/密码'));
 		exit(1);
 	}
 	
@@ -53,7 +53,7 @@
 	
 	$error = $errors[1];
 	if($error > 0){
-		echo json_encode(array('code' => 200,'status' => false,'message' => '用户名或密码错误'));
+		echo json_encode(array('code' => 550,'status' => false,'message' => '用户名或密码错误'));
 		die(1);
 	}
 	

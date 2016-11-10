@@ -112,6 +112,7 @@
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountScore"> 积分</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountFollow"> 关注者</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountFollowed"> 追随者</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountMessage"> 新消息</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Sex"> 性别</a></th>
 											<th class="t_c wd80">头像</th>
 											<th class="t_c wd120"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.DateTimeModify"> 登录时间</a></th>

@@ -45,24 +45,34 @@
 	}
 	
 	$timespan = date('Y-m-d H:i:s',time());
+	
+	$errors = array();
 		
-	$sthUserInfo = $pdomysql -> prepare('insert into tbUserMessageInfo(User_Id,Sender_Id,Flag,Message,DateTimeCreate,DateTimeModify,Status)values(:User_Id,:Sender_Id,:Flag,:Message,:DateTimeCreate,:DateTimeModify,:Status);');
-	$sthUserInfo -> execute(array(
+	$sthUserMessage = $pdomysql -> prepare('insert into tbUserMessageInfo(User_Id,Sender_Id,Flag,Message,DateTimeCreate,DateTimeModify,Status_User,Status_Sender)values(:User_Id,:Sender_Id,:Flag,:Message,:DateTimeCreate,:DateTimeModify,:Status_User,:Status_Sender);');
+	$sthUserMessage -> execute(array(
 		'User_Id' => $User_Id,
 		'Sender_Id' => $Sender_Id,
 		'Flag' => $Flag,
 		'Message' => $Message,
 		'DateTimeCreate' => $timespan,
 		'DateTimeModify' => $timespan,
-		'Status' => 1
+		'Status_User' => 0,
+		'Status_Sender' => 0
+	));	
+	$error = $sthUserMessage -> errorInfo();
+	
+	if($error[1] > 0){
+		$errors[] = $error[2];
+	}
+	
+	$sthUserStatistics = $pdomysql -> prepare('update tbUserStatisticsInfo set CountMessage = CountMessage + 1 where Id = :User_Id');
+	$sthUserStatistics -> execute(array(
+		'User_Id' => $User_Id
 	));
-
-	$errorUserInfo = $sthUserInfo -> errorInfo();
+	$error = $sthUserStatistics -> errorInfo();
 	
-	$errors = array();
-	
-	if($errorUserInfo[1] > 0){
-		$errors[] = $errorUserInfo[2];
+	if($error[1] > 0){
+		$errors[] = $error[2];
 	}
 	
 	if(!empty($errors)){

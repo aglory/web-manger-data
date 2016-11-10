@@ -11,12 +11,13 @@
 		
 		<script src="My97DatePicker/WdatePicker.js"></script>
 		<script src="My97DatePicker/lang/zh-cn.js"></script>
+		<base  target="_blank" />
 	</head>
 	<body>
 		<div class="container">
 			<div id="main">
 				<div class="col-md-12">
-					<form target="_blank" method="post" action="api.php?model=userimage&action=query">
+					<form method="post" action="api.php?model=userimage&action=query">
 						<fieldset>
 							<legend>相册查询</legend>
 							<dl>
@@ -27,28 +28,26 @@
 										<li>起始页：PageIndex</li>
 										<li>页码大小：PageSize</li>
 										<li>排序字段：PageSort</li>
-										<li>查询字段：<pre>PageItems（
-'Id',
-'User_Id',
-'OrderNumber',
-'Src',
-'IsDefault',
-'Status',
-'Description',
-'DateTimeCreate',
-'DateTimeModify'）</pre>
+										<li>查询字段：PageItems
+											<ol>
+												<li>Id</li>
+												<li>User_Id</li>
+												<li>OrderNumber</li>
+												<li>Src</li>
+												<li>IsDefault</li>
+												<li>Status</li>
+												<li>Description</li>
+												<li>DateTimeCreate</li>
+												<li>DateTimeModify</li>
+											</ol>
 										</li>
 									</ul>
 								</dd>
 								<dt>过滤参数(可选)</dt>
-								<dd>
-									<ul>
-										<li>用户编号：User_Id</li>
-										<li>是否为主图：IsDefault</li>
-										<li>状态：Status（1:启用,0:禁用）</li>
-										<li>修改时间:DateTimeModifyMin - DateTimeModifyMax</li>
-									</ul>
-								</dd>
+								<dd>用户编号：User_Id</dd>
+								<dd>是否为主图：IsDefault</dd>
+								<dd>状态：Status（1:启用,0:禁用）</dd>
+								<dd>修改时间:DateTimeModifyMin - DateTimeModifyMax</dd>
 							</dl>
 							<fieldset>
 								<legend>分页参数</legend>
@@ -80,7 +79,7 @@
 										<label>状态</label>
 										<select name="Status" class="form-control input-sm" placeholder="状态">
 											<option value="">全部</option>
-											<option value="">启用</option>
+											<option value="1">启用</option>
 											<option value="0">禁用</option>
 										</select>
 									</li>

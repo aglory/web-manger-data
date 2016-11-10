@@ -8,7 +8,7 @@
 	$PageItems = array();
 	
 	$PageColumns = array(
-		'tbUserImageInfo' => array('Id','User_Id','OrderNumber','Src','IsDefault','Status','Description','DateTimeCreate','DateTimeModify')
+		'tbUserScoreLog' => array('Id','User_Id','Type','Number','Mark','DateTimeCreate')
 	);
 	
 	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){
@@ -64,32 +64,42 @@
 	
 	
 	$whereSql = array('1=1');
-	$whereParams = array();
+	$whereParams = array();	
+	
+	header('Content-Type: application/json;');
 
 	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
-		$whereSql[] = 'tbUserImageInfo.User_Id ='.$_POST['User_Id'];
-	}
-	if(array_key_exists('IsDefault',$_POST) && is_numeric($_POST['IsDefault'])){
-		$whereSql[] = 'tbUserImageInfo.IsDefault = '.$_POST['IsDefault'];
+		$whereSql[] = 'tbUserScoreLog.User_Id ='.$_POST['User_Id'];
+	}else{
+		echo json_encode(array('code' => 540,'status' => true,'recordList' => null,'recordCount' => 0));
+		exit(1);
 	}
 	
-	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
-		$whereSql[] = 'tbUserImageInfo.Status = '.$_POST['Status'];
+	if(array_key_exists('Type',$_POST) && is_numeric($_POST['Type'])){
+		$whereSql[] = 'tbUserScoreLog.Type = '.$_POST['Type'];
 	}
-	if(array_key_exists('DateTimeModifyMin',$_POST) && !empty($_POST['DateTimeModifyMin'])){
-		$whereSql[] = 'tbUserImageInfo.DateTimeModify >= :DateTimeModifyMin';
-		$whereParams['DateTimeModifyMin'] = $_POST['DateTimeModifyMin'];
+	
+	if(array_key_exists('NumberMin',$_POST) && is_numeric($_POST['NumberMin'])){
+		$whereSql[] = 'tbUserScoreLog.Number >= '.$_POST['NumberMin'];
 	}
-	if(array_key_exists('DateTimeModifyMax',$_POST) && !empty($_POST['DateTimeModifyMax'])){
-		$whereSql[] = 'tbUserImageInfo.DateTimeModify < date_add(:DateTimeModifyMax,INTERVAL 1 DAY)';
-		$whereParams['DateTimeModifyMax'] = $_POST['DateTimeModifyMax'];
+	if(array_key_exists('NumberMax',$_POST) && is_numeric($_POST['NumberMax'])){
+		$whereSql[] = 'tbUserScoreLog.Number <= '.$_POST['NumberMax'];
+	}
+	if(array_key_exists('DateTimeCreateMin',$_POST) && !empty($_POST['DateTimeCreateMin'])){
+		$whereSql[] = 'tbUserScoreLog.DateTimeCreate >= :DateTimeCreateMin';
+		$whereParams['DateTimeCreateMin'] = $_POST['DateTimeCreateMin'];
+	}
+	if(array_key_exists('DateTimeCreateMax',$_POST) && !empty($_POST['DateTimeCreateMax'])){
+		$whereSql[] = 'tbUserScoreLog.DateTimeCreate < date_add(:DateTimeCreateMax,INTERVAL 1 DAY)';
+		$whereParams['DateTimeCreateMax'] = $_POST['DateTimeCreateMax'];
 	}
 	
 	$sthList = null;
 	$sthCount = null;
 	
-	$tbFrom = 'tbUserImageInfo';
-
+	$tbFrom = 'tbUserScoreLog';
+	
+	
 	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(' ',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
 	$sthCount = $pdomysql -> prepare('select count(1) from '.$tbFrom.' where '.implode(' and ',$whereSql));
 
@@ -115,17 +125,14 @@
 	
 
 	if(empty($errors)){
-		$result['status'] = true;
 		$result['code'] = 200;
+		$result['status'] = true;
 		$result['recordList'] = $sthList -> fetchAll(PDO::FETCH_ASSOC);
 		$result['recordCount'] = $sthCount -> fetch(PDO::FETCH_NUM)[0]; 
 	}else{
 		$result['code'] = 550;
 		$result['status'] = false;
-		$result['recordCount'] = 0; 
 		$result['message'] = implode('\r\n',$errors);
 	}
-	
-	header('Content-Type: application/json;');
 	echo json_encode($result);
 	exit();

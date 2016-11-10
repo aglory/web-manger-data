@@ -3,7 +3,7 @@
 	<tr>
 		<td>{{$value.Name}}</td>
 		<td>{{$value.NickName}}</td>
-		<td class="t_r">{{$value.CountScore}}</td>
+		<td class="t_r"><a href="?model=userscore&action=userscoremanager&User_Id={{$value.Id}}">{{$value.CountScore}}</a></td>
 		<td class="t_r">{{$value.CountFollowed}}</td>
 		<td class="t_c">{{if ($value.Birthday)}}{{$value.Birthday.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}}{{else}}-{{/if}}</td>
 		<td class="t_c">{{if ($value.Sex==null)}} - {{else if ($value.Sex == 0)}}女{{else if($value.Sex == 1)}}男{{/if}}</td>

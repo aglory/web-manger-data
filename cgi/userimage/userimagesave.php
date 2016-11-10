@@ -97,7 +97,11 @@
 			$Src = $_POST['Src'];
 		}
 		if(!empty($Src)){
-			$serverpath = implode(DIRECTORY_SEPARATOR,array($directory,md5(time()).'.gif'));
+			$extral = '';
+			if(preg_match('/[^\/]\/\w+(\.\w+)/',$Src,$extral)){
+				$extral = $extral[1];
+			}
+			$serverpath = implode(DIRECTORY_SEPARATOR,array($directory,md5(time()).$extral));
 			$file = fopen($serverpath,'wb');
 			if($file !== false){
 				fwrite($file,file_get_contents($Src));

@@ -95,12 +95,62 @@ $(function(){
 	doQuery();
 });
 
-function userMessageEditor(sender,user_id){
-	var html = $(template('usermessageeditor',{status:true,model:{User_Id:user_id}})).appendTo('body');
+function userMessageEditor(sender,userId,senderId){
+	var params = [];
+	var model = {};
+	if(userId){
+		params.push('Ids[]='+userId);
+	}
+	if(senderId){
+		params.push('Ids[]='+senderId);
+	}
+	var model = {User_Id:userId,Sender_Id:senderId};
+	if(params.length==0){
+		userMessageRender(sender,{status:true,model:model});
+		return;
+	}
+	if(sender){
+		$(sender).prop('disabed',true);
+	}
+	$.ajax({
+		url:'?model=user&action=usermanagerpartial',
+		data:'PageIndex=1&PageSize=2&PageItems=Id,Name'+"&"+params.join("&"),
+		type:'post',
+		dataType:'json',
+		success:function(rest){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+			if(!rest)return;
+			if(!rest.status){
+				UI_Tips('danger',rest.message);
+				return;
+			}
+			for(var i = 0;i<rest.recordList.length;i++){
+				var item = rest.recordList[i];
+				if(item.Id == model.User_Id){
+					model.User_Name = item.Name;
+				}
+				if(item.Id == model.Sender_Id){
+					model.Sender_Name = item.Name;
+				}
+			}
+			userMessageRender(sender,{status:true,model:model});
+		},
+		error:function(){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+		}
+	});
+}
+
+function userMessageRender(sender,model){
+	var html = $(template('usermessageeditor',model)).appendTo('body');
 	var modal = html.modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-save").click(function(){
-		userSave(this,modal);
+		userMessageSave(this,modal);
 	});
 	modal.find("input[name='User_Name']").focus(function(){
 		userDialogOpen({
@@ -119,21 +169,27 @@ function userMessageEditor(sender,user_id){
 			}
 		}});
 	});
-	return modal;
-}
-
-function userEditorRender(sender,model){
-	var html = $(template('usereditor',EnumConfig(model))).appendTo('body');
-	html.find("input[type='checkbox']").bootstrapSwitch({ onText : '男',offText : '女'});
-	var modal = html.modal();
-	modal.find(".modal-dialog").draggable({handle:".modal-header"});
-	modal.find(".btn-save").click(function(){
-		userSave(this,modal);
+	modal.find("input[name='Sender_Name']").focus(function(){
+		userDialogOpen({
+		PageItems:[
+			{Key:'Id',Val:'',Type:'radio',Sort:false,HeadCss:'t_c wd40',BodyCss:"t_c"},
+			{Key:'Name',Val:'名字',BodyCss:"t_l"},
+			{Key:'NickName',Val:'昵称',BodyCss:"t_l"},
+			{Key:'Sex',Val:'性别',HeadCss:"wd60",BodyCss:"t_c"},
+			{Key:'Status',Val:'状态',HeadCss:"wd60",BodyCss:"t_c"}],
+		CallBack:function(items){
+			if(items != null ||items.length == 0){
+				for(var i=0;i<items.length;i++){
+					modal.find("input[name='Sender_Name']").val(items[i].Name);
+					modal.find("input[name='Sender_Id']").val(items[i].Id);
+				}
+			}
+		}});
 	});
 	return modal;
 }
 
-function userSave(sender,modal){
+function userMessageSave(sender,modal){
 	var form = modal.find(".editorForm");
 	if(sender){
 		$(sender).prop('disabed',true);
@@ -162,14 +218,14 @@ function userSave(sender,modal){
 	});
 }
 
-function userChangeStatus(sender,id,status){
+function userMessageChangeStatus(sender,id,status){
 	if(sender){
 		$(sender).prop('disabed',true);
 	}
 	if(status){
 		var sender = this;
 		$.ajax({
-			url:'?model=account&action=accountchangestatus',
+			url:'?model=usermessage&action=usermessagechangestatus',
 			type:"post",
 			data:{Id:id,Status:status},
 			dataType:"json",
@@ -278,3 +334,13 @@ function userMessageDelete(sender,id){
 	});
 	return modal;
 }
+
+function toggleAll(sender){
+	$("#recordList :checkbox").each(function(i,o){
+		o.checked=sender.checked;
+	});
+}
+
+function userMessageDelete(sender,id,userid,senderid){
+
+}	//usermessagestatuschange//usermessagechangestatus

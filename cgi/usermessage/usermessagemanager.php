@@ -88,7 +88,7 @@
 											<input id="DateTimeCreateEnd" name="DateTimeCreateEnd" class="form-control input-sm date Wdate wd100" placeholder="发件结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeCreateStart\')}'});" />
 										</div>
 										<div class="form-group">
-											<select name="Status" class="form-control input-sm" placeholder="状态">
+											<select name="Status_User" class="form-control input-sm" placeholder="状态">
 												<option value="">全部</option>
 												<option value="0">未读</option>
 												<option value="1">已读</option>
@@ -106,13 +106,13 @@
 								<table class="table table-striped table-bordered">
 									<thead>
 										<tr>
-											<th class="wd40">&nbsp;</th>
+											<th class="t_c wd40"><input type="checkbox" onclick="toggleAll(this)" /></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="UserInfo.Name"> 收件人</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="SenderInfo.Name"> 发件人</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserMessageInfo.Flag"> 标记</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserMessageInfo.Message"> 消息</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserMessageInfo.DateTimeCreate"> 创建时间</a></th>
-											<th class="t_c wd40"><a class="btn btn-sort icon-sort " sort-expression="tbUserMessageInfo.Status"> 状态</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserMessageInfo.Status"> 状态</a></th>
 											<th class="t_c">操作</th>
 										</tr>
 									</thead>

@@ -8,10 +8,7 @@
 	$PageItems = array();
 	
 	$PageColumns = array(
-		'tbUserInfo' => array('Id','Name','NickName','Sex','Img','BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career','Description','ContactWay','ContactQQ','ContactEmail','ContactMobile','InterestAndFavorites','DateTimeModify','Birthday'),
-		'tbAccountInfo' => array('DateTimeCreate'),
-		'tbUserStatisticsInfo' => array('CountFollow,CountFollowed,CountView,CountScore,CountPoint,CountMessage'),
-		'tbUserConfiguration' => array('ConfigurationProtected','ConfigurationVewCost')
+		'tbUserImageInfo' => array('Id','User_Id','OrderNumber','Src','IsDefault','Status','Description','DateTimeCreate','DateTimeModify')
 	);
 	
 	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){
@@ -48,7 +45,7 @@
 	if(array_key_exists('PageSort',$_POST) && !empty($_POST['PageSort'])){
 		foreach(explode(',',$_POST['PageSort']) as $item){
 			$itemgroup = explode(' ',$item);
-			if(count($itemgroup)>1){
+			if(count($item)>1){
 				$column_orderby = $itemgroup[0];
 				$column_orderbytype = $itemgroup[1];
 			}else if(count($item)>0){
@@ -69,55 +66,31 @@
 	$whereSql = array('1=1');
 	$whereParams = array();
 
-	if(array_key_exists('Id',$_POST) && is_numeric($_POST['Id'])){
-		$whereSql[] = 'tbUserInfo.Id = '.$_POST['Id'];
+	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
+		$whereSql[] = 'tbUserImageInfo.User_Id ='.$_POST['User_Id'];
 	}
-	if(array_key_exists('Name',$_POST) && !empty($_POST['Name'])){
-		$whereSql[] = 'tbUserInfo.Name like :Name';
-		$whereParams['Name'] = '%'.$_POST['Name'].'%';
-	}
-	if(array_key_exists('NickName',$_POST) && !empty($_POST['NickName'])){
-		$whereSql[] = 'tbUserInfo.NickName like :NickName';
-		$whereParams['NickName'] = '%'.$_POST['NickName'].'%';
-	}
-	if(array_key_exists('Sex',$_POST) && is_numeric($_POST['Sex'])){
-		$whereSql[] = 'Sex = '.$_POST['Sex'];
-	}
-	if(array_key_exists('BirthdayMin',$_POST) && !empty($_POST['BirthdayMin'])){
-		$whereSql[] = 'tbUserInfo.Birthday >= :BirthdayMin';
-		$whereParams['BirthdayMin'] = $_POST['BirthdayMin'];
-	}
-	if(array_key_exists('BirthdayMax',$_POST) && !empty($_POST['BirthdayMax'])){
-		$whereSql[] = 'tbUserInfo.Birthday <= date_add(:BirthdayMax,INTERVAL 1 DAY)';
-		$whereParams['BirthdayMax'] = $_POST['BirthdayMax'];
-	}	
-	if(array_key_exists('BodyHeightMin',$_POST) && is_numeric($_POST['BodyHeightMin'])){
-		$whereSql[] = 'tbUserInfo.BodyHeight >= '.$_POST['BodyHeightMin'];
-	}
-	if(array_key_exists('BodyHeightMax',$_POST) && is_numeric($_POST['BodyHeightMax'])){
-		$whereSql[] = 'tbUserInfo.BodyHeight <= '.$_POST['BodyHeightMax'];
-	}
-	if(array_key_exists('BodyWeightMin',$_POST) && is_numeric($_POST['BodyWeightMin'])){
-		$whereSql[] = 'tbUserInfo.BodyWeight >= '.$_POST['BodyWeightMin'];
-	}
-	if(array_key_exists('BodyWeightMax',$_POST) && is_numeric($_POST['BodyWeightMax'])){
-		$whereSql[] = 'tbUserInfo.BodyWeight <= '.$_POST['BodyWeightMax'];
-	}
-	if(array_key_exists('EducationalHistory',$_POST) && is_numeric($_POST['EducationalHistory'])){
-		$whereSql[] = 'tbUserInfo.BodyWeight = '.$_POST['EducationalHistory'];
-	}
-	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
-		$whereSql[] = 'tbAccountInfo.Status = '.$_POST['Status'];
-	}
-	if(array_key_exists('Img',$_POST) && !empty($_POST['Img'])){
-		$whereSql[] = 'tbUserInfo.Img is not null';
+	if(array_key_exists('IsDefault',$_POST) && is_numeric($_POST['IsDefault'])){
+		$whereSql[] = 'tbUserImageInfo.IsDefault = '.$_POST['IsDefault'];
 	}
 	
+	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
+		$whereSql[] = 'tbUserImageInfo.Status = '.$_POST['Status'];
+	}
+	if(array_key_exists('DateTimeModifyMin',$_POST) && !empty($_POST['DateTimeModifyMin'])){
+		$whereSql[] = 'tbUserImageInfo.DateTimeModify >= :DateTimeModifyMin';
+		$whereParams['DateTimeModifyMin'] = $_POST['DateTimeModifyMin'];
+	}
+	if(array_key_exists('DateTimeModifyMax',$_POST) && !empty($_POST['DateTimeModifyMax'])){
+		$whereSql[] = 'tbUserImageInfo.DateTimeModify < date_add(:DateTimeModifyMax,INTERVAL 1 DAY)';
+		$whereParams['DateTimeModifyMax'] = $_POST['DateTimeModifyMax'];
+	}
 	
 	$sthList = null;
 	$sthCount = null;
 	
-	$tbFrom = 'tbUserInfo inner join tbAccountInfo on tbUserInfo.Id = tbAccountInfo.Id inner join tbUserStatisticsInfo on tbUserInfo.Id = tbUserStatisticsInfo.Id inner join tbUserConfiguration on tbUserInfo.Id = tbUserConfiguration.Id';
+	$tbFrom = 'tbUserImageInfo';
+	
+	//die(var_export('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(' ',$PageOrderBy):'')." limit $PageStart,$PageEnd;"));
 	
 	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(' ',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
 	$sthCount = $pdomysql -> prepare('select count(1) from '.$tbFrom.' where '.implode(' and ',$whereSql));
@@ -144,12 +117,10 @@
 	
 
 	if(empty($errors)){
-		$result['code'] = 200;
 		$result['status'] = true;
 		$result['recordList'] = $sthList -> fetchAll(PDO::FETCH_ASSOC);
 		$result['recordCount'] = $sthCount -> fetch(PDO::FETCH_NUM)[0]; 
 	}else{
-		$result['code'] = 540;
 		$result['status'] = false;
 		$result['recordCount'] = 0; 
 		$result['message'] = implode('\r\n',$errors);

@@ -75,6 +75,10 @@
 		$whereSql[] = 'tbUserInfo.Name like :User_Name';
 		$whereParams['User_Name'] = '%'.$_POST['User_Name'].'%';
 	}
+	if(array_key_exists('User_NickName',$_POST) && !empty($_POST['User_NickName'])){
+		$whereSql[] = 'tbUserInfo.NickName like :User_NickName';
+		$whereParams['User_NickName'] = '%'.$_POST['User_NickName'].'%';
+	}
 	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id']) && $_POST['User_Id'] > 0){
 		$whereSql[] = 'tbUserScoreLog.User_Id = '.intval($_POST['User_Id']);
 	}

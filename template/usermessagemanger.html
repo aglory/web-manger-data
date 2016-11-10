@@ -1,16 +1,29 @@
 {{if (status && recordList.length > 0)}}
 	{{each recordList}}
 	<tr>
-		<td><input name="ids[]" type="checkbox" value="{{$value.Id}}" /></td>
+		<td class="t_c"><input name="ids[]" type="checkbox" value="{{$value.Id}}" /></td>
 		<td>{{$value.User_Name}}</td>
 		<td>{{$value.Sender_Name}}</td>
 		<td class="t_r">{{$value.Flag}}</td>
 		<td class="t_r">{{$value.Message}}</td>
 		<td class="t_c">{{if ($value.DateTimeCreate)}}{{$value.DateTimeCreate.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}}{{else}}-{{/if}}</td>
-		<td class="t_c">{{if ($value.Status==null)}} - {{else if ($value.Status == 1)}}<span class="alert-danger">未读</span>{{else if ($value.Status == 2)}}<span class="alert-success">已读</span>{{else if($value.Status == 3)}}<span class="alert-info">删除</span>{{/if}}</td>
+		<td class="t_c">
+			{{if $value.Status_User == 0}}未读
+			{{else if $value.Status_User == 1}}已读
+			{{else if $value.Status_User == 2}}已删
+			{{/if}}
+		</td>
 		<td class="t_c">
 			<div class="btn-group">
-				<button class="btn btn-sm btn-danger" type="button" onclick="userMessageDelete(this,{{$value.Id}})">删除</button>
+			<button  class="btn btn-sm btn-success" type="button">回复</button>
+			{{if $value.Status_User == 0}}
+				<button class="btn btn-sm btn-success" type="button" onclick="userMessageUserStatusChange(this,{{$value.Id}},1)">标为已读</button>
+			{{else if $value.Status_User == 1}}
+				<button class="btn btn-sm btn-danger" type="button" onclick="userMessageUserStatusChange(this,{{$value.Id}},2)">标为已删</button>
+			{{else if $value.Status_User == 2}}
+				<button class="btn btn-sm btn-default" type="button">已删</button>
+			{{/if}}
+				<button class="btn btn-sm btn-danger" type="button" onclick="userMessageDelete(this,{{$value.Id}})">删除数据</button>
 			</div>
 		</td>
 	</tr>                                               
