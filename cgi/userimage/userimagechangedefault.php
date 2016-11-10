@@ -35,8 +35,10 @@
 	}
 	
 	if(empty($errors) && !empty($IsDefault)){
-		$sth = $pdomysql -> prepare('update tbUserInfo inner join tbUserImageInfo on tbUserInfo.Id= tbUserImageInfo.User_Id set tbUserInfo.Img = tbUserImageInfo.Src where tbUserImageInfo.Id = '.$Id.';');
-		$sth -> execute();
+		$sth = $pdomysql -> prepare('update tbUserInfo inner join tbUserImageInfo on tbUserInfo.Id= tbUserImageInfo.User_Id set tbUserInfo.Img = tbUserImageInfo.Src,tbUserInfo.DateTimeModify =:DateTimeModify where tbUserImageInfo.Id = '.$Id.';');
+		$sth -> execute(array(
+			'DateTimeModify' => $timespan
+		));
 		
 		$error = $sth -> errorInfo();
 		if($error[1] > 0){

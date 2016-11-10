@@ -35,7 +35,6 @@ function doQuery(opts){
 				UI_Tips('danger',rest.message);
 				return;
 			}
-			console.info(EnumConfig(rest));
 			$("#recordList").html(template('useruserscoremanager',EnumConfig(rest)));
 			$("#recordStatic>tr:first>td:last").pager({pageIndex:pageIndex,pageSize:pageSize,recordCount:rest.recordCount,pageIndexChanged:doQuery});
 		},error:function(){

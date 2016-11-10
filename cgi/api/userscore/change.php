@@ -4,12 +4,8 @@
 
 	header('Content-Type: application/json;');
 	
-	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
-		$User_Id = intval($_POST['User_Id']);
-	}else{
-		echo json_encode(array('code' => 540,'status' => false,'message' => '缺少用户'));
-		exit();
-	}
+	$User_Id = CurrentUserId();
+	
 	$Number = 0;
 	if(array_key_exists('Number',$_POST) && is_numeric($_POST['Number'])){
 		$Number = intval($_POST['Number']);
@@ -26,32 +22,39 @@
 		$Mark = $_POST['Mark'];
 	}
 	$timespan = date('Y-m-d H:i:s',time());
+	$errors = array();
 	
-	$sthUserScoreLog = $pdomysql -> prepare('insert into tbUserScoreLog(User_Id,Type,Number,Mark)values(:User_Id,:Type,:Number,:Mark);');
+	$sthUserStatistics = $pdomysql -> prepare('update tbUserStatisticsInfo set CountScore = CountScore + :NumberNew where Id = :User_Id and CountScore + :NumberOld >=0;');
+	$sthUserStatistics -> execute(array(
+		'User_Id' => $User_Id,
+		'NumberNew' => $Number,
+		'NumberOld' => $Number
+	));
+	if(empty($sthUserStatistics -> rowCount())){
+		echo json_encode(array(
+			'code' => 200,
+			'status' => false,
+			'message' => '积分不够'
+		));
+		die(1);
+	}
+	
+	$error = $sthUserStatistics -> errorInfo();	
+	if($error[1] > 0){
+		$errors[] = $error[2];
+	}
+	$sthUserScoreLog = $pdomysql -> prepare('insert into tbUserScoreLogInfo(User_Id,Type,Number,TotalNumber,Mark,DateTimeCreate)select Id,:Type,:Number,CountScore,:Mark,:DateTimeCreate from tbUserStatisticsInfo where Id = :User_Id;');
 	$sthUserScoreLog -> execute(array(
 		'User_Id' => $User_Id,
 		'Type' => $Type,
 		'Number' => $Number,
-		'Mark' => $Mark
+		'Mark' => $Mark,
+		'DateTimeCreate' => $timespan
 	));
-	
-	$errors = array();
 	
 	$error = $sthUserScoreLog -> errorInfo();
 	if($error[1]>0){
 		$errors[] = $error[2];
-	}
-
-	if(empty($error)){
-		$sthUserStatistics = $pdomysql -> prepare('update tbUserStatisticsInfo set CountScore = CountScore + :Number where Id = :User_Id;');
-		$sthUserStatistics -> execute(array(
-			'User_Id' => $User_Id,
-			'Number' => $Number
-		));
-		$error = $sthUserStatistics -> errorInfo();	
-		if($error[1] > 0){
-			$errors[] = $error[2];
-		}
 	}
 	
 	if(empty($errors)){
@@ -62,5 +65,4 @@
 		$result['status'] = false;
 		$result['message'] = implode('\r\n',$errors);
 	}
-	
 	echo json_encode($result);

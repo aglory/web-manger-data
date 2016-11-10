@@ -13,7 +13,7 @@
 	
 	$PageColumns = array(
 		'tbUserInfo' => array('Name','NickName'),
-		'tbUserScoreLog' => array('Id','User_Id','Type','Number','Mark','DateTimeCreate')
+		'tbUserScoreLogInfo' => array('Id','User_Id','Type','Number','TotalNumber','Mark','DateTimeCreate')
 	);
 
 	
@@ -80,23 +80,23 @@
 		$whereParams['User_NickName'] = '%'.$_POST['User_NickName'].'%';
 	}
 	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id']) && $_POST['User_Id'] > 0){
-		$whereSql[] = 'tbUserScoreLog.User_Id = '.intval($_POST['User_Id']);
+		$whereSql[] = 'tbUserScoreLogInfo.User_Id = '.intval($_POST['User_Id']);
 	}
 	if(array_key_exists('Type',$_POST) && is_numeric($_POST['Type'])){
-		$whereSql[] = 'tbUserScoreLog.Type = '.intval($_POST['Type']);
+		$whereSql[] = 'tbUserScoreLogInfo.Type = '.intval($_POST['Type']);
 	}
 	if(array_key_exists('NumberMin',$_POST) && is_numeric($_POST['NumberMin'])){
-		$whereSql[] = 'tbUserScoreLog.Number >= '.intval($_POST['NumberMin']);
+		$whereSql[] = 'tbUserScoreLogInfo.Number >= '.intval($_POST['NumberMin']);
 	}
 	if(array_key_exists('NumberMax',$_POST) && is_numeric($_POST['NumberMax'])){
-		$whereSql[] = 'tbUserScoreLog.Number <= '.intval($_POST['NumberMax']);
+		$whereSql[] = 'tbUserScoreLogInfo.Number <= '.intval($_POST['NumberMax']);
 	}
 	if(array_key_exists('DateTimeCreateMin',$_POST) && !empty($_POST['DateTimeCreateMin'])){
-		$whereSql[] = 'tbUserScoreLog.DateTimeCreate >= :DateTimeCreateMin';
+		$whereSql[] = 'tbUserScoreLogInfo.DateTimeCreate >= :DateTimeCreateMin';
 		$whereParams['DateTimeCreateMin'] = $_POST['DateTimeCreateMin'];
 	}
 	if(array_key_exists('DateTimeCreateMax',$_POST) && !empty($_POST['DateTimeCreateMax'])){
-		$whereSql[] = 'tbUserScoreLog.DateTimeCreate <= date_add(:DateTimeCreateMax,INTERVAL 1 DAY)';
+		$whereSql[] = 'tbUserScoreLogInfo.DateTimeCreate <= date_add(:DateTimeCreateMax,INTERVAL 1 DAY)';
 		$whereParams['DateTimeCreateMax'] = $_POST['DateTimeCreateMax'];
 	}
 	
@@ -104,9 +104,10 @@
 	$sthList = null;
 	$sthCount = null;
 	
-	$tbFrom = 'tbUserScoreLog left join tbUserInfo on tbUserScoreLog.User_Id = tbUserInfo.Id';
+	$tbFrom = 'tbUserScoreLogInfo left join tbUserInfo on tbUserScoreLogInfo.User_Id = tbUserInfo.Id';
 	
 	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(' ',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
+	
 	$sthCount = $pdomysql -> prepare('select count(1) from '.$tbFrom.' where '.implode(' and ',$whereSql));
 
 	if(empty($whereParams)){
@@ -129,7 +130,6 @@
 	}
 
 	$result = array();
-	
 
 	if(empty($errors)){
 		$result['status'] = true;

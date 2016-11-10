@@ -21,10 +21,9 @@
 						<legend>修改积分</legend>
 						<dl>
 							<dt>请求地址：</dt>
-							<dd>api.php?model=userscore&action=query</dd>
+							<dd>api.php?model=userscore&action=change</dd>
 							<dt>参数(必填)</dt>
-							<dd>用户编号：User_Id</dd>
-							<dd>变换积分：Number</dd>
+							<dd>积分：Number</dd>
 							<dt>参数(选填)</dt>
 							<dd>类型：Type</dd>
 							<dd>备注：Mark</dd>
@@ -33,10 +32,27 @@
 							<form action="api.php?model=userscore&action=change" method="post">
 								<legend>测试</legend>
 								<ul>
-									<li><input name="User_Id" type="number" placeholder="用户编号" /></li>
-									<li><input name="Number" type="number" placeholder="变换积分" /></li>
+									<li><input name="Number" type="number" placeholder="积分" /></li>
 									<li><input name="Type" type="number" placeholder="类型"/></li>
 									<li><textarea name="Mark" placeholder="备注"></textarea></li>
+								</ul>
+								<button type="submit">提交</button>
+							</form>
+						</fieldset>
+					</fieldset>
+					<fieldset>
+						<legend>积分抽奖</legend>
+						<dl>
+							<dt>请求地址：</dt>
+							<dd>api.php?model=userscore&action=random</dd>
+							<dt>必填参数</dt>
+							<dd>使用积分数:Number</dd>
+						</dl>
+						<fieldset>
+							<legend>测试</legend>
+							<form action="api.php?model=userscore&action=random" method="post">
+								<ul>
+									<li><input name="Number" placeholder="积分" /></li>
 								</ul>
 								<button type="submit">提交</button>
 							</form>
@@ -96,9 +112,9 @@
 										</li>
 										<li>
 											积分
-											<input name="NumberMin" type="number" />
+											<input name="NumberMin" type="number" placeholder="积分" />
 											-
-											<input name="NumberMax" type="number" />
+											<input name="NumberMax" type="number" placeholder="积分" />
 										</li>
 										<li>
 											时间

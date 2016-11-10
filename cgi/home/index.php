@@ -123,7 +123,7 @@
 									</tbody>
 									<tfoot id="recordStatic">
 										<tr>
-											<td colspan="10" class="t_r"></td>
+											<td colspan="11" class="t_r"></td>
 										</tr>
 									</tfoot>
 								</table>

@@ -111,7 +111,8 @@
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Name"> 用户</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="NickName"> 昵称</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Type"> 类型</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Number"> 数量</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Number"> 变化数量</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="TotalNumber"> 总数</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Mark"> 备注</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeCreate"> 时间</a></th>
 										</tr>
@@ -120,7 +121,7 @@
 									</tbody>
 									<tfoot id="recordStatic">
 										<tr>
-											<td colspan="7" class="t_r"></td>
+											<td colspan="8" class="t_r"></td>
 										</tr>
 									</tfoot>
 								</table>

@@ -38,19 +38,18 @@
 		$Mark = $_POST['Mark'];
 	}
 	
-	
-	$sthLog = $pdomysql -> prepare('insert into tbUserScoreLog(User_Id,Type,Number,Mark,DateTimeCreate)values(:User_Id,:Type,:Number,:Mark,:DateTimeCreate);');
 	$sthStatistics = $pdomysql -> prepare('update tbUserStatisticsInfo set CountScore = CountScore + :Number where Id = :Id;');
+	$sthLog = $pdomysql -> prepare('insert into tbUserScoreLogInfo(User_Id,Type,Number,TotalNumber,Mark,DateTimeCreate)select Id,:Type,:Number,CountScore,:Mark,:DateTimeCreate from tbUserStatisticsInfo where Id = :User_Id;');
+	$sthStatistics -> execute(array(
+		'Id' => $User_Id,
+		'Number' => $Number
+	));
 	$sthLog -> execute(array(
 		'User_Id' => $User_Id,
 		'Type' => $Type,
 		'Number' => $Number,
 		'Mark' => $Mark,
 		'DateTimeCreate' => date('Y-m-d H:i:s',time())
-	));
-	$sthStatistics -> execute(array(
-		'Id' => $User_Id,
-		'Number' => $Number
 	));
 	$errors = array();
 	

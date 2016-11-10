@@ -2,130 +2,73 @@
 	if(!defined('Execute') && !defined('Api')){ exit();}
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
 
-	$PageSort = '';
-	$PageIndex = 1;
-	$PageSize = 20;
-	$PageItems = array();
+	header('Content-Type: application/json;');
 	
-	$PageColumns = array(
-		'tbUserImageInfo' => array('Id','User_Id','OrderNumber','Src','IsDefault','Status','Description','DateTimeCreate','DateTimeModify')
-	);
+	$User_Id = CurrentUserId();
 	
-	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){
-		$PageIndex = intval($_POST['PageIndex']);
+	$Number = 0;
+	if(array_key_exists('Number',$_POST) && is_numeric($_POST['Number'])){
+		$Number = intval($_POST['Number']);
 	}
-	if(array_key_exists('PageSize',$_POST) && is_numeric($_POST['PageSize'])){
-		$PageSize = intval($_POST['PageSize']);
+	if($Number <= 0){
+		echo json_encode(array('code' => 540,'status' => false,'message' => '积分参数错误'));
+		die(1);
 	}
 	
-	if(array_key_exists('PageItems',$_POST) && !empty($_POST['PageItems'])){
-		foreach(explode(',',$_POST['PageItems']) as $item){
-			foreach($PageColumns as $table => $columns){
-				if(in_array($item,$columns)){
-					$PageItems[] = $table.'.'.$item;
-					break;
-				}
-			}
-		}
-	}else{
-		foreach($PageColumns as $table => $columns){
-			foreach($columns as $column){
-				$PageItems[] = $table.'.'.$column;
-			}
-		}
-	}
-	if(empty($PageItems))
-		$PageItems = array('1');
-
-	$PageStart = ($PageIndex - 1) * $PageSize;
-	$PageEnd = $PageSize;
-	$PageOrderBy = array();
-	
-	
-	if(array_key_exists('PageSort',$_POST) && !empty($_POST['PageSort'])){
-		foreach(explode(',',$_POST['PageSort']) as $item){
-			$itemgroup = explode(' ',$item);
-			if(count($item)>1){
-				$column_orderby = $itemgroup[0];
-				$column_orderbytype = $itemgroup[1];
-			}else if(count($item)>0){
-				$column_orderby = $itemgroup[0];
-				$column_orderbytype = 'asc';
-			}else{
-				continue;
-			}
-			foreach($PageColumns as $table => $columns){
-				if(in_array($column_orderby,$columns)){
-					$PageOrderBy[] = $table.'.'.$column_orderby.' '.$column_orderbytype;
-				}
-			}
-		}
-	}
-	
-	
-	$whereSql = array('1=1');
-	$whereParams = array();
-
-	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
-		$whereSql[] = 'tbUserImageInfo.User_Id ='.$_POST['User_Id'];
-	}
-	if(array_key_exists('IsDefault',$_POST) && is_numeric($_POST['IsDefault'])){
-		$whereSql[] = 'tbUserImageInfo.IsDefault = '.$_POST['IsDefault'];
-	}
-	
-	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
-		$whereSql[] = 'tbUserImageInfo.Status = '.$_POST['Status'];
-	}
-	if(array_key_exists('DateTimeModifyMin',$_POST) && !empty($_POST['DateTimeModifyMin'])){
-		$whereSql[] = 'tbUserImageInfo.DateTimeModify >= :DateTimeModifyMin';
-		$whereParams['DateTimeModifyMin'] = $_POST['DateTimeModifyMin'];
-	}
-	if(array_key_exists('DateTimeModifyMax',$_POST) && !empty($_POST['DateTimeModifyMax'])){
-		$whereSql[] = 'tbUserImageInfo.DateTimeModify < date_add(:DateTimeModifyMax,INTERVAL 1 DAY)';
-		$whereParams['DateTimeModifyMax'] = $_POST['DateTimeModifyMax'];
-	}
-	
-	$sthList = null;
-	$sthCount = null;
-	
-	$tbFrom = 'tbUserImageInfo';
-	
-	//die(var_export('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(' ',$PageOrderBy):'')." limit $PageStart,$PageEnd;"));
-	
-	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(' ',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
-	$sthCount = $pdomysql -> prepare('select count(1) from '.$tbFrom.' where '.implode(' and ',$whereSql));
-
-	if(empty($whereParams)){
-		$sthList -> execute();
-		$sthCount -> execute();
-	}else{
-		$sthList -> execute($whereParams);
-		$sthCount -> execute($whereParams);
-	}
-
+	$Type = 1;
+	$timespan = date('Y-m-d H:i:s',time());
 	$errors = array();
-	$error = $sthList -> errorInfo();
-	if($error[1] > 0){
-		$errors[] = $error[2];
-	}
-	$error = $sthCount -> errorInfo();
-	if($error[1] > 0){
-		$errors[] = $error[2];
-	}
-
-	$result = array();
+	
+	$Change = $Number - rand(0,2 * $Number);
+	
+	$sthUserStatistics = $pdomysql -> prepare('update tbUserStatisticsInfo set CountScore = CountScore + :Change where Id = :User_Id and CountScore >= :Number');
+	$sthUserStatistics -> execute(array(
+		'User_Id' => $User_Id,
+		'Change' => $Change,
+		'Number' => $Number
+	));
 	
 
+	if(!$sthUserStatistics -> rowCount()){
+		echo json_encode(array('code' => 200,'status' => 'false','message' => '积分不够'));
+		die(1);
+	}
+	
+	$error = $sthUserStatistics -> errorInfo();	
+	if($error[1] > 0){
+		$errors[] = $error[2];
+	}
+	
+	$sthUserScoreLog = $pdomysql -> prepare('insert into tbUserScoreLogInfo(User_Id,Type,Number,TotalNumber,Mark,DateTimeCreate)select Id,:Type,:Number,CountScore + :Change,:Mark,:DateTimeCreate from tbUserStatisticsInfo where Id = :User_Id;');
+	$sthUserScoreLog -> execute(array(
+		'User_Id' => $User_Id,
+		'Type' => $Type,
+		'Number' => 0 - $Number,
+		'Change' => 0 - $Number - $Change,
+		'Mark' => '抽奖消耗积分',
+		'DateTimeCreate' => $timespan
+	));
+	$error = $sthUserScoreLog -> errorInfo();
+	if($error[1]>0){
+		$errors[] = $error[2];
+	}
+	$sthUserScoreLog -> execute(array(
+		'User_Id' => $User_Id,
+		'Type' => $Type,
+		'Number' => $Number + $Change,
+		'Change' => 0,
+		'Mark' => '抽奖活动积分',
+		'DateTimeCreate' => $timespan
+	));
+	
 	if(empty($errors)){
+		$result['code'] = 200;
 		$result['status'] = true;
-		$result['recordList'] = $sthList -> fetchAll(PDO::FETCH_ASSOC);
-		$result['recordCount'] = $sthCount -> fetch(PDO::FETCH_NUM)[0]; 
 	}else{
+		$result['code'] = 540;
 		$result['status'] = false;
-		$result['recordCount'] = 0; 
 		$result['message'] = implode('\r\n',$errors);
 	}
+	$result['Change'] = $Change;
 	
-	header('Content-Type: application/json;');
 	echo json_encode($result);
-	exit();
