@@ -11,7 +11,7 @@
 	$PageSize = 20;
 	$PageItems = array('Id','Name','NickName','Sex','Img','BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career','Description','ContactWay','ContactQQ','ContactEmail','ContactMobile','InterestAndFavorites','DateTimeModify','Birthday');
 	$PageItems_Account = array('DateTimeCreate','RoleId','Status');
-	$PageItems_Statistics = array('CountFollow,CountFollowed,CountView,CountScore,CountPoint,CountMessage');
+	$PageItems_Statistics = array('CountFollow','CountFollowed','CountView','CountScore','CountPoint','CountMessage');
 	$PageItems_Configuration = array('ConfigurationProtected','ConfigurationVewCost');
 	
 	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){

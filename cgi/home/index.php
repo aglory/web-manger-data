@@ -48,7 +48,7 @@
 		<div class="container">
 			<div id="main">
 				<div class="col-md-12">
-					<form id="mainForm" method="post" class="form-inline" action="<?php ActionLink('user','usermanagerpartial')?>">
+					<form id="mainForm" method="post" class="form-inline" action="<?php ActionLink('home','indexpartial')?>">
 						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
 						<input id="PageSize" name="PageSize" type="hidden" value="20" />
 						<input id="PageSort" name="PageSort" type="hidden" value="" />
@@ -107,16 +107,16 @@
 									<thead>
 										<tr>
 											<th class="t_c wd40">&nbsp;</th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Name"> 名称</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.NickName"> 昵称</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountScore"> 积分</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountFollow"> 关注者</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountFollowed"> 追随者</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountMessage"> 新消息</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Sex"> 性别</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Name"> 名称</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="NickName"> 昵称</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="CountScore"> 积分</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="CountFollow"> 关注者</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="CountFollowed"> 追随者</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="CountMessage"> 新消息</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Sex"> 性别</a></th>
 											<th class="t_c wd80">头像</th>
-											<th class="t_c wd120"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.DateTimeModify"> 登录时间</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbAccountInfo.Status"> 状态</a></th>
+											<th class="t_c wd120"><a class="btn btn-sort icon-sort " sort-expression="DateTimeModify"> 登录时间</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Status"> 状态</a></th>
 										</tr>
 									</thead>
 									<tbody id="recordList">

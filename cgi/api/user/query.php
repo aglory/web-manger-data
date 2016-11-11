@@ -51,7 +51,7 @@
 			if(count($itemgroup)>1){
 				$column_orderby = $itemgroup[0];
 				$column_orderbytype = $itemgroup[1];
-			}else if(count($item)>0){
+			}else if(count($itemgroup)>0){
 				$column_orderby = $itemgroup[0];
 				$column_orderbytype = 'asc';
 			}else{

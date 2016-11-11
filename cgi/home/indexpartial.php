@@ -11,12 +11,15 @@
 	$PageSize = 20;
 	$PageItems = array();
 	
+
 	$PageColumns = array(
-		'tbUserMessageInfo' => array('Id','User_Id','Sender_Id','Flag','Message','DateTimeCreate','DateTimeModify','Status_User','Status_Sender'),
+		'tbUserInfo' => array('Id','Name','NickName','Sex','Img','BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career','Description','ContactWay','ContactQQ','ContactEmail','ContactMobile','InterestAndFavorites','DateTimeModify','Birthday'),
+		'tbAccountInfo' => array('DateTimeCreate'),
+		'tbUserStatisticsInfo' => array('CountFollow','CountFollowed','CountView','CountScore','CountPoint','CountMessage'),
+		'tbUserConfiguration' => array('ConfigurationProtected','ConfigurationVewCost')
 	);
 	
-	$PageTables = 'tbUserMessageInfo left join tbUserInfo as UserInfo on tbUserMessageInfo.User_Id = UserInfo.Id left join tbUserInfo as SenderInfo on tbUserMessageInfo.Sender_Id = SenderInfo.Id';
-	
+	$PageTables = 'tbUserInfo inner join tbAccountInfo on tbUserInfo.Id = tbAccountInfo.Id inner join tbUserStatisticsInfo on tbUserInfo.Id = tbUserStatisticsInfo.Id inner join tbUserConfiguration on tbUserInfo.Id = tbUserConfiguration.Id';
 	
 	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){
 		$PageIndex = intval($_POST['PageIndex']);
@@ -24,19 +27,9 @@
 	if(array_key_exists('PageSize',$_POST) && is_numeric($_POST['PageSize'])){
 		$PageSize = intval($_POST['PageSize']);
 	}
-	if(array_key_exists('PageSort',$_POST) && !empty($_POST['PageSort'])){
-		$PageSort = $_POST['PageSort'];
-	}
+	
 	if(array_key_exists('PageItems',$_POST) && !empty($_POST['PageItems'])){
 		foreach(explode(',',$_POST['PageItems']) as $item){
-			if($item == 'User_Name'){
-				$PageItems[] = 'UserInfo.Name as User_Name';
-				continue;
-			}
-			if($item == 'Sender_Name'){
-				$PageItems[] = 'SenderInfo.Name as Sender_Name';
-				continue;
-			}
 			foreach($PageColumns as $table => $columns){
 				if(in_array($item,$columns)){
 					$PageItems[] = $table.'.'.$item;
@@ -45,8 +38,6 @@
 			}
 		}
 	}else{
-		$PageItems[] = 'UserInfo.Name as User_Name';
-		$PageItems[] = 'SenderInfo.Name as Sender_Name';
 		foreach($PageColumns as $table => $columns){
 			foreach($columns as $column){
 				$PageItems[] = $table.'.'.$column;
@@ -80,39 +71,56 @@
 			}
 		}
 	}
-
+	
 	$whereSql = array('1=1');
 	$whereParams = array();
 
-	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
-		$whereSql[] = 'tbUserMessageInfo.User_Id = '.$_POST['User_Id'];
+	if(array_key_exists('Ids',$_POST) && is_array($_POST['Ids'])){
+		$ids = array();
+		foreach($_POST['Ids'] as  $item){
+			$ids[] = intval($item);
+		}
+		if(!empty($ids)){
+			$whereSql[] = 'tbUserInfo.Id in('.implode(',',$ids).')';
+		}
 	}
-	if(array_key_exists('User_Name',$_POST) && !empty($_POST['User_Name'])){
-		$whereSql[] = 'UserInfo.Name like :User_Name';
-		$whereParams['User_Name'] = '%'.$_POST['User_Name'].'%';
+	if(array_key_exists('Name',$_POST) && !empty($_POST['Name'])){
+		$whereSql[] = 'tbUserInfo.Name like :Name';
+		$whereParams['Name'] = '%'.$_POST['Name'].'%';
 	}
-	if(array_key_exists('Sender_Name',$_POST) && !empty($_POST['Sender_Name'])){
-		$whereSql[] = 'SenderInfo.Name like :Sender_Name';
-		$whereParams['Sender_Name'] = '%'.$_POST['Sender_Name'].'%';
+	if(array_key_exists('NickName',$_POST) && !empty($_POST['NickName'])){
+		$whereSql[] = 'tbUserInfo.NickName like :NickName';
+		$whereParams['NickName'] = '%'.$_POST['NickName'].'%';
 	}
-	if(array_key_exists('DateTimeCreateMin',$_POST) && !empty($_POST['DateTimeCreateMin'])){
-		$whereSql[] = 'tbUserMessageInfo.DateTimeCreate >= :DateTimeCreateMin';
-		$whereParams['DateTimeCreateMin'] = $_POST['DateTimeCreateMin'];
+	if(array_key_exists('Sex',$_POST) && is_numeric($_POST['Sex'])){
+		$whereSql[] = 'Sex = '.$_POST['Sex'];
 	}
-	if(array_key_exists('DateTimeCreateMax',$_POST) && !empty($_POST['DateTimeCreateMax'])){
-		$whereSql[] = 'tbUserMessageInfo.DateTimeCreate <= date_add(:DateTimeCreateMax,INTERVAL 1 DAY)';
-		$whereParams['DateTimeCreateMax'] = $_POST['DateTimeCreateMax'];
+	if(array_key_exists('DateTimeModifyStart',$_POST) && !empty($_POST['DateTimeModifyStart'])){
+		$whereSql[] = 'tbUserInfo.DateTimeModify >= :DateTimeModifyStart';
+		$whereParams['DateTimeModifyStart'] = $_POST['DateTimeModifyStart'];
 	}
-	if(array_key_exists('Status_User',$_POST) && is_numeric($_POST['Status_User'])){
-		$whereSql[] = 'tbUserMessageInfo.Status_User = '.$_POST['Status_User'];
+	if(array_key_exists('DateTimeModifyEnd',$_POST) && !empty($_POST['DateTimeModifyEnd'])){
+		$whereSql[] = 'tbUserInfo.DateTimeModify <= date_add(:DateTimeModifyEnd,INTERVAL 1 DAY)';
+		$whereParams['DateTimeModifyEnd'] = $_POST['DateTimeModifyEnd'];
+	}
+	if(array_key_exists('BirthdayStart',$_POST) && !empty($_POST['BirthdayStart'])){
+		$whereSql[] = 'tbUserInfo.Birthday >= :BirthdayStart';
+		$whereParams['BirthdayStart'] = $_POST['BirthdayStart'];
+	}
+	if(array_key_exists('BirthdayEnd',$_POST) && !empty($_POST['BirthdayEnd'])){
+		$whereSql[] = 'tbUserInfo.Birthday <= date_add(:BirthdayEnd,INTERVAL 1 DAY)';
+		$whereParams['BirthdayEnd'] = $_POST['BirthdayEnd'];
+	}
+	
+	
+	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
+		$whereSql[] = 'tbAccountInfo.Status = '.$_POST['Status'];
 	}
 	
 	
 	$sthList = null;
 	$sthCount = null;
-	
-	$tbFrom = 'tbUserMessageInfo left join tbUserInfo as UserInfo on tbUserMessageInfo.User_Id = UserInfo.Id left join tbUserInfo as SenderInfo on tbUserMessageInfo.Sender_Id = SenderInfo.Id';
-	
+
 	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$PageTables.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(' ',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
 	$sthCount = $pdomysql -> prepare('select count(1) from '.$PageTables.' where '.implode(' and ',$whereSql));
 
@@ -125,7 +133,6 @@
 	}
 
 	$errors = array();
-	
 	$error = $sthList -> errorInfo();
 	if($error[1] > 0){
 		$errors[] = $error[2];

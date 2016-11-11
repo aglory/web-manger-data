@@ -84,8 +84,8 @@
 											</select>
 										</div>
 										<div class="form-group">
-											<input id="DateTimeCreateStart" name="DateTimeCreateStart" class="form-control input-sm date Wdate wd100" placeholder="发件开始日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'DateTimeCreateEnd\')}'});" />
-											<input id="DateTimeCreateEnd" name="DateTimeCreateEnd" class="form-control input-sm date Wdate wd100" placeholder="发件结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeCreateStart\')}'});" />
+											<input id="DateTimeCreateMin" name="DateTimeCreateMin" class="form-control input-sm date Wdate wd100" placeholder="发件开始日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'DateTimeCreateMax\')}'});" />
+											<input id="DateTimeCreateMax" name="DateTimeCreateMax" class="form-control input-sm date Wdate wd100" placeholder="发件结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeCreateMin\')}'});" />
 										</div>
 										<div class="form-group">
 											<select name="Status_User" class="form-control input-sm" placeholder="状态">
@@ -107,12 +107,12 @@
 									<thead>
 										<tr>
 											<th class="t_c wd40"><input type="checkbox" onclick="toggleAll(this)" /></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="UserInfo.Name"> 收件人</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="SenderInfo.Name"> 发件人</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserMessageInfo.Flag"> 标记</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserMessageInfo.Message"> 消息</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserMessageInfo.DateTimeCreate"> 创建时间</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="tbUserMessageInfo.Status"> 状态</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="User_Name"> 收件人</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Sender_Name"> 发件人</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Flag"> 标记</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Message"> 消息</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeCreate"> 创建时间</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Status"> 状态</a></th>
 											<th class="t_c">操作</th>
 										</tr>
 									</thead>
