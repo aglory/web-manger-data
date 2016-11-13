@@ -106,16 +106,16 @@
 								<table class="table table-striped table-bordered">
 									<thead>
 										<tr>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Name"> 名称</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.NickName"> 昵称</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountScore"> 积分</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserStatisticsInfo.CountFollowed"> 关注者</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Birthday">生日</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.Sex"> 性别</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Name"> 名称</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="NickName"> 昵称</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="CountScore"> 积分</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="CountFollowed"> 关注者</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Birthday">生日</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Sex"> 性别</a></th>
 											<th class="t_c">头像</th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbUserInfo.DateTimeModify"> 时间（创建/登录）</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="tbAccountInfo.RoleId"> 角色</a></th>
-											<th class="t_c">操作</th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeModify"> 时间（创建/登录）</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="RoleId"> 角色</a></th>
+											<th class="t_c wd160">操作</th>
 										</tr>
 									</thead>
 									<tbody id="recordList">

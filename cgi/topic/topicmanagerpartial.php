@@ -1,15 +1,21 @@
 <?php
-	if(!defined('Execute') && !defined('Api')){ exit();}
+	if(!defined('Execute')) exit();
+	if(empty(CurrentUserId())){
+		Render('account','login');
+		exit();
+	}
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
-
-	$PageSort = '';
+	
 	$PageIndex = 1;
 	$PageSize = 20;
 	$PageItems = array();
 	
+
 	$PageColumns = array(
-		'tbUserImageInfo' => array('Id','User_Id','OrderNumber','Src','IsDefault','Status','Description','DateTimeCreate','DateTimeModify')
+		'tbTopicInfo' => array('Id','Code','Title')
 	);
+	
+	$PageTables = 'tbTopicInfo';
 	
 	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){
 		$PageIndex = intval($_POST['PageIndex']);
@@ -41,7 +47,6 @@
 	$PageEnd = $PageSize;
 	$PageOrderBy = array();
 	
-	
 	if(array_key_exists('PageSort',$_POST) && !empty($_POST['PageSort'])){
 		foreach(explode(',',$_POST['PageSort']) as $item){
 			$itemgroup = explode(' ',$item);
@@ -61,37 +66,24 @@
 			}
 		}
 	}
-	
-	
+
 	$whereSql = array('1=1');
 	$whereParams = array();
-
-	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
-		$whereSql[] = 'tbUserImageInfo.User_Id ='.$_POST['User_Id'];
-	}
-	if(array_key_exists('IsDefault',$_POST) && is_numeric($_POST['IsDefault'])){
-		$whereSql[] = 'tbUserImageInfo.IsDefault = '.$_POST['IsDefault'];
-	}
 	
-	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
-		$whereSql[] = 'tbUserImageInfo.Status = '.$_POST['Status'];
+	if(array_key_exists('Code',$_POST) && !empty($_POST['Code'])){
+		$whereSql[] = 'tbTopicInfo.Code like :Code';
+		$whereParams['Code'] = '%'.$_POST['Code'].'%';
 	}
-	if(array_key_exists('DateTimeModifyMin',$_POST) && !empty($_POST['DateTimeModifyMin'])){
-		$whereSql[] = 'tbUserImageInfo.DateTimeModify >= :DateTimeModifyMin';
-		$whereParams['DateTimeModifyMin'] = $_POST['DateTimeModifyMin'];
-	}
-	if(array_key_exists('DateTimeModifyMax',$_POST) && !empty($_POST['DateTimeModifyMax'])){
-		$whereSql[] = 'tbUserImageInfo.DateTimeModify < date_add(:DateTimeModifyMax,INTERVAL 1 DAY)';
-		$whereParams['DateTimeModifyMax'] = $_POST['DateTimeModifyMax'];
+	if(array_key_exists('Title',$_POST) && !empty($_POST['Title'])){
+		$whereSql[] = 'tbTopicInfo.Title like :Title';
+		$whereParams['Title'] = '%'.$_POST['Title'].'%';
 	}
 	
 	$sthList = null;
 	$sthCount = null;
 	
-	$tbFrom = 'tbUserImageInfo';
-
-	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(',',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
-	$sthCount = $pdomysql -> prepare('select count(1) from '.$tbFrom.' where '.implode(' and ',$whereSql));
+	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$PageTables.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(',',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
+	$sthCount = $pdomysql -> prepare('select count(1) from '.$PageTables.' where '.implode(' and ',$whereSql));
 
 	if(empty($whereParams)){
 		$sthList -> execute();
@@ -112,15 +104,31 @@
 	}
 
 	$result = array();
-	
 
 	if(empty($errors)){
+		
+		$ls = $sthList -> fetchAll(PDO::FETCH_ASSOC);
+		if(!empty($ls)){
+			$Ids = array();
+			foreach($ls as $item){
+				$Ids[] = $item['Id'];
+			}
+			$sthItemList = $pdomysql -> prepare('select * from tbTopicItemInfo where Topic_Id in('.implode(',',$Ids).');');
+			$items = $sthItemList -> fetchAll(PDO::FETCH_ASSOC);
+			foreach($ls as $item){
+				$item['item'] = array();
+				foreach($items as $child){
+					if($child['Topic_Id'] == $item['Id'])
+						$item['item'][] = $child;
+				}
+			}
+		}
+		
+		
 		$result['status'] = true;
-		$result['code'] = 200;
-		$result['recordList'] = $sthList -> fetchAll(PDO::FETCH_ASSOC);
+		$result['recordList'] = $ls;
 		$result['recordCount'] = $sthCount -> fetch(PDO::FETCH_NUM)[0]; 
 	}else{
-		$result['code'] = 550;
 		$result['status'] = false;
 		$result['recordCount'] = 0; 
 		$result['message'] = implode('\r\n',$errors);
