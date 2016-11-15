@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>专题Api调试</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<script src="jquery/jquery.min.js"></script>
+		
+		<script src="My97DatePicker/WdatePicker.js"></script>
+		<script src="My97DatePicker/lang/zh-cn.js"></script>
+		<base  target="_blank" />
+	</head>
+	<body>
+		<div class="container">
+			<div id="main">
+				<div class="col-md-12">
+					<fieldset>
+						<legend>专题查询</legend>
+						<dl>
+							<dt>请求地址：</dt>
+							<dd>api.php?model=topic&action=query</dd>
+							<dt>参数(必填)</dt>
+							<dd>积分：Code</dd>
+						</dl>
+						<fieldset>
+							<form action="api.php?model=topic&action=query" method="post">
+								<legend>测试</legend>
+								<ul>
+									<li><input name="Code" type="text" placeholder="专题编号" /></li>
+									<li><input name="PageItems" type="text" value="Img,Title,Message" /></li>
+								</ul>
+								<button type="submit">提交</button>
+							</form>
+						</fieldset>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

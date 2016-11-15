@@ -66,7 +66,7 @@
 											<button class="btn btn-sm btn-info" type="button" onclick="topicEditor(this,0)">添加</button>
 										</div>
 									</div>
-									<div class="col-sm-11">
+									<div class="col-sm-11 t_r">
 										<div class="form-group">
 											<input name="Code" type="text" class="form-control input-sm wd120" placeholder="编号" />
 										</div>

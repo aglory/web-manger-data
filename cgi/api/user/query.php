@@ -149,7 +149,7 @@
 		$result['recordList'] = $sthList -> fetchAll(PDO::FETCH_ASSOC);
 		$result['recordCount'] = $sthCount -> fetch(PDO::FETCH_NUM)[0]; 
 	}else{
-		$result['code'] = 540;
+		$result['code'] = 550;
 		$result['status'] = false;
 		$result['recordCount'] = 0; 
 		$result['message'] = implode('\r\n',$errors);

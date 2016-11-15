@@ -1,15 +1,21 @@
 <?php
-	if(!defined('Execute') && !defined('Api')){ exit();}
+	if(!defined('Execute')) exit();
+	if(empty(CurrentUserId())){
+		Render('account','login');
+		exit();
+	}
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
-
-	$PageSort = '';
+	
 	$PageIndex = 1;
 	$PageSize = 20;
 	$PageItems = array();
 	
+
 	$PageColumns = array(
-		'tbUserScoreLog' => array('Id','User_Id','Type','Number','Mark','DateTimeCreate')
+		'tbTopicItemInfo' => array('Id','Topic_Id','OrderNumber','Img','Title','Message')
 	);
+	
+	$PageTables = 'tbTopicItemInfo';
 	
 	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){
 		$PageIndex = intval($_POST['PageIndex']);
@@ -39,8 +45,7 @@
 
 	$PageStart = ($PageIndex - 1) * $PageSize;
 	$PageEnd = $PageSize;
-	$PageOrderBy = array();
-	
+	$PageOrderBy = array('tbTopicItemInfo.OrderNumber desc,tbTopicItemInfo.Id desc');
 	
 	if(array_key_exists('PageSort',$_POST) && !empty($_POST['PageSort'])){
 		foreach(explode(',',$_POST['PageSort']) as $item){
@@ -61,47 +66,20 @@
 			}
 		}
 	}
-	
-	
-	$whereSql = array('1=1');
-	$whereParams = array();	
-	
-	header('Content-Type: application/json;');
 
-	if(array_key_exists('User_Id',$_POST) && is_numeric($_POST['User_Id'])){
-		$whereSql[] = 'tbUserScoreLog.User_Id ='.$_POST['User_Id'];
-	}else{
-		echo json_encode(array('code' => 400,'status' => true,'recordList' => null,'recordCount' => 0));
-		exit(1);
-	}
+	$whereSql = array('1=1');
+	$whereParams = array();
 	
-	if(array_key_exists('Type',$_POST) && is_numeric($_POST['Type'])){
-		$whereSql[] = 'tbUserScoreLog.Type = '.$_POST['Type'];
-	}
-	
-	if(array_key_exists('NumberMin',$_POST) && is_numeric($_POST['NumberMin'])){
-		$whereSql[] = 'tbUserScoreLog.Number >= '.$_POST['NumberMin'];
-	}
-	if(array_key_exists('NumberMax',$_POST) && is_numeric($_POST['NumberMax'])){
-		$whereSql[] = 'tbUserScoreLog.Number <= '.$_POST['NumberMax'];
-	}
-	if(array_key_exists('DateTimeCreateMin',$_POST) && !empty($_POST['DateTimeCreateMin'])){
-		$whereSql[] = 'tbUserScoreLog.DateTimeCreate >= :DateTimeCreateMin';
-		$whereParams['DateTimeCreateMin'] = $_POST['DateTimeCreateMin'];
-	}
-	if(array_key_exists('DateTimeCreateMax',$_POST) && !empty($_POST['DateTimeCreateMax'])){
-		$whereSql[] = 'tbUserScoreLog.DateTimeCreate < date_add(:DateTimeCreateMax,INTERVAL 1 DAY)';
-		$whereParams['DateTimeCreateMax'] = $_POST['DateTimeCreateMax'];
+	if(array_key_exists('Topic_Id',$_POST) && is_numeric($_POST['Topic_Id'])){
+		$whereSql[] = 'tbTopicItemInfo.Topic_Id = :Topic_Id';
+		$whereParams['Topic_Id'] = $_POST['Topic_Id'];
 	}
 	
 	$sthList = null;
 	$sthCount = null;
 	
-	$tbFrom = 'tbUserScoreLog';
-	
-	
-	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(',',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
-	$sthCount = $pdomysql -> prepare('select count(1) from '.$tbFrom.' where '.implode(' and ',$whereSql));
+	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$PageTables.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(',',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
+	$sthCount = $pdomysql -> prepare('select count(1) from '.$PageTables.' where '.implode(' and ',$whereSql));
 
 	if(empty($whereParams)){
 		$sthList -> execute();
@@ -122,17 +100,17 @@
 	}
 
 	$result = array();
-	
 
 	if(empty($errors)){
-		$result['code'] = 200;
 		$result['status'] = true;
 		$result['recordList'] = $sthList -> fetchAll(PDO::FETCH_ASSOC);
 		$result['recordCount'] = $sthCount -> fetch(PDO::FETCH_NUM)[0]; 
 	}else{
-		$result['code'] = 550;
 		$result['status'] = false;
+		$result['recordCount'] = 0; 
 		$result['message'] = implode('\r\n',$errors);
 	}
+	
+	header('Content-Type: application/json;');
 	echo json_encode($result);
 	exit();

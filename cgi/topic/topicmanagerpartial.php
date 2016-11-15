@@ -113,17 +113,18 @@
 			foreach($ls as $item){
 				$Ids[] = $item['Id'];
 			}
-			$sthItemList = $pdomysql -> prepare('select * from tbTopicItemInfo where Topic_Id in('.implode(',',$Ids).');');
+			$sthItemList = $pdomysql -> prepare('select * from tbTopicItemInfo where Topic_Id in('.implode(',',$Ids).') order by Topic_Id,OrderNumber desc,Id desc;');
+			$sthItemList -> execute();
 			$items = $sthItemList -> fetchAll(PDO::FETCH_ASSOC);
-			foreach($ls as $item){
-				$item['item'] = array();
+			foreach($ls as &$item){
+				$item['Items'] = array();
 				foreach($items as $child){
-					if($child['Topic_Id'] == $item['Id'])
-						$item['item'][] = $child;
+					if($child['Topic_Id'] == $item['Id']){
+						$item['Items'][] = $child;
+					}
 				}
 			}
 		}
-		
 		
 		$result['status'] = true;
 		$result['recordList'] = $ls;

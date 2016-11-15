@@ -15,7 +15,7 @@
 	}
 	
 	if(empty($account) || empty($password)){
-		echo json_encode(array('code' => 540,'status' => false,'message' => '缺少登录账号/密码'));
+		echo json_encode(array('code' => 400,'status' => false,'message' => '缺少登录账号/密码'));
 		exit(1);
 	}
 	

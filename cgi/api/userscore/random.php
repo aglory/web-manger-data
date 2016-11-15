@@ -11,7 +11,7 @@
 		$Number = intval($_POST['Number']);
 	}
 	if($Number <= 0){
-		echo json_encode(array('code' => 540,'status' => false,'message' => '积分参数错误'));
+		echo json_encode(array('code' => 400,'status' => false,'message' => '积分参数错误'));
 		die(1);
 	}
 	
@@ -65,7 +65,7 @@
 		$result['code'] = 200;
 		$result['status'] = true;
 	}else{
-		$result['code'] = 540;
+		$result['code'] = 550;
 		$result['status'] = false;
 		$result['message'] = implode('\r\n',$errors);
 	}

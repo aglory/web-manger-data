@@ -10,7 +10,7 @@
 	if(array_key_exists('Number',$_POST) && is_numeric($_POST['Number'])){
 		$Number = intval($_POST['Number']);
 	}else{
-		echo json_encode(array('code' => 540,'status' => false,'message' => '缺少积分'));
+		echo json_encode(array('code' => 400,'status' => false,'message' => '缺少积分'));
 	}
 	
 	$Type = 0;
@@ -61,7 +61,7 @@
 		$result['code'] = 200;
 		$result['status'] = true;
 	}else{
-		$result['code'] = 540;
+		$result['code'] = 550;
 		$result['status'] = false;
 		$result['message'] = implode('\r\n',$errors);
 	}

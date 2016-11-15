@@ -166,7 +166,7 @@ function topicSave(sender,modal){
 }
 
 function topicDelete(sender,id){
-	var modal = $(template('confirm',{message:'确定删除该用户?'})).appendTo('body').modal();
+	var modal = $(template('confirm',{message:'确定删除该专题?'})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
@@ -203,9 +203,9 @@ function topicDelete(sender,id){
 	return modal;
 }
 
-function topicItemEditor(sender,topicid,id){
+function topicItemEditor(sender,id,topicid){
 	if(id == 0){
-		topicItemEditorRender(sender,{status:true,model:null});
+		topicItemEditorRender(sender,{status:true,model:{Topic_Id:topicid}});
 		return;
 	}
 	if(sender){
@@ -226,6 +226,135 @@ function topicItemEditor(sender,topicid,id){
 				return;
 			}
 			topicItemEditorRender(sender,rest);
+		},error:function(){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+		}
+	});
+}
+
+function topicItemEditorRender(sender,model){
+	var html = $(template('topicitemeditor',EnumConfig(model))).appendTo('body');
+	var modal = html.modal();
+	modal.find(".modal-dialog").draggable({handle:".modal-header"});
+	modal.find(".btn-save").click(function(){
+		topicItemSave(this,modal);
+	});
+	return modal;
+}
+
+function topicItemSave(sender,modal){
+	var form = modal.find(".editorForm");
+	if(sender){
+		$(sender).prop('disabed',true);
+	}
+	$.ajax({
+		url:form.attr("action"),
+		type:"post",
+		data:new FormData(form[0]),
+		dataType:"json",
+		contentType: false,
+		processData: false,
+		success:function(rest){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+			if(!rest)return;
+			if(!rest.status){
+				UI_Tips('danger',rest.message);
+				return;
+			}
+			doQueryItem(form);
+			modal.modal('hide');
+		},error:function(){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+		}
+	});
+}
+
+function doQueryItem(form){
+	var Topic_Id = form.find("input[name='Topic_Id']").val();
+	$.ajax({
+		url:'?model=topic&action=topicitemmanagerpartial',
+		data:{Topic_Id:Topic_Id},
+		type:'post',
+		dataType:'json',
+		success:function(rest){	
+			if(!rest)return;
+				console.info(rest.status)
+			if(!rest.status){
+				UI_Tips('danger',rest.message);
+				return;
+			}
+			rest.Items = rest.recordList;
+			$("#item_"+Topic_Id).html(template('topicitemmanger',rest));
+		},error:function(){
+		}
+	});
+}
+
+function topicItemDelete(sender,id){
+	var modal = $(template('confirm',{message:'确定删除该专题项?'})).appendTo('body').modal();
+	modal.find(".modal-dialog").draggable({handle:".modal-header"});
+	modal.find(".btn-yes").click(function(){
+		var sender = this;
+		if(sender){
+			$(sender).prop('disabed',true);
+		}
+		$.ajax({
+			url:'?model=topic&action=topicitemdelete',
+			type:"post",
+			data:{Id:id,Status:status},
+			dataType:"json",
+			success:function(rest){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}			
+				modal.modal('hide');
+				if(!rest)return;
+				if(!rest.status){
+					UI_Tips('danger',rest.message);
+					return;
+				}
+				UI_Tips('success',"删除成功");
+				doQuery();
+			},error:function(){
+				if(sender){
+					$(sender).prop('disabed',false);
+				}
+			}
+		});
+	});
+	modal.find(".btn-no").click(function(){
+		modal.modal("hide");
+	});
+	return modal;
+}
+
+function topicItemChangeOrderNumber(sender,id,Topic_Id,type){
+	var sender = this;
+	if(sender){
+		$(sender).prop('disabed',true);
+	}
+	$.ajax({
+		url:'?model=topic&action=topicitemechangeordernumber',
+		type:"post",
+		data:{Id:id,OrderType:type,Topic_Id:Topic_Id},
+		dataType:"json",
+		success:function(rest){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+			if(!rest)return;
+			if(!rest.status){
+				UI_Tips('danger',rest.message);
+				return;
+			}
+			UI_Tips('success',"移动成功");
+			doQuery();
 		},error:function(){
 			if(sender){
 				$(sender).prop('disabed',false);

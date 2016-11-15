@@ -22,17 +22,9 @@
 		$action=$_GET['action'];
 	}
 	
-	/*
-	die(json_encode(
-	array(
-		!($model =='user' && $action == 'login'),
-		empty(CurrentUserId()),
-		!($model =='user' && $action == 'login') && empty(CurrentUserId())
-		)
-	));
-	*/
-	
-	if(!($model =='user' && $action == 'authorize') && empty(CurrentUserId())){
+	if(!($model =='user' && $action == 'authorize') 
+		&& !($model == 'topic')
+		&& empty(CurrentUserId())){
 		header('Content-Type: application/json;');
 		echo json_encode(array('status' => false,'code' => 401));
 		exit();

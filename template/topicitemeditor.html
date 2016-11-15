@@ -1,0 +1,63 @@
+<div class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">编辑 {{if (model)}} -{{model.Title}} {{/if}}</h4>
+			</div>
+			<div class="modal-body">
+				<form class="editorForm" action="?model=topic&action=topicitemsave" enctype="multipart/form-data">
+					<input name="Id" value="{{if (model)}}{{model.Id}}{{else}}0{{/if}}" type="hidden" />
+					<input name="Topic_Id" value="{{if (model)}}{{model.Topic_Id}}{{else}}0{{/if}}" type="hidden" />
+					<fieldset>
+						<table class="table table-none">
+							<tr>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">标题：</span>
+										<input name="Title" type="text" placeholder="标题" class="form-control input-sm" value="{{if model}}{{model.Title}}{{/if}}">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">内容：</span>
+										<textarea name="Message" type="text" placeholder="内容" class="form-control input-sm">{{if model}}{{model.Title}}{{/if}}</textarea>
+									</div>
+								</td>
+							</tr>
+							{{if model && model.Img}}
+							<tr>
+								<td>
+									<img src="{{model.Img}}" />
+								</td>
+							</tr>
+							{{/if}}
+							<tr>
+								<td>
+									<div class="input-group ">
+										<span class="input-group-addon">本地上传</span>
+										<input id="imgs[]" name="imgs[]" type="file" multiple="multiple" class="form-control">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">网络路径</span>
+										<input id="Src" name="Src" type="text" class="form-control">
+									</div>
+								</td>
+							</tr>
+						</table>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary btn-save">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
