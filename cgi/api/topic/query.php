@@ -58,7 +58,8 @@
 	$whereParams = array();
 
 	if(array_key_exists('Code',$_POST) && !empty($_POST['Code'])){
-		$whereSql[] = 'tbTopicInfo.Code = '.$_POST['Code'];
+		$whereSql[] = 'tbTopicInfo.Code = :Code';
+		$whereParams['Code'] = $_POST['Code'];
 	}else{
 		echo json_encode(array('code' => 400,'status' => false,'message' => '缺少编号'));
 		exit();
@@ -69,7 +70,7 @@
 	$sthCount = null;
 	
 	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(',',$PageOrderBy):''));
-
+	
 	if(empty($whereParams)){
 		$sthList -> execute();
 	}else{
