@@ -49,8 +49,9 @@
 		$errors = array();
 		$sth = $pdomysql -> prepare('insert into tbTopicItemInfo(Topic_Id,OrderNumber,Img,Title,Message)values(:Topic_Id,:OrderNumber,:Img,:Title,:Message)');
 		foreach($img as $key => $val){
+
 			$sth -> execute(array(
-				'Topic_Id,' => $Topic_Id,
+				'Topic_Id' => $Topic_Id,
 				'OrderNumber' => $key,
 				'Img' => $val,
 				'Title' => $Title,
