@@ -10,7 +10,7 @@
 		$id = intval($_POST['id']);
 	}
 	
-	$sth = $pdomysql -> prepare('select * from tbTopicInfo where id = '.$id);
+	$sth = $pdomysql -> prepare('select * from tbTopicInfo where Id = '.$id);
 	$sth -> execute();
 	
 	$errors = array();

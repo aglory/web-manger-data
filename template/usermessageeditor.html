@@ -7,15 +7,15 @@
 			</div>
 			<div class="modal-body">
 				<form class="editorForm" action="?model=usermessage&action=usermessagesave">
-					<input name="Id" value="{{if (model)}}{{model.Id}}{{else}}0{{/if}}" type="hidden" />
+					<input name="ReplayId" value="{{if (model)}}{{model.Id}}{{else}}0{{/if}}" type="hidden" />
 					<fieldset>
 						<table class="table table-none">
 							<tr>
 								<td>
 									<div class="input-group">
 										<span class="input-group-addon">收件人：</span>
-										<input name="User_Name" type="text" placeholder="收件人：" class="form-control input-sm" value="{{if (model.User_Name)}}{{model.User_Name}}{{/if}}">
-										<input name="User_Id" type="hidden" value="{{if (model.User_Id)}}{{model.User_Id}}{{/if}}">
+										<input name="User_Name" type="text" placeholder="收件人：" class="form-control input-sm" value="{{if (model.Sender_Name)}}{{model.Sender_Name}}{{/if}}">
+										<input name="User_Id" type="hidden" value="{{if (model.Sender_Id)}}{{model.Sender_Id}}{{/if}}">
 									</div>									
 								</td>
 							</tr>
@@ -23,8 +23,8 @@
 								<td>
 									<div class="input-group">
 										<span class="input-group-addon">发件人：</span>
-										<input name="Sender_Name" type="text" placeholder="发件人：" class="form-control input-sm" value="{{if (model.Sender_Name)}}{{model.Sender_Name}}{{/if}}">
-										<input name="Sender_Id" type="hidden" value="{{if (model.Sender_Id)}}model.Sender_Id{{/if}}">
+										<input name="Sender_Name" type="text" placeholder="发件人：" class="form-control input-sm" value="">
+										<input name="Sender_Id" type="hidden" value="">
 									</div>
 								</td>
 							</tr>
@@ -36,10 +36,17 @@
 									</div>
 								</td>
 							</tr>
+							{{if (model.Message)}}
+							<tr>
+								<td>
+									{{model.Message}}
+								</td>
+							</tr>
+							{{/if}}
 							<tr>
 								<td>
 									<div class="input-group" style="width:100%">
-										<textarea name="Message" style="width:100%" class="form-control input-sm">{{if (model.Message)}}{{model.Message}}{{/if}}</textarea>
+										<textarea name="Message" style="width:100%" class="form-control input-sm"></textarea>
 									</div>
 								</td>
 							</tr>

@@ -15,7 +15,7 @@
 		</td>
 		<td class="t_c">
 			<div class="btn-group">
-			<button  class="btn btn-sm btn-success" type="button">回复</button>
+			<button  class="btn btn-sm btn-success" onclick="userMessageEditor(this,{{$value.Id}})" type="button">回复</button>
 			{{if $value.Status_User == 0}}
 				<button class="btn btn-sm btn-success" type="button" onclick="userMessageUserStatusChange(this,{{$value.Id}},1)">标为已读</button>
 			{{else if $value.Status_User == 1}}
@@ -23,7 +23,7 @@
 			{{else if $value.Status_User == 2}}
 				<button class="btn btn-sm btn-default" type="button">已删</button>
 			{{/if}}
-				<button class="btn btn-sm btn-danger" type="button" onclick="userMessageDelete(this,{{$value.Id}})">删除数据</button>
+				<button class="btn btn-sm btn-danger" type="button" onclick="userMessageDelete(this,{{$value.Id}})">删除数消息</button>
 			</div>
 		</td>
 	</tr>                                               

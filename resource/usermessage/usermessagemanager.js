@@ -95,26 +95,17 @@ $(function(){
 	doQuery();
 });
 
-function userMessageEditor(sender,userId,senderId){
-	var params = [];
-	var model = {};
-	if(userId){
-		params.push('Ids[]='+userId);
-	}
-	if(senderId){
-		params.push('Ids[]='+senderId);
-	}
-	var model = {User_Id:userId,Sender_Id:senderId};
-	if(params.length==0){
-		userMessageRender(sender,{status:true,model:model});
+function userMessageEditor(sender,id){
+	if(id==0){
+		userMessageRender(sender,{status:true,model:{}});
 		return;
 	}
 	if(sender){
 		$(sender).prop('disabed',true);
 	}
 	$.ajax({
-		url:'?model=user&action=usermanagerpartial',
-		data:'PageIndex=1&PageSize=2&PageItems=Id,Name'+"&"+params.join("&"),
+		url:'?model=usermessage&action=usermessageeditor',
+		data:{id : id},
 		type:'post',
 		dataType:'json',
 		success:function(rest){
@@ -126,16 +117,7 @@ function userMessageEditor(sender,userId,senderId){
 				UI_Tips('danger',rest.message);
 				return;
 			}
-			for(var i = 0;i<rest.recordList.length;i++){
-				var item = rest.recordList[i];
-				if(item.Id == model.User_Id){
-					model.User_Name = item.Name;
-				}
-				if(item.Id == model.Sender_Id){
-					model.Sender_Name = item.Name;
-				}
-			}
-			userMessageRender(sender,{status:true,model:model});
+			userMessageRender(sender,rest);
 		},
 		error:function(){
 			if(sender){
