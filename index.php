@@ -55,15 +55,13 @@
 		}
 	}
 	
-	function Loader(){
+	function Lib(){
 		$params = func_get_args();
 		if(empty($params))return;
 		array_unshift($params,'.','lib');
 		
-		$file = implode(DIRECTORY_SEPARATOR,$params).'.php';
-		if(file_exists($file)){
-			require $file;
-		}
+		return implode(DIRECTORY_SEPARATOR,$params).'.php';
+		
 	}
 	
 	function CurrentUserId(){
@@ -84,5 +82,5 @@
 	}
 	
 	
-
+	
 	Render($model,$action);

@@ -4,7 +4,7 @@
 		Render('account','login');
 		exit();
 	}
-	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
+	require_once Lib('pdo');
 	
 	$Id = 0;
 	if(array_key_exists('Id',$_POST) && is_numeric($_POST['Id'])){

@@ -5,12 +5,17 @@
 		exit();
 	}
 	require_once Lib('pdo');
+	
 	$id = 0;
 	if(array_key_exists('id',$_POST) && is_numeric($_POST['id'])){
 		$id = intval($_POST['id']);
 	}
 	
-	$sth = $pdomysql -> prepare('select * from tbUserInfo where Id = '.$id);
+	$sth = $pdomysql -> prepare('select tbUserMessageInfo.*'.
+	',UserInfo.Name as User_Name,UserInfo.NickName as User_NickName'.
+	',SenderInfo.Name as Sender_Name,SenderInfo.NickName as Sender_NickName'.
+    ' from tbUserMessageInfo left join tbUserInfo as UserInfo on tbUserMessageInfo.User_Id = UserInfo.Id left join tbUserInfo as SenderInfo on tbUserMessageInfo.Sender_Id = SenderInfo.Id where tbUserMessageInfo.Id = '.$id);
+	
 	$sth -> execute();
 	
 	$errors = array();

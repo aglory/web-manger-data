@@ -1,5 +1,5 @@
 <?php
-require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
+require_once Lib('pdo');
 $Name = '';$Password = '';
 if(array_key_exists('Name',$_POST)){
 	$Name = $_POST['Name'];

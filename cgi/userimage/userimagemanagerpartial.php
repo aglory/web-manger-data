@@ -4,7 +4,7 @@
 		Render('home','login');
 		exit();
 	}
-	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
+	require_once Lib('pdo');
 
 	$PageSort = 'tbUserImageInfo.OrderNumber desc,tbUserImageInfo.Id desc';
 	$PageIndex = 1;

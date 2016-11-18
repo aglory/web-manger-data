@@ -4,7 +4,7 @@
 		Render('account','login');
 		exit();
 	}
-	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
+	require_once Lib('pdo');
 
 	$PageSort = 'Id desc';
 	$PageIndex = 1;
@@ -12,7 +12,7 @@
 	$PageItems = array();
 	
 	$PageColumns = array(
-		'tbUserMessageInfo' => array('Id','User_Id','Sender_Id','Flag','Message','DateTimeCreate','DateTimeModify','Status_User','Status_Sender'),
+		'tbUserMessageInfo' => array('Id','User_Id','Sender_Id','Flag','Message','DateTimeCreate','DateTimeModify','Status_User','Status_Sender','ReplayId'),
 	);
 	
 	$PageTables = 'tbUserMessageInfo left join tbUserInfo as UserInfo on tbUserMessageInfo.User_Id = UserInfo.Id left join tbUserInfo as SenderInfo on tbUserMessageInfo.Sender_Id = SenderInfo.Id';

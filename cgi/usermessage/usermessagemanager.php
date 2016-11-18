@@ -38,6 +38,7 @@
 		
 		<link rel="stylesheet" href="common/common.css" />
 		<script src="common/common.js"></script>
+		<script src="common/config.js"></script>
 		
 		<script src="common/template.js"></script>
 		
@@ -88,7 +89,14 @@
 											<input id="DateTimeCreateMax" name="DateTimeCreateMax" class="form-control input-sm date Wdate wd100" placeholder="发件结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeCreateMin\')}'});" />
 										</div>
 										<div class="form-group">
-											<select name="Status_User" class="form-control input-sm" placeholder="状态">
+											<select name="Status_User" class="form-control input-sm">
+												<option value="">全部</option>
+												<option value="0">正常</option>
+												<option value="2">删除</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<select name="Status_Sender" class="form-control input-sm">
 												<option value="">全部</option>
 												<option value="0">未读</option>
 												<option value="1">已读</option>
@@ -107,12 +115,12 @@
 									<thead>
 										<tr>
 											<th class="t_c wd40"><input type="checkbox" onclick="toggleAll(this)" /></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Id"> 编号</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Flag"> 标记</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="User_Name"> 收件人</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Sender_Name"> 发件人</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Flag"> 标记</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeModify"> 时间</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Message"> 消息</a></th>
-											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeCreate"> 创建时间</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Status"> 状态</a></th>
 											<th class="t_c">操作</th>
 										</tr>
 									</thead>

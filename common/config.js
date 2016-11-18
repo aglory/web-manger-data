@@ -29,6 +29,19 @@ function EnumConfig(model){
 		ScoreType:[
 			{Key:0,Value:"系统"},
 			{Key:1,Value:"活动"}
+		],
+		MessageFlag:[
+			{Key:0,Value:"系统"},
+			{Key:1,Value:"用户"}
+		],
+		MessageStatusSender:[
+			{Key:0,Value:"正常"},
+			{Key:2,Value:"删除"}
+		],
+		MessageStatusUer:[
+			{Key:0,Value:"未读"},
+			{Key:1,Value:"已读"},
+			{Key:2,Value:"删除"}
 		]
 	}
 	if(model){

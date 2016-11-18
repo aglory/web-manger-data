@@ -4,7 +4,7 @@
 		Render('account','login');
 		exit();
 	}
-	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
+	require_once Lib('pdo');
 	
 	header('Content-Type: application/json');	
 	
@@ -44,11 +44,16 @@
 		exit();
 	}
 	
+	$ReplayId = 0;
+	if(array_key_exists('ReplayId',$_POST) && is_numeric($_POST['ReplayId'])){
+		$ReplayId = intval($_POST['ReplayId']);
+	}
+	
 	$timespan = date('Y-m-d H:i:s',time());
 	
 	$errors = array();
 		
-	$sthUserMessage = $pdomysql -> prepare('insert into tbUserMessageInfo(User_Id,Sender_Id,Flag,Message,DateTimeCreate,DateTimeModify,Status_User,Status_Sender)values(:User_Id,:Sender_Id,:Flag,:Message,:DateTimeCreate,:DateTimeModify,:Status_User,:Status_Sender);');
+	$sthUserMessage = $pdomysql -> prepare('insert into tbUserMessageInfo(User_Id,Sender_Id,Flag,Message,DateTimeCreate,DateTimeModify,Status_User,Status_Sender,ReplayId)values(:User_Id,:Sender_Id,:Flag,:Message,:DateTimeCreate,:DateTimeModify,:Status_User,:Status_Sender,:ReplayId);');
 	$sthUserMessage -> execute(array(
 		'User_Id' => $User_Id,
 		'Sender_Id' => $Sender_Id,
@@ -57,7 +62,8 @@
 		'DateTimeCreate' => $timespan,
 		'DateTimeModify' => $timespan,
 		'Status_User' => 0,
-		'Status_Sender' => 0
+		'Status_Sender' => 0,
+		'ReplayId' => $ReplayId
 	));	
 	$error = $sthUserMessage -> errorInfo();
 	

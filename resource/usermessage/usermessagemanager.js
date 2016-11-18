@@ -35,7 +35,7 @@ function doQuery(opts){
 				UI_Tips('danger',rest.message);
 				return;
 			}
-			$("#recordList").html(template('usermessagemanger',rest));
+			$("#recordList").html(template('usermessagemanger',EnumConfig(rest)));
 			$("#recordStatic>tr:first>td:last").pager({pageIndex:pageIndex,pageSize:pageSize,recordCount:rest.recordCount,pageIndexChanged:doQuery});
 		},error:function(){
 			if(sender){
@@ -164,6 +164,7 @@ function userMessageRender(sender,model){
 				for(var i=0;i<items.length;i++){
 					modal.find("input[name='Sender_Name']").val(items[i].Name);
 					modal.find("input[name='Sender_Id']").val(items[i].Id);
+					modal.find("#Flag1").prop('checked',true);
 				}
 			}
 		}});
@@ -322,7 +323,3 @@ function toggleAll(sender){
 		o.checked=sender.checked;
 	});
 }
-
-function userMessageDelete(sender,id,userid,senderid){
-
-}	//usermessagestatuschange//usermessagechangestatus
