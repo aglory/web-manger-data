@@ -50,7 +50,12 @@
 	));
 	$error = $sthUserScoreLog -> errorInfo();
 	if($error[1]>0){
-		$errors[] = $error[2];
+		echo json_encode(array(
+			'code' => 550,
+			'status' => false,
+			'message' => $error[2]
+		));
+		exit();
 	}
 	$sthUserScoreLog -> execute(array(
 		'User_Id' => $User_Id,
@@ -60,15 +65,17 @@
 		'Mark' => '抽奖活动积分',
 		'DateTimeCreate' => $timespan
 	));
-	
-	if(empty($errors)){
-		$result['code'] = 200;
-		$result['status'] = true;
-	}else{
-		$result['code'] = 550;
-		$result['status'] = false;
-		$result['message'] = implode('\r\n',$errors);
+	$error = $sthUserScoreLog -> errorInfo();
+	if($error[1]>0){
+		echo json_encode(array(
+			'code' => 550,
+			'status' => false,
+			'message' => $error[2]
+		));
+		exit();
 	}
-	$result['Change'] = $Change;
 	
-	echo json_encode($result);
+	echo json_encode(array(
+		'code' => 200,
+		'status' => true
+	));

@@ -41,7 +41,12 @@
 	
 	$error = $sthUserStatistics -> errorInfo();	
 	if($error[1] > 0){
-		$errors[] = $error[2];
+		echo json_encode(array(
+			'code' =>550,
+			'status' => false,
+			'message' => $error[2]
+		));
+		exit();
 	}
 	$sthUserScoreLog = $pdomysql -> prepare('insert into tbUserScoreLogInfo(User_Id,Type,Number,TotalNumber,Mark,DateTimeCreate)select Id,:Type,:Number,CountScore,:Mark,:DateTimeCreate from tbUserStatisticsInfo where Id = :User_Id;');
 	$sthUserScoreLog -> execute(array(
@@ -54,15 +59,15 @@
 	
 	$error = $sthUserScoreLog -> errorInfo();
 	if($error[1]>0){
-		$errors[] = $error[2];
+		echo json_encode(array(
+			'code' => 550,
+			'status' => false,
+			'message' => $error[2]
+		));
+		exit();
 	}
 	
-	if(empty($errors)){
-		$result['code'] = 200;
-		$result['status'] = true;
-	}else{
-		$result['code'] = 550;
-		$result['status'] = false;
-		$result['message'] = implode('\r\n',$errors);
-	}
-	echo json_encode($result);
+	echo json_encode(array(
+		'code' => 200,
+		'status' => true
+	));

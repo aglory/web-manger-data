@@ -95,6 +95,10 @@
 		$whereSql[] = 'SenderInfo.Name like :Sender_Name';
 		$whereParams['Sender_Name'] = '%'.$_POST['Sender_Name'].'%';
 	}
+	if(array_key_exists('Flag',$_POST) && is_numeric($_POST['Flag'])){
+		$whereSql[] = 'tbUserMessageInfo.Flag = :Flag';
+		$whereParams['Flag'] = $_POST['Flag'];
+	}
 	if(array_key_exists('DateTimeCreateMin',$_POST) && !empty($_POST['DateTimeCreateMin'])){
 		$whereSql[] = 'tbUserMessageInfo.DateTimeCreate >= :DateTimeCreateMin';
 		$whereParams['DateTimeCreateMin'] = $_POST['DateTimeCreateMin'];
