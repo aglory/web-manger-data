@@ -22,15 +22,19 @@
 		$action=$_GET['action'];
 	}
 	
-	/*
-	if(($model !='user' && $action != 'authorize') 
-		|| !($model == 'topic')
-		|| empty(CurrentUserId())){
+	function ValidateModelAction($model,$action){
+		if($model == 'topic')
+			return false;
+		if($model == 'user' && $action == 'authorize')
+			return false;
+		return true;
+	}
+	
+	if(ValidateModelAction($model,$action) && empty(CurrentUserId())){
 		header('Content-Type: application/json;');
 		echo json_encode(array('status' => false,'code' => 401));
 		exit();
 	}
-	*/
 	
 	date_default_timezone_set('PRC');
 	

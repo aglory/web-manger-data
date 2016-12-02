@@ -15,19 +15,42 @@
 	
 	$timespan = date('Y-m-d H:i:s',time());
 	
-	$sth = $pdomysql -> prepare('delete from tbUserInfo where Id = :Id and RoleId != :RoleId;');
-	$sth -> execute(array('Id' => $Id,'RoleId' => 0x7FFFFFFF));	
-		
-	$errors = array();
-
-	$error = $sth -> errorInfo();
+	$sthAccount = $pdomysql -> prepare('delete from tbAccountInfo where Id = :Id and RoleId != :RoleId;');
+	$sthAccount -> execute(array('Id' => $Id,'RoleId' => 0x7FFFFFFF));
+	
+	$error = $sthAccount -> errorInfo();
 	if($error[1] > 0){
-		$errors[] = $error[2];
+		echo json_encode(array('status' => false,'message' => $error));
+		exit();
 	}
 	
-	if(empty($errors)){
+	if(empty($sthAccount -> rowCount())){
 		echo json_encode(array('status' => true));
-	}else{
-		echo json_encode(array('status' => false,'message' => implode('\r\n',$errors)));
+		exit();
 	}
+	
+	$sthUser = $pdomysql -> prepare('delete from tbUserInfo where Id = :Id');
+	$sthUser -> execute(array('Id' => $Id));
+	$error = $sthUser -> errorInfo();
+	if($error[1] > 0){
+		echo json_encode(array('status' => false,'message' => $error[2]));
+		exit();
+	}
+	
+	$sthUserStatistics = $pdomysql -> prepare('delete from tbUserStatisticsInfo where Id = :Id');
+	$sthUserStatistics -> execute(array('Id' => $Id));
+	$error = $sthUserStatistics -> errorInfo();
+	if($error[1] > 0){
+		echo json_encode(array('status' => false,'message' => $error[2]));
+		exit();
+	}
+	$sthUserConfiguration = $pdomysql -> prepare('delete from tbUserConfiguration where Id = :Id');
+	$sthUserConfiguration -> execute(array('Id' => $Id));
+	$error = $sthUserConfiguration -> errorInfo();
+	if($error[1] > 0){
+		echo json_encode(array('status' => false,'message' => $error[2]));
+		exit();
+	}
+	
+	echo json_encode(array('status' => true));
 	exit();

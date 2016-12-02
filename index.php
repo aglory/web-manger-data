@@ -24,6 +24,7 @@
 		$action = 'login';
 	}
 	
+	
 	define('Model',$model);
 	define('Action',$action);
 	define('Execute',true);

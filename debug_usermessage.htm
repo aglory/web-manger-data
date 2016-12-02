@@ -81,7 +81,11 @@
 					</form>
 					<form method="post" action="api.php?model=usermessage&action=send">
 						<fieldset>
-							<legend>参数</legend>
+							<legend>发送消息接口</legend>
+							<dl>
+								<dt>请求地址：</dt>
+								<dd>api.php?model=usermessage&action=send</dd>
+							</dl>
 							<ul>
 								<li>消息内容：Message</li>
 								<li>用户编号：User_Id</li>
@@ -89,11 +93,26 @@
 							</ul>
 							<form method="post" action="api.php?model=usermessage&action=send">
 								<fieldset>
-									<legend>测试</legend>
+									<legend>发送消息测试</legend>
 									<ul>
 										<li><textarea name="Message"></textarea></li>
 										<li><input name="User_Id" /></li>
 										<li><input name="ReplayId" /></li>
+										<li><button type="submit">提交</button></li>
+									</ul>
+								</fieldset>
+							</form>
+						</fieldset>
+					</form>
+					<form method="post" action="api.php?model=usermessage&action=get">
+						<fieldset>
+							<legend>参数</legend>
+							<ul>
+							</ul>
+							<form method="post" action="api.php?model=usermessage&action=send">
+								<fieldset>
+									<legend>得到消息测试</legend>
+									<ul>
 										<li><button type="submit">提交</button></li>
 									</ul>
 								</fieldset>

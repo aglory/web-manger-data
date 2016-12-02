@@ -89,14 +89,14 @@
 											<input id="DateTimeCreateMax" name="DateTimeCreateMax" class="form-control input-sm date Wdate wd100" placeholder="发件结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeCreateMin\')}'});" />
 										</div>
 										<div class="form-group">
-											<select name="Status_User" class="form-control input-sm">
+											<select name="Status_Sender" class="form-control input-sm">
 												<option value="">全部</option>
 												<option value="0">正常</option>
 												<option value="2">删除</option>
 											</select>
 										</div>
 										<div class="form-group">
-											<select name="Status_Sender" class="form-control input-sm">
+											<select name="Status_User" class="form-control input-sm">
 												<option value="">全部</option>
 												<option value="0">未读</option>
 												<option value="1">已读</option>
