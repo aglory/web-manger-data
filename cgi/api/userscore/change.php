@@ -36,7 +36,7 @@
 			'status' => false,
 			'message' => '积分不够'
 		));
-		die(1);
+		exit();
 	}
 	
 	$error = $sthUserStatistics -> errorInfo();	
