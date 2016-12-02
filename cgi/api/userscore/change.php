@@ -11,6 +11,7 @@
 		$Number = intval($_POST['Number']);
 	}else{
 		echo json_encode(array('code' => 400,'status' => false,'message' => '缺少积分'));
+		exit();
 	}
 	
 	$Type = 0;
