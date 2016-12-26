@@ -19,11 +19,11 @@
 	
 	$timespan = date('Y-m-d H:i:s',time());
 
-	$sth = $pdomysql -> prepare('update tbAccountInfo set Status = :StatusNew,DateTimeModify = :timespan where Id = :Id and Status != :StatusOld;');
+	$sth = $pdomysql -> prepare('update tbAccountInfo set Status = :StatusNew,DateTimeModify = :DateTimeModify where Id = :Id and Status != :StatusOld;');
 	$sth -> execute(array(
 		'Id' => $Id,
 		'StatusNew' => $Status,
-		'timespan' => $timespan,
+		'DateTimeModify' => $timespan,
 		'StatusOld' => $Status,
 	));	
 		

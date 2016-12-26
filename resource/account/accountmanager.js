@@ -266,3 +266,42 @@ function accountDelete(sender,id){
 	});
 	return modal;
 }
+
+function accountChangePassword (sender,id){
+	var html = $(template('accountchangepassword',{status:true,model:{Id:id}})).appendTo('body');
+	var modal = html.modal();
+	modal.find(".modal-dialog").draggable({handle:".modal-header"});
+	modal.find(".btn-save").click(function(){
+		accountChangePasswordSave(this,modal);
+	});
+	return modal;
+}
+
+function accountChangePasswordSave(sender,modal){
+	var form = modal.find(".editorForm");
+	if(sender){
+		$(sender).prop('disabed',true);
+	}
+	$.ajax({
+		url:form.attr("action"),
+		type:"post",
+		data:form.serialize(),
+		dataType:"json",
+		success:function(rest){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}			
+			if(!rest)return;
+			if(!rest.status){
+				UI_Tips('danger',rest.message);
+				return;
+			}
+			modal.modal('hide');
+			doQuery();
+		},error:function(){
+			if(sender){
+				$(sender).prop('disabed',false);
+			}
+		}
+	});
+}
