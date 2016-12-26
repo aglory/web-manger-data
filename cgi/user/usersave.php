@@ -10,6 +10,10 @@
 	if(array_key_exists('Id',$_POST) && is_numeric($_POST['Id'])){
 		$Id = intval($_POST['Id']);
 	}
+	$AccountId = 0;
+	if(array_key_exists('AccountId',$_POST) && is_numeric($_POST['AccountId'])){
+		$AccountId = intval($_POST['AccountId']);
+	}
 	$Name = '';
 	if(array_key_exists('Name',$_POST) && !empty($_POST['Name'])){
 		$Name = $_POST['Name'];
@@ -80,59 +84,9 @@
 	$timespan = date('Y-m-d H:i:s',time());
 	
 	if(empty($Id)){
-		if(empty($Name)){
-			echo json_encode(array('status' => false,'message' => '账号不能为空'));
-			exit();
-		}
-		$Password = '';
-		if(array_key_exists('Password',$_POST) && !empty($_POST['Password'])){
-			$Password = $_POST['Password'];
-		}else{
-			echo json_encode(array('status' => false,'message' => '密码不能为空'));
-			exit();
-		}
-		$RoleId = '';
-		if(array_key_exists('RoleId',$_POST) && !empty($_POST['RoleId'])){
-			$RoleId = intval($_POST['RoleId']);
-		}
-		$SourceId = 0;
-		if(array_key_exists('SourceId',$_POST) && is_numeric($_POST['SourceId'])){
-			$SourceId = intval($_POST['SourceId']);
-		}
-		$Salt = rand(0,0x7FFFFFFF);
-		$sthAccount = $pdomysql -> prepare('insert into tbAccountInfo(Account,Name,Password,Salt,RoleId,SourceId,Status,DateTimeCreate,DateTimeModify)values(:Account,:Name,md5(concat(md5(:Password),:SaltForPassword)),:Salt,:RoleId,:SourceId,:Status,:DateTimeCreate,:DateTimeModify)');
-		$sthAccount -> execute(array(
-			'Account' => $Name,
-			'Name' => $Name,
-			'Password' => $Password,
-			'Salt' => $Salt,
-			'RoleId' => 0,
-			'SourceId' => $SourceId,
-			'Status' => 1,
-			'DateTimeCreate' => $timespan,
-			'DateTimeModify' => $timespan,
-			'SaltForPassword' => $Salt
-		));
-		
-		$errors = array();
-
-		$errorAccount = $sthAccount -> errorInfo();
-		if($errorAccount[1] == 1062){
-			$errors[] = '该账号已存在';
-		}else if($errorAccount[1] > 0){
-			$errors[] = $errorAccount[2];
-		}
-		
-		if(!empty($errors)){
-			echo json_encode(array('status' => false,'message' => implode('\r\n',$errors)));
-			exit();
-		}
-		
-		$Id = $pdomysql -> lastInsertId();
-		
-		$sthUserInfo = $pdomysql -> prepare('insert into tbUserInfo(Id,Name,NickName,Sex,BodyHeight,BodyWeight,EducationalHistory,Constellation,CivilState,Career,ContactWay,ContactQQ,ContactEmail,ContactMobile,InterestAndFavorites,Description,DateTimeModify,Birthday)values(:Id,:Name,:NickName,:Sex,:BodyHeight,:BodyWeight,:EducationalHistory,:Constellation,:CivilState,:Career,:ContactWay,:ContactQQ,:ContactEmail,:ContactMobile,:InterestAndFavorites,:Description,:DateTimeModify,:Birthday);');
+		$sthUserInfo = $pdomysql -> prepare('insert into tbUserInfo(AccountId,Name,NickName,Sex,BodyHeight,BodyWeight,EducationalHistory,Constellation,CivilState,Career,ContactWay,ContactQQ,ContactEmail,ContactMobile,InterestAndFavorites,Description,DateTimeCreate,DateTimeModify,Birthday)values(:AccountId,:Name,:NickName,:Sex,:BodyHeight,:BodyWeight,:EducationalHistory,:Constellation,:CivilState,:Career,:ContactWay,:ContactQQ,:ContactEmail,:ContactMobile,:InterestAndFavorites,:Description,:DateTimeCreate,:DateTimeModify,:Birthday);');
 		$sthUserInfo -> execute(array(
-			'Id' => $Id,
+			'AccountId' => $AccountId,
 			'Name' => $Name,
 			'NickName' => $NickName,
 			'Sex' => $Sex,
@@ -148,9 +102,12 @@
 			'ContactMobile' => $ContactMobile,
 			'InterestAndFavorites' => $InterestAndFavorites,
 			'Description' => $Description,
+			'DateTimeCreate' => $timespan,
 			'DateTimeModify' => $timespan,
 			'Birthday' => $Birthday
 		));
+		
+		$Id = $pdomysql -> lastInsertId();
 
 		$errorUserInfo = $sthUserInfo -> errorInfo();
 		if($errorUserInfo[1] > 0){
@@ -214,9 +171,10 @@
 		exit();
 	}
 		
-	$sthUserInfo = $pdomysql -> prepare('update tbUserInfo set Name=:Name,NickName=:NickName,Sex=:Sex,BodyHeight=:BodyHeight,BodyWeight=:BodyWeight,EducationalHistory=:EducationalHistory,Constellation=:Constellation,CivilState=:CivilState,Career=:Career,ContactWay=:ContactWay,ContactQQ=:ContactQQ,ContactEmail=:ContactEmail,ContactMobile=:ContactMobile,InterestAndFavorites=:InterestAndFavorites,Description=:Description,DateTimeModify=:DateTimeModify,Birthday=:Birthday where Id = :Id;');
+	$sthUserInfo = $pdomysql -> prepare('update tbUserInfo set AccountId=:AccountId,Name=:Name,NickName=:NickName,Sex=:Sex,BodyHeight=:BodyHeight,BodyWeight=:BodyWeight,EducationalHistory=:EducationalHistory,Constellation=:Constellation,CivilState=:CivilState,Career=:Career,ContactWay=:ContactWay,ContactQQ=:ContactQQ,ContactEmail=:ContactEmail,ContactMobile=:ContactMobile,InterestAndFavorites=:InterestAndFavorites,Description=:Description,DateTimeModify=:DateTimeModify,Birthday=:Birthday where Id = :Id;');
 	$sthUserInfo -> execute(array(
 		'Id' => $Id,
+		'AccountId' => $AccountId,
 		'Name' => $Name,
 		'NickName' => $NickName,
 		'Sex' => $Sex,

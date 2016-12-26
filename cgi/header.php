@@ -19,6 +19,7 @@
 	<div id="navbar" class="collapse navbar-collapse">
 	  <ul class="nav navbar-nav">
 		<li <?php if(Model == 'topic' && Action == 'topicmanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('topic','topicmanager')?>">专题管理</a></li>
+		<li <?php if(Model == 'account' && Action == 'accountmanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('account','accountmanager')?>">账号管理</a></li>
 		<li <?php if(Model == 'user' && Action == 'usermanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('user','usermanager')?>">用户管理</a></li>
 		<li <?php if(Model == 'userimage' && Action == 'userimagemanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('userimage','userimagemanager')?>">图片管理</a></li>
 		<li <?php if(Model == 'usermessage' && Action == 'usermessagemanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('usermessage','usermessagemanager')?>">消息管理</a></li>

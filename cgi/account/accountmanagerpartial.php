@@ -12,10 +12,10 @@
 	
 
 	$PageColumns = array(
-		'tbUserInfo' => array('Id','Name','NickName','Sex','Img','BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career','Description','ContactWay','ContactQQ','ContactEmail','ContactMobile','InterestAndFavorites','DateTimeCreate','DateTimeModify','Birthday')
+		'tbAccountInfo' => array('Id','Account','Name','Password','Salt','RoleId','SourceId','Status','DateTimeCreate','DateTimeModify')
 	);
 	
-	$PageTables = 'tbUserInfo left join tbAccountInfo on tbUserInfo.AccountId = tbAccountInfo.Id';
+	$PageTables = 'tbAccountInfo';
 	
 	if(array_key_exists('PageIndex',$_POST) && is_numeric($_POST['PageIndex'])){
 		$PageIndex = intval($_POST['PageIndex']);
@@ -77,35 +77,27 @@
 			$ids[] = intval($item);
 		}
 		if(!empty($ids)){
-			$whereSql[] = 'tbUserInfo.Id in('.implode(',',$ids).')';
+			$whereSql[] = 'tbAccountInfo.Id in('.implode(',',$ids).')';
 		}
 	}
+	if(array_key_exists('Account',$_POST) && !empty($_POST['Account'])){
+		$whereSql[] = 'tbAccountInfo.Account like :Account';
+		$whereParams['Account'] = '%'.$_POST['Account'].'%';
+	}
 	if(array_key_exists('Name',$_POST) && !empty($_POST['Name'])){
-		$whereSql[] = 'tbUserInfo.Name like :Name';
+		$whereSql[] = 'tbAccountInfo.Name like :Name';
 		$whereParams['Name'] = '%'.$_POST['Name'].'%';
 	}
-	if(array_key_exists('NickName',$_POST) && !empty($_POST['NickName'])){
-		$whereSql[] = 'tbUserInfo.NickName like :NickName';
-		$whereParams['NickName'] = '%'.$_POST['NickName'].'%';
-	}
-	if(array_key_exists('Sex',$_POST) && is_numeric($_POST['Sex'])){
-		$whereSql[] = 'Sex = '.$_POST['Sex'];
+	if(array_key_exists('SourceId',$_POST) && is_numeric($_POST['SourceId'])){
+		$whereSql[] = 'tbAccountInfo.SourceId = '.$_POST['SourceId'];
 	}
 	if(array_key_exists('DateTimeModifyStart',$_POST) && !empty($_POST['DateTimeModifyStart'])){
-		$whereSql[] = 'tbUserInfo.DateTimeModify >= :DateTimeModifyStart';
+		$whereSql[] = 'tbAccountInfo.DateTimeModify >= :DateTimeModifyStart';
 		$whereParams['DateTimeModifyStart'] = $_POST['DateTimeModifyStart'];
 	}
 	if(array_key_exists('DateTimeModifyEnd',$_POST) && !empty($_POST['DateTimeModifyEnd'])){
-		$whereSql[] = 'tbUserInfo.DateTimeModify <= date_add(:DateTimeModifyEnd,INTERVAL 1 DAY)';
+		$whereSql[] = 'tbAccountInfo.DateTimeModify <= date_add(:DateTimeModifyEnd,INTERVAL 1 DAY)';
 		$whereParams['DateTimeModifyEnd'] = $_POST['DateTimeModifyEnd'];
-	}
-	if(array_key_exists('BirthdayStart',$_POST) && !empty($_POST['BirthdayStart'])){
-		$whereSql[] = 'tbUserInfo.Birthday >= :BirthdayStart';
-		$whereParams['BirthdayStart'] = $_POST['BirthdayStart'];
-	}
-	if(array_key_exists('BirthdayEnd',$_POST) && !empty($_POST['BirthdayEnd'])){
-		$whereSql[] = 'tbUserInfo.Birthday <= date_add(:BirthdayEnd,INTERVAL 1 DAY)';
-		$whereParams['BirthdayEnd'] = $_POST['BirthdayEnd'];
 	}
 	
 	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){

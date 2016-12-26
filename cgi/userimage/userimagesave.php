@@ -23,11 +23,10 @@
 	
 	$timespan = date('Y-m-d H:i:s',time());
 	
-	if(empty($Id)){
+	$SrcList = GetServerPath();
 	
-		$SrcList = GetServerPath();
-		
-		if(empty($SrcList) && empty($Id)){
+	if(empty($Id)){		
+		if(empty($SrcList)){
 			echo json_encode(array('status' => false,'message' => '缺少图片信息'));
 			exit();
 		}
@@ -64,12 +63,23 @@
 		exit();
 	}
 	
-	$sth = $pdomysql -> prepare('update tbUserImageInfo set Description = :Description,DateTimeModify = :DateTimeModify where Id = :Id;');
-	$sth -> execute(array(
-		'Id' => $Id,
-		'Description' => $Description,
-		'DateTimeModify' => $timespan
-	));
+	if(empty($SrcList)){
+		$sth = $pdomysql -> prepare('update tbUserImageInfo set Description = :Description,DateTimeModify = :DateTimeModify where Id = :Id;');
+		$sth -> execute(array(
+			'Id' => $Id,
+			'Description' => $Description,
+			'DateTimeModify' => $timespan
+		));
+	}else{
+		$sth = $pdomysql -> prepare('update tbUserImageInfo set Description = :Description,DateTimeModify = :DateTimeModify,Src = :Src where Id = :Id;');
+		$sth -> execute(array(
+			'Id' => $Id,
+			'Src' => $SrcList[0],
+			'Description' => $Description,
+			'DateTimeModify' => $timespan
+		));
+	}
+	
 	
 	$errors = array();
 	

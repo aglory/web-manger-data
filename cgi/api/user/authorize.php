@@ -3,7 +3,7 @@
 	header('Content-Type: application/json;');
 	require_once implode(DIRECTORY_SEPARATOR,array('.','lib','pdo')).'.php';
 
-	$account = '';$password = '';$sex = 0;
+	$account = '';$password = '';$sex = 0;$sourceId = 0;
 	if(array_key_exists('Account',$_POST)){
 		$account = $_POST['Account'];
 	}
@@ -13,6 +13,10 @@
 	if(array_key_exists('Sex',$_POST) && is_numeric($_POST['Sex'])){
 		$sex = $_POST['Sex'];
 	}
+	if(array_key_exists('SourceId',$_POST) && is_numeric($_POST['SourceId'])){
+		$sourceId = $_POST['SourceId'];
+	}
+	
 	
 	if(empty($account) || empty($password)){
 		echo json_encode(array('code' => 400,'status' => false,'message' => '缺少登录账号/密码'));
@@ -43,7 +47,7 @@
 		'Password' => md5(md5($password).$salt),
 		'Salt' => $salt,
 		'RoleId' => 0,
-		'SourceId' => 0,
+		'SourceId' => $sourceId,
 		'Status' => 1,
 		'DateTimeCreate' => $timespan,
 		'DateTimeModify' => $timespan
@@ -57,13 +61,11 @@
 		die(1);
 	}
 	
-	$id = $pdomysql -> lastInsertId();
+	$accountId = $pdomysql -> lastInsertId();
 	
-	CurrentUserId($id);
-	
-	$sthUser = $pdomysql -> prepare('insert into tbUserInfo(Id,Name,NickName,Sex,Img,BodyHeight,BodyWeight,EducationalHistory,Constellation,CivilState,Career,Description,ContactWay,ContactQQ,ContactEmail,ContactMobile,InterestAndFavorites,DateTimeModify,Birthday)values(:Id,:Name,:NickName,:Sex,:Img,:BodyHeight,:BodyWeight,:EducationalHistory,:Constellation,:CivilState,:Career,:Description,:ContactWay,:ContactQQ,:ContactEmail,:ContactMobile,:InterestAndFavorites,:DateTimeModify,:Birthday)');
+	$sthUser = $pdomysql -> prepare('insert into tbUserInfo(AccountId,Name,NickName,Sex,Img,BodyHeight,BodyWeight,EducationalHistory,Constellation,CivilState,Career,Description,ContactWay,ContactQQ,ContactEmail,ContactMobile,InterestAndFavorites,DateTimeCreate,DateTimeModify,Birthday)values(:AccountId,:Name,:NickName,:Sex,:Img,:BodyHeight,:BodyWeight,:EducationalHistory,:Constellation,:CivilState,:Career,:Description,:ContactWay,:ContactQQ,:ContactEmail,:ContactMobile,:InterestAndFavorites,:DateTimeCreate,:DateTimeModify,:Birthday)');
 	$sthUser -> execute(array(
-		'Id' => $id,
+		'AccountId' => $accountId,
 		'Name' => $account,
 		'NickName' => $account,
 		'Sex' => empty($Sex)?0:1,
@@ -80,14 +82,19 @@
 		'ContactEmail' => null,
 		'ContactMobile' => null,
 		'InterestAndFavorites' => null,
+		'DateTimeCreate' => $timespan,
 		'DateTimeModify' => $timespan,
 		'Birthday' => null
 	));
 	
+	$userId = $pdomysql -> lastInsertId();
+	
+	CurrentUserId($userId);
+	
 	$sthUserStatisticsInfo = $pdomysql -> prepare('insert into tbUserStatisticsInfo(Id,CountFollow,CountFollowed,CountView,CountScore,CountPoint,CountMessage)values(:Id,:CountFollow,:CountFollowed,:CountView,:CountScore,:CountPoint,:CountMessage)');
 	
 	$sthUserStatisticsInfo -> execute(array(
-		'Id' => $id,
+		'Id' => $userId,
 		'CountFollow' => 0,
 		'CountFollowed' => 0,
 		'CountView' => 0,
@@ -98,7 +105,7 @@
 	
 	$sthUserConfiguration = $pdomysql -> prepare('insert into tbUserConfiguration(Id,ConfigurationProtected,ConfigurationVewCost)values(:Id,:ConfigurationProtected,:ConfigurationVewCost)');
 	$sthUserConfiguration -> execute(array(
-		'Id' => $id,
+		'Id' => $userId,
 		'ConfigurationProtected' => 0,
 		'ConfigurationVewCost' => 0
 	));

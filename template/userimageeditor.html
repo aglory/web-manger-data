@@ -11,7 +11,6 @@
 					<input id="User_Id" name="User_Id" value="{{model.User_Id}}" type="hidden" />
 					<fieldset>
 						<table class="table table-none">
-							{{if (!model.Id)}}
 							<tr>
 								<td>
 									<div class="input-group ">
@@ -28,7 +27,6 @@
 									</div>
 								</td>
 							</tr>
-							{{/if}}
 							<tr>
 								<td>
 									<textarea id="Description" name="Description" class="form-control" placeholder="介绍说明">{{model.Description}}</textarea>

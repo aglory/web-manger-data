@@ -3,33 +3,22 @@
 	<tr>
 		<td>{{$value.Name}}</td>
 		<td>{{$value.NickName}}</td>
-		<td class="t_r"><a href="?model=userscore&action=userscoremanager&User_Id={{$value.Id}}">{{$value.CountScore}}</a></td>
-		<td class="t_r">{{$value.CountFollowed}}</td>
+		<td class="t_r">{{$value.BodyHeight}}</td>
+		<td class="t_r">{{$value.BodyWeight}}</td>
+		
 		<td class="t_c">{{if ($value.Birthday)}}{{$value.Birthday.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}}{{else}}-{{/if}}</td>
 		<td class="t_c">{{if ($value.Sex==null)}} - {{else if ($value.Sex == 0)}}女{{else if($value.Sex == 1)}}男{{/if}}</td>
+		<td class="t_c">{{renderEnums($value.EducationalHistory,Enums.EducationalHistory)}}</td>
+		<td class="t_c">{{renderEnums($value.CivilState,Enums.CivilState)}}</td>
 		<td class="t_c"><a href="?model=userimage&action=userimagemanager&User_Id={{$value.Id}}">{{if ($value.Img==null)}}-{{else}}<img class="img-thumbnail" src="{{$value.Img}}" />{{/if}}</a></td>
 		<td class="t_c">
 		{{if ($value.DateTimeCreate == null) }} / {{else}} {{$value.DateTimeCreate.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}} {{/if}}
-			/
+		<br />
 		{{if ($value.DateTimeModify == null) }} / {{else}} {{$value.DateTimeModify.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}} {{/if}}
 		</td>
-		<td class="t_c">{{if ($value.RoleId==2147483647)}}管理员{{else}}普通用户{{/if}}</td>
 		<td class="t_c">
 			<div class="btn-group">
 				<button class="btn btn-sm btn-info" type="button" onclick="userEditor(this,{{$value.Id}})">编辑</button>
-				{{if ($value.RoleId == 0x7FFFFFFF)}}
-					{{if ($value.Status)}}
-					<button class="btn btn-sm btn-warning disabled" disabled="disabled"  type="button">禁用</button>
-					{{else}}
-					<button class="btn btn-sm btn-success" type="button" onclick="userChangeStatus(this,{{$value.Id}},1)">启用</button>
-					{{/if}}
-				{{else}}
-					{{if ($value.Status)}}
-					<button class="btn btn-sm btn-warning" type="button" onclick="userChangeStatus(this,{{$value.Id}},0)">禁用</button>
-					{{else}}
-					<button class="btn btn-sm btn-success" type="button" onclick="userChangeStatus(this,{{$value.Id}},1)">启用</button>
-					{{/if}}
-				{{/if}}
 				{{if ($value.RoleId == 0x7FFFFFFF)}}
 					<button class="btn btn-sm btn-danger disabled" disabled="disabled" type="button">删除</button>
 				{{else}}
@@ -41,6 +30,6 @@
 	{{/each}}
 {{else}}
 	<tr class="odd_color">
-		<td class="align_l p10_l bgr_eb" colspan="6">暂无数据</td>
+		<td class="align_l p10_l bgr_eb" colspan="11">暂无数据</td>
 	</tr>
 {{/if}}

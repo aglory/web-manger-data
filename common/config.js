@@ -42,6 +42,9 @@ function EnumConfig(model){
 			{Key:0,Value:"未读"},
 			{Key:1,Value:"已读"},
 			{Key:2,Value:"删除"}
+		],
+		AccountSource:[
+			{Key:1,Value:"伴游"}
 		]
 	}
 	if(model){

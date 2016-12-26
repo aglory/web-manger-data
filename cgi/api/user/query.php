@@ -8,8 +8,7 @@
 	$PageItems = array();
 	
 	$PageColumns = array(
-		'tbUserInfo' => array('Id','Name','NickName','Sex','Img','BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career','Description','ContactWay','ContactQQ','ContactEmail','ContactMobile','InterestAndFavorites','DateTimeModify','Birthday'),
-		'tbAccountInfo' => array('DateTimeCreate'),
+		'tbUserInfo' => array('Id','Name','NickName','Sex','Img','BodyHeight','BodyWeight','EducationalHistory','Constellation','CivilState','Career','Description','ContactWay','ContactQQ','ContactEmail','ContactMobile','InterestAndFavorites','DateTimeCreate','DateTimeModify','Birthday'),
 		'tbUserStatisticsInfo' => array('CountFollow,CountFollowed,CountView,CountScore,CountPoint,CountMessage'),
 		'tbUserConfiguration' => array('ConfigurationProtected','ConfigurationVewCost')
 	);
@@ -117,7 +116,7 @@
 	$sthList = null;
 	$sthCount = null;
 	
-	$tbFrom = 'tbUserInfo inner join tbAccountInfo on tbUserInfo.Id = tbAccountInfo.Id inner join tbUserStatisticsInfo on tbUserInfo.Id = tbUserStatisticsInfo.Id inner join tbUserConfiguration on tbUserInfo.Id = tbUserConfiguration.Id';
+	$tbFrom = 'tbUserInfo inner join tbUserStatisticsInfo on tbUserInfo.Id = tbUserStatisticsInfo.Id inner join tbUserConfiguration on tbUserInfo.Id = tbUserConfiguration.Id';
 	
 	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(',',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
 	$sthCount = $pdomysql -> prepare('select count(1) from '.$tbFrom.' where '.implode(' and ',$whereSql));

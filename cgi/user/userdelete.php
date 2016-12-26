@@ -15,17 +15,23 @@
 	
 	$timespan = date('Y-m-d H:i:s',time());
 	
+	$sthAccountList = $pdomysql -> prepare('select Id,RoleId from tbAccountInfo where Id in(select AccountId from tbUserInfo where Id = :Id)');
+	$sthAccountList -> execute(array('Id' => $Id));
+	$accountId = 0;
+	foreach($sthAccountList -> fetchAll(PDO::FETCH_ASSOC) as $item){
+		if($item['RoleId'] == 0x7FFFFFFF){
+			echo json_encode(array('status' => false,'message' => '管理员账号不能删除'));
+			exit();
+		}
+		$accountId = $item['id'];
+	}
+	
 	$sthAccount = $pdomysql -> prepare('delete from tbAccountInfo where Id = :Id and RoleId != :RoleId;');
-	$sthAccount -> execute(array('Id' => $Id,'RoleId' => 0x7FFFFFFF));
+	$sthAccount -> execute(array('Id' => $accountId,'RoleId' => 0x7FFFFFFF));
 	
 	$error = $sthAccount -> errorInfo();
 	if($error[1] > 0){
 		echo json_encode(array('status' => false,'message' => $error));
-		exit();
-	}
-	
-	if(empty($sthAccount -> rowCount())){
-		echo json_encode(array('status' => true));
 		exit();
 	}
 	

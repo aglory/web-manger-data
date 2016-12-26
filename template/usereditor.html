@@ -13,40 +13,17 @@
 							<tr>
 								<td class="col2-1">
 									<div class="input-group">
-										<span class="input-group-addon">{{if (model)}}名称{{else}}账号{{/if}}：</span>
-										<input name="Name" type="text" placeholder="{{if (model)}}名称{{else}}账号{{/if}}" class="form-control input-sm" value="{{if (model)}}{{model.Name}}{{/if}}">
+										<span class="input-group-addon">名称</span>
+										<input name="Name" type="text" placeholder="名称" class="form-control input-sm" value="{{if (model)}}{{model.Name}}{{/if}}">
 									</div>
 								</td>
 								<td class="col2-2">
 									<div class="input-group">
-										<span class="input-group-addon">密码：</span>
-										<input name="Password" type="password" placeholder="密码"{{if (model)}} disabled="disabled"{{/if}} class="form-control input-sm">
+										<span class="input-group-addon">登录账号编号</span>
+										<input name="AccountId" type="text" placeholder="登录账号编号" class="form-control input-sm" value="{{if (model)}}{{model.AccountId}}{{/if}}">
 									</div>
 								</td>
 							</tr>
-							{{if (!model)}}
-							<tr>
-								<td class="col2-1">
-									<div class="input-group">
-										<span class="input-group-addon">来源：</span>
-										<select name="SourceId" class="form-control input-sm">
-											<option value="0">-</option>
-											<option value="1" selected="selected">伴游</option>
-											<option value="2">世纪佳缘</option>
-										</select>
-									</div>
-								</td>
-								<td class="col2-2">
-									<div class="input-group">
-										<span class="input-group-addon">角色：</span>
-										<select name="RoleId" class="form-control input-sm">
-											<option value="0" selected="selected">普通客户</option>
-											<option value="1">管理员</option>
-										</select>
-									</div>
-								</td>
-							</tr>
-							{{/if}}
 							<tr>
 								<td class="col2-1">
 									<div class="input-group">
@@ -65,13 +42,13 @@
 								<td class="col2-1">
 									<div class="input-group">
 										<span class="input-group-addon">生日：</span>
-										<input name="Birthday" type="input" placeholder="昵称" class="form-control input-sm" value="{{if (model)}}{{model.Birthday}}{{/if}}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});">
+										<input name="Birthday" type="input" placeholder="生日：" class="form-control input-sm" value="{{if (model && model.Birthday)}}{{model.Birthday.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}}{{else}}{{/if}}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});">
 									</div>
 								</td>
 								<td class="col2-2">
 									<div class="input-group">
 										<span class="input-group-addon">年龄：</span>
-										<input name="Age" disabled="disabled" type="number" class="form-control input-sm" {{if (model && model.Sex)}}checked="checked"{{/if}}>
+										<input name="Age" disabled="disabled" placeholder="年龄" type="number" class="form-control input-sm" {{if (model && model.Sex)}}checked="checked"{{/if}}>
 									</div>
 								</td>
 								
@@ -94,10 +71,10 @@
 								<td class="col2-1">
 									<div class="input-group">
 										<span class="input-group-addon">学历</span>
-										<select id="EducationalHistory" name="EducationalHistory" class="form-control input-sm">
+										<select id="EducationalHistory" name="EducationalHistory" placeholder="学历" class="form-control input-sm">
 											<option value="0">-</option>
 											{{each Enums.EducationalHistory as item}}
-												<option{{if (model && model.EducationalHistory == item.Key)}} selected="true"{{/if}} value="{{item.Key}}">{{item.Value}}</option>
+												<option{{if (model && model.EducationalHistory == item.Key)}} selected="selected"{{/if}} value="{{item.Key}}">{{item.Value}}</option>
 											{{/each}}
 										</select>
 									</div>
@@ -108,7 +85,7 @@
 										<select id="Constellation" name="Constellation" class="form-control input-sm">
 											<option value="0">-</option>
 											{{each Enums.Constellation as item}}
-												<option{{if (model && model.Constellation == item.Key)}} selected="true"{{/if}} value="{{item.Key}}">{{item.Value}}</option>
+												<option{{if (model && model.Constellation == item.Key)}} selected="selected"{{/if}} value="{{item.Key}}">{{item.Value}}</option>
 											{{/each}}
 										</select>
 									</div>
@@ -121,7 +98,7 @@
 										<select name="CivilState" class="form-control input-sm">
 											<option value="0">-</option>
 											{{each Enums.CivilState as item}}
-												<option{{if (model && model.CivilState == item.Key)}} selected="true"{{/if}} value="{{item.Key}}">{{item.Value}}</option>
+												<option{{if (model && model.CivilState == item.Key)}} selected="selected"{{/if}} value="{{item.Key}}">{{item.Value}}</option>
 											{{/each}}
 										</select>
 									</div>
@@ -157,7 +134,7 @@
 								<td class="col2-1">
 									<div class="input-group">
 										<span class="input-group-addon">联系电话</span>
-										<input name="ContactMobile" type="text" placeholder="电话" class="form-control" value="{{if (model)}}{{model.ContactMobile}}{{/if}}"
+										<input name="ContactMobile" type="text" placeholder="联系电话" class="form-control" value="{{if (model)}}{{model.ContactMobile}}{{/if}}"
 									</div>
 								</td>
 							</tr>

@@ -35,7 +35,7 @@ function doQuery(opts){
 				UI_Tips('danger',rest.message);
 				return;
 			}
-			$("#recordList").html(template('usermanger',EnumConfig(rest)));
+			$("#recordList").html(template('accountmanger',EnumConfig(rest)));
 			$("#recordStatic>tr:first>td:last").pager({pageIndex:pageIndex,pageSize:pageSize,recordCount:rest.recordCount,pageIndexChanged:doQuery});
 		},error:function(){
 			if(sender){
@@ -95,16 +95,16 @@ $(function(){
 	doQuery();
 });
 
-function userEditor(sender,id){
+function accountEditor(sender,id){
 	if(id == 0){
-		userEditorRender(sender,{status:true,model:null});
+		accountEditorRender(sender,EnumConfig({status:true,model:null}));
 		return;
 	}
 	if(sender){
 		$(sender).prop('disabed',true);
 	}
 	$.ajax({
-		url:"?model=user&action=usereditor",
+		url:"?model=account&action=accounteditor",
 		type:'post',
 		dataType:'json',
 		data:{"id":id},
@@ -117,7 +117,7 @@ function userEditor(sender,id){
 				UI_Tips('danger',rest.message);
 				return;
 			}
-			userEditorRender(sender,rest);
+			accountEditorRender(sender,EnumConfig(rest));
 		},error:function(){
 			if(sender){
 				$(sender).prop('disabed',false);
@@ -126,18 +126,17 @@ function userEditor(sender,id){
 	});
 }
 
-function userEditorRender(sender,model){
-	var html = $(template('usereditor',EnumConfig(model))).appendTo('body');
-	html.find("input[type='checkbox']").bootstrapSwitch({ onText : '男',offText : '女'});
+function accountEditorRender(sender,model){
+	var html = $(template('accounteditor',EnumConfig(model))).appendTo('body');
 	var modal = html.modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-save").click(function(){
-		userSave(this,modal);
+		accountSave(this,modal);
 	});
 	return modal;
 }
 
-function userSave(sender,modal){
+function accountSave(sender,modal){
 	var form = modal.find(".editorForm");
 	if(sender){
 		$(sender).prop('disabed',true);
@@ -166,7 +165,7 @@ function userSave(sender,modal){
 	});
 }
 
-function userChangeStatus(sender,id,status){
+function accountChangeStatus(sender,id,status){
 	if(sender){
 		$(sender).prop('disabed',true);
 	}
@@ -196,7 +195,7 @@ function userChangeStatus(sender,id,status){
 		});
 		return;
 	}
-	var modal = $(template('confirm',{message:'确定禁用该用户?'})).appendTo('body').modal();
+	var modal = $(template('confirm',{message:'确定禁用该账号?'})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
@@ -230,8 +229,8 @@ function userChangeStatus(sender,id,status){
 	return modal;
 }
 
-function userDelete(sender,id){
-	var modal = $(template('confirm',{message:'确定删除该用户?'})).appendTo('body').modal();
+function accountDelete(sender,id){
+	var modal = $(template('confirm',{message:'确定删除该账号?'})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
@@ -239,7 +238,7 @@ function userDelete(sender,id){
 			$(sender).prop('disabed',true);
 		}
 		$.ajax({
-			url:'?model=user&action=userdelete',
+			url:'?model=account&action=accountdelete',
 			type:"post",
 			data:{Id:id,Status:status},
 			dataType:"json",
