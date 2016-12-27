@@ -129,6 +129,26 @@ function userEditor(sender,id){
 function userEditorRender(sender,model){
 	var html = $(template('usereditor',EnumConfig(model))).appendTo('body');
 	html.find("input[type='checkbox']").bootstrapSwitch({ onText : '男',offText : '女'});
+	html.find("button.btn-refresh").click(function(){
+		var templateGroupId = 1;
+		if(html.find("input[name='Age']").val()>'1988-1-1'){
+			templateGroupId = 2;
+		}
+		$.ajax({
+			url : "?model=template&action=templatetake",
+			data: {TemplateGroupId:templateGroupId},
+			type: 'post',
+			dataType:'json',
+			success : function(rest){
+				if(!rest)return;
+				if(!rest.status){
+					UI_Tips('danger',rest.message);
+					return;
+				}
+				html.find("textarea[name='Description']").val(rest.model.Data);
+			}
+		});
+	});
 	var modal = html.modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-save").click(function(){
