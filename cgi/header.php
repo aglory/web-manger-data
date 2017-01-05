@@ -22,6 +22,7 @@
 		<li <?php if(Model == 'account' && Action == 'accountmanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('account','accountmanager')?>">账号管理</a></li>
 		<li <?php if(Model == 'user' && Action == 'usermanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('user','usermanager')?>">用户管理</a></li>
 		<li <?php if(Model == 'userimage' && Action == 'userimagemanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('userimage','userimagemanager')?>">图片管理</a></li>
+		<li <?php if(Model == 'categoryimage' && Action == 'categoryimagemanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('categoryimage','categoryimagemanager')?>">相册管理</a></li>
 		<li <?php if(Model == 'usermessage' && Action == 'usermessagemanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('usermessage','usermessagemanager')?>">消息管理</a></li>
 		<li <?php if(Model == 'userscore' && Action == 'userscoremanager') { ?>class="active"<?php }?>><a href="<?php ActionLink('userscore','userscoremanager')?>">积分管理</a></li>
 		

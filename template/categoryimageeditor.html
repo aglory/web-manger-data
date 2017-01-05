@@ -1,0 +1,77 @@
+<div class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">编辑 {{if (model)}} -{{model.Title}} {{/if}}</h4>
+			</div>
+			<div class="modal-body">
+				<form class="editorForm form-inline" action="?model=categoryimage&action=categoryimagesave">
+					<input name="Id" value="{{if (model)}}{{model.Id}}{{else}}0{{/if}}" type="hidden" />
+					<fieldset>
+						<table class="table table-none">
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon">标题</span>
+										<input name="Title" type="text" placeholder="标题" class="form-control input-sm" value="{{if (model)}}{{model.Title}}{{/if}}">
+									</div>
+								</td>
+								<td class="col2-2">
+									<div class="input-group">
+										<span class="input-group-addon">标签</span>
+										<input name="Tag" type="text" placeholder="标签" class="form-control input-sm" value="{{if (model)}}{{model.Tag}}{{/if}}">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col-sm-12" colspan="2">
+									<div class="input-group col-sm-12">
+										<span class="input-group-addon wd80">原图地址：</span>
+										<input name="Img" type="text" placeholder="原图地址" class="form-control input-sm" value="{{if (model)}}{{model.Img}}{{/if}}">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col-sm-12" colspan="2">
+									<div class="input-group col-sm-12">
+										<span class="input-group-addon wd80">本地地址：</span>
+										<input name="Src" type="text" placeholder="本地地址" class="form-control input-sm" value="{{if (model)}}{{model.Src}}{{/if}}">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="col2-1">
+									<div class="input-group">
+										<span class="input-group-addon">等级：</span>
+										<select class="form-control input-sm" name="Level">
+											{{each Enums.CategoryImageLevel}}
+											{{if (model && model.Level && model.Level == $value.Key)}}
+											<option value="{{$value.Key}}" selected="selected">{{$value.Value}}</option>
+											{{else}}
+											<option value="{{$value.Key}}">{{$value.Value}}</option>
+											{{/if}}
+											{{/each}}
+										</select>
+									</div>
+								</td>
+								<td class="col2-2">
+									<div class="input-group">
+										<input class="form-control" disabled="disabled" value="采集状态：">
+										<span class="input-group-addon">
+											<input name="Scrawled" placeholder="采集状态" type="checkbox" {{if (model && model.Scrawled)}}checked="checked"{{/if}} value="1">
+										</span>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary btn-save">保存</button>
+			</div>
+		</div>
+	</div>
+</div>

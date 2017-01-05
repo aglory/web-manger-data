@@ -2,6 +2,9 @@
 .t_l{text-align: left;}
 .t_r{text-align: right;}
 .t_j{text-align: justify;}
+.f_l{float:left;}
+.f_r{float:right;}
+.inline-block{display:inline-block}
 .alert{position:fixed;bottom:0px;right:0px;}
 .loading{background:transparent url('image/load_128.gif') no-repeat center center;height:128px;}
 footer{position:fixed;bottom:0px;right:auto;left:auto;width:100%;}
