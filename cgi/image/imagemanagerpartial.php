@@ -12,7 +12,7 @@
 	$PageItems = array();
 	
 	$PageColumns = array(
-		'tbCategoryImageInfo' => array('Id','Title','Tag','Img','ExtenseId','Scrawled','Src','Level','DateTimeCreate','DateTimeModify','Status')
+		'tbImageInfo' => array('Id','Title','CategoryId','Img','ExtenseId','Scrawled','Src','Level','DateTimeCreate','DateTimeModify','Status')
 	);
 
 	
@@ -71,36 +71,35 @@
 	$whereParams = array();
 
 	if(array_key_exists('Title',$_POST) && !empty($_POST['Title'])){
-		$whereSql[] = 'tbCategoryImageInfo.Title like :Title';
+		$whereSql[] = 'tbImageInfo.Title like :Title';
 		$whereParams['Title'] = '%'.$_POST['Title'].'%';
 	}
-	if(array_key_exists('Tag',$_POST) && !empty($_POST['Tag'])){
-		$whereSql[] = 'find_in_set(:Tag,tbCategoryImageInfo.Tag)';
-		$whereParams['Tag'] = $_POST['Tag'];
+	if(array_key_exists('CategoryId',$_POST) && is_numeric($_POST['CategoryId'])){
+		$whereSql[] = 'tbImageInfo.CategoryId = '.intval($_POST['CategoryId']);
 	}
 	if(array_key_exists('Level',$_POST) && is_numeric($_POST['Level'])){
-		$whereSql[] = 'tbCategoryImageInfo.Level = '.intval($_POST['Level']);
+		$whereSql[] = 'tbImageInfo.Level = '.intval($_POST['Level']);
 	}
 	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
-		$whereSql[] = 'tbCategoryImageInfo.Status = '.intval($_POST['Status']);
+		$whereSql[] = 'tbImageInfo.Status = '.intval($_POST['Status']);
 	}
 	if(array_key_exists('Scrawled',$_POST) && is_numeric($_POST['Scrawled'])){
-		$whereSql[] = 'tbCategoryImageInfo.Scrawled = '.intval($_POST['Scrawled']);
+		$whereSql[] = 'tbImageInfo.Scrawled = '.intval($_POST['Scrawled']);
 	}
-	if(array_key_exists('DateTimeCreateMin',$_POST) && !empty($_POST['DateTimeCreateMin'])){
-		$whereSql[] = 'tbCategoryImageInfo.DateTimeCreate >= :DateTimeCreateMin';
-		$whereParams['DateTimeCreateMin'] = $_POST['DateTimeCreateMin'];
+	if(array_key_exists('DateTimeModifyMin',$_POST) && !empty($_POST['DateTimeModifyMin'])){
+		$whereSql[] = 'tbImageInfo.DateTimeModify >= :DateTimeModifyMin';
+		$whereParams['DateTimeModifyMin'] = $_POST['DateTimeModifyMin'];
 	}
-	if(array_key_exists('DateTimeCreateMax',$_POST) && !empty($_POST['DateTimeCreateMax'])){
-		$whereSql[] = 'tbCategoryImageInfo.DateTimeCreate <= date_add(:DateTimeCreateMax,INTERVAL 1 DAY)';
-		$whereParams['DateTimeCreateMax'] = $_POST['DateTimeCreateMax'];
+	if(array_key_exists('DateTimeModifyMax',$_POST) && !empty($_POST['DateTimeModifyMax'])){
+		$whereSql[] = 'tbImageInfo.DateTimeModify <= date_add(:DateTimeModifyMax,INTERVAL 1 DAY)';
+		$whereParams['DateTimeModifyMax'] = $_POST['DateTimeModifyMax'];
 	}
 	
 	
 	$sthList = null;
 	$sthCount = null;
 	
-	$tbFrom = 'tbCategoryImageInfo';
+	$tbFrom = 'tbImageInfo';
 	
 	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(',',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
 	

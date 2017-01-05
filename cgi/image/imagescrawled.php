@@ -16,9 +16,9 @@
 	
 	$timespan = date('Y-m-d H:i:s',time());
 	
-	$sthSelect = $pdomysql -> prepare('select * from tbCategoryImageInfo where Id = :Id');
+	$sthSelect = $pdomysql -> prepare('select * from tbImageInfo where Id = :Id');
 	$sthSelect -> execute(array('Id' => $Id));
-	$sthUpdate = $pdomysql -> prepare('update tbCategoryImageInfo set Src = :Src,Scrawled =1,DateTimeModify = :DateTimeModify where Id = :Id');
+	$sthUpdate = $pdomysql -> prepare('update tbImageInfo set Src = :Src,Scrawled =1,DateTimeModify = :DateTimeModify where Id = :Id');
 	foreach($sthSelect -> fetchAll(PDO::FETCH_ASSOC) as $item){
 		$id = $item['Id'];
 		$src = $item['Img'];

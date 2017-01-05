@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>相册管理</title>
+		<title>图片管理</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,8 +40,8 @@
 
 		<script src="common/config.js"></script>
 		
-		<link href="resource/categoryimage/categoryimagemanager.css"  rel="stylesheet"/>
-		<script src="resource/categoryimage/categoryimagemanager.js"></script>
+		<link href="resource/image/imagemanager.css"  rel="stylesheet"/>
+		<script src="resource/image/imagemanager.js"></script>
 		
 		<script>
 			$(function(){
@@ -56,37 +56,37 @@
 		<div class="container">
 			<div id="main">
 				<div class="col-md-12">
-					<form id="mainForm" class="form-inline" action="<?php ActionLink('categoryimage','categoryimagemanagerpartial')?>">
+					<form id="mainForm" class="form-inline" action="<?php ActionLink('image','imagemanagerpartial')?>">
 						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
 						<input id="PageSize" name="PageSize" type="hidden" value="20" />
 						<input id="PageSort" name="PageSort" type="hidden" value="" />
-						<input id="PageTemplate" type="hidden" value="categoryimageblock" />
-						<input id="PageItems" name="PageItems" type="hidden" value="Id,Title,Tag,Img,ExtenseId,Scrawled,Src,Level,Status,DateTimeCreate,DateTimeModify" />
+						<input id="PageTemplate" type="hidden" value="imageblock" />
+						<input id="PageItems" name="PageItems" type="hidden" value="Id,Title,CategoryId,Img,ExtenseId,Scrawled,Src,Level,Status,DateTimeCreate,DateTimeModify" />
 		
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="panel-title clearfix">
 									<div class="col-sm-12 clearfix">
 										<div class="btn-group f_l">
-											<button class="btn btn-sm btn-info" type="button" onclick="categoryImageEditor(this,0)">添加</button>
-											<button class="btn btn-sm btn-success" type="button" onclick="categoryImageChangeStatus(this,0,1)">启用</button>
-											<button class="btn btn-sm btn-warning" type="button" onclick="categoryImageChangeStatus(this,0,0)">禁用</button>
-											<button class="btn btn-sm btn-danger" type="button" onclick="categoryImageDelete(this,0)">删除</button>
+											<button class="btn btn-sm btn-info" type="button" onclick="imageEditor(this,0,$('#CategoryId').val())">添加</button>
+											<button class="btn btn-sm btn-success" type="button" onclick="imageChangeStatus(this,0,1)">启用</button>
+											<button class="btn btn-sm btn-warning" type="button" onclick="imageChangeStatus(this,0,0)">禁用</button>
+											<button class="btn btn-sm btn-danger" type="button" onclick="imageDelete(this,0)">删除</button>
 										</div>
 										<div class="f_r">
 											<div class="form-group">
 												<input id="Title" name="Title" type="text" class="form-control input-sm wd120" placeholder="标题" />
 											</div>
 											<div class="form-group">
-												<input id="Tag" name="Tag" type="text" class="form-control input-sm wd120" placeholder="标签" />
+												<input id="CategoryId" name="CategoryId" type="text" class="form-control input-sm wd40" placeholder="相册编号" value="<?php if(array_key_exists('CategoryId',$_GET) && is_numeric($_GET['CategoryId'])){ echo $_GET['CategoryId'];}?>" />
 											</div>
 											<div class="form-group">
 												<select id="Level" name="Level" class="form-control input-sm" placeholder="等级">
 													<option value="">全部</option>
 													<script type="text/javascript">
-													var categoryImageLevel = EnumConfig().CategoryImageLevel;
-													for(var i in categoryImageLevel){
-														var o = categoryImageLevel[i];
+													var imageLevel = EnumConfig().ImageLevel;
+													for(var i in imageLevel){
+														var o = imageLevel[i];
 														document.write('<option value="'+o.Key+'">'+o.Value+'</option>');
 													}
 													</script>
@@ -124,7 +124,7 @@
 										<tr>
 											<th class="t_c wd40">&nbsp;</th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Title"> 标题</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Tag"> 标签</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="CategoryId"> 相册</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Level"> 等级</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Img"> 采集图片</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Src"> 本地图片</a></th>

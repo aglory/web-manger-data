@@ -1,0 +1,53 @@
+{{if (status && recordList.length > 0)}}
+	{{each recordList}}
+	<tr>
+		<td class='t_c'>
+			<input name="Id" type="checkbox" value="{{$value.Id}}" />
+		</td>
+		<td class="t_r">
+			{{if ($value.Title)}}{{$value.Title}}{{else}}-{{/if}}
+		</td>
+		<td>
+			{{$value.CategoryId}}
+		</td>
+		<td>
+			{{if ($value.Level)}}{{renderEnums($value.Level,Enums.CategoryImageLevel)}}{{/if}}
+		</td>
+		<td class="t_c">
+			<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Img}}"><img class="img-thumbnail" src="{{$value.Img}}" /></a>
+		</td>
+		<td class="t_c">
+			<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Src}}"><img class="img-thumbnail" src="{{$value.Src}}?{{$value.DateTimeModify}}" /></a>
+		</td>
+		<td class="t_c">
+			{{if ($value.Status)}}启用{{else}}禁用{{/if}}
+		</td>
+		<td class="t_c">
+			{{if ($value.DateTimeCreate)}}{{$value.DateTimeCreate.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}}{{else}}-{{/if}}
+			<br />
+			{{if ($value.DateTimeModify)}}{{$value.DateTimeModify.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/,"$1-$2-$3")}}{{else}}-{{/if}}
+		</td>
+		<td class="t_c">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Src}}">大图</a>
+					<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Img}}">原图</a>
+					<a class="btn btn-sm btn-default" href="?model=image&action=imagemanager&CategoryId={{$value.Id}}">图片</a>
+					<button type="button" class="btn btn-sm btn-success" onclick="imageScrawled(this,{{$value.Id}})">采集</button>
+					<button type="button" class="btn btn-sm btn-info" onclick="imageEditor(this,{{$value.Id}})">编辑</button> 
+					{{if ($value.Status)}}
+						<button type="button" class="btn btn-sm btn-warning" onclick="imageChangeStatus(this,{{$value.Id}},0)">禁用</button> 
+					{{else}}
+						<button type="button" class="btn btn-sm btn-success" onclick="imageChangeStatus(this,{{$value.Id}},1)">启用</button> 
+					{{/if}}
+					<button type="button" class="btn btn-sm btn-danger" onclick="imageDelete(this,{{$value.Id}})">删除</button> 
+				</div>
+			</div>
+		</td>
+	</tr>
+	{{/each}}
+{{else}}
+	<tr class="odd_color">
+		<td class="align_l p10_l bgr_eb" colspan="7">暂无数据</td>
+	</tr>
+{{/if}}

@@ -51,7 +51,14 @@ function EnumConfig(model){
 			{Key:2,Value:"primary"},
 			{Key:3,Value:"info"},
 			{Key:4,Value:"warning"},
-			{Key:5,Value:"danger"},
+			{Key:5,Value:"danger"}
+		],
+		ImageLevel:[
+			{Key:1,Value:"default"},
+			{Key:2,Value:"primary"},
+			{Key:3,Value:"info"},
+			{Key:4,Value:"warning"},
+			{Key:5,Value:"danger"}
 		]
 	}
 	if(model){

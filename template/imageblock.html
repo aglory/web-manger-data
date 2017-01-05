@@ -1,0 +1,60 @@
+{{if (status && recordList.length > 0)}}
+	<tr><td colspan="9">
+	{{each recordList}}
+	<div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+			<img src="{{$value.Src}}?{{$value.DateTimeModify}}">
+			<div class="caption">
+				<div class="t_c">
+					<div class="btn-group">
+						{{if ($value.Level==1)}}
+						<button type="button" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok"></span></button>	
+						{{else}}
+						<button type="button" class="btn btn-sm btn-default" onclick="imageChangeLevel(this,{{$value.Id}},1)"><span class="glyphicon glyphicon-remove"></span></button>						
+						{{/if}}
+						{{if ($value.Level==2)}}
+						<button type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-ok"></span></button>	
+						{{else}}
+						<button type="button" class="btn btn-sm btn-primary" onclick="imageChangeLevel(this,{{$value.Id}},2)"><span class="glyphicon glyphicon-remove"></span></button>						
+						{{/if}}
+						{{if ($value.Level==3)}}
+						<button type="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-ok"></span></button>	
+						{{else}}
+						<button type="button" class="btn btn-sm btn-info" onclick="imageChangeLevel(this,{{$value.Id}},3)"><span class="glyphicon glyphicon-remove"></span></button>						
+						{{/if}}
+						{{if ($value.Level==4)}}
+						<button type="button" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-ok"></span></button>	
+						{{else}}
+						<button type="button" class="btn btn-sm btn-warning" onclick="imageChangeLevel(this,{{$value.Id}},4)"><span class="glyphicon glyphicon-remove"></span></button>						
+						{{/if}}
+						{{if ($value.Level==5)}}
+						<button type="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-ok"></span></button>	
+						{{else}}
+						<button type="button" class="btn btn-sm btn-danger" onclick="imageChangeLevel(this,{{$value.Id}},5)"><span class="glyphicon glyphicon-remove"></span></button>						
+						{{/if}}
+					</div>
+					<div class="btn-group">
+						<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Src}}">大图</a>
+						<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Img}}">原图</a>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-sm btn-success" onclick="imageScrawled(this,{{$value.Id}})">采集</button>
+						<button type="button" class="btn btn-sm btn-info" onclick="imageEditor(this,{{$value.Id}})">编辑</button> 
+						{{if ($value.Status)}}
+							<button type="button" class="btn btn-sm btn-warning" onclick="imageChangeStatus(this,{{$value.Id}},0)">禁用</button> 
+						{{else}}
+							<button type="button" class="btn btn-sm btn-success" onclick="imageChangeStatus(this,{{$value.Id}},1)">启用</button> 
+						{{/if}}
+						<button type="button" class="btn btn-sm btn-danger" onclick="imageDelete(this,{{$value.Id}})">删除</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{/each}}
+	</td></tr>
+{{else}}
+	<tr class="odd_color">
+		<td class="align_l p10_l bgr_eb" colspan="9">暂无数据</td>
+	</tr>
+{{/if}}
