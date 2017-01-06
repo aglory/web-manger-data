@@ -36,6 +36,7 @@
 					<div class="btn-group">
 						<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Src}}">大图</a>
 						<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Img}}">原图</a>
+						<a class="btn btn-sm btn-default" href="?model=categoryimagerelation&action=categoryimagerelationmanager&ImageId={{$value.Id}}">关联</a>
 					</div>
 					<div class="btn-group">
 						<button type="button" class="btn btn-sm btn-success" onclick="imageScrawled(this,{{$value.Id}})">采集</button>

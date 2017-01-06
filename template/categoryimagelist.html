@@ -3,6 +3,7 @@
 	<tr>
 		<td class='t_c'>
 			<input name="Id" type="checkbox" value="{{$value.Id}}" />
+			{{$value.Id}}
 		</td>
 		<td class="t_r">
 			{{if ($value.Title)}}{{$value.Title}}{{else}}-{{/if}}
@@ -36,7 +37,7 @@
 				<div class="btn-group">
 					<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Src}}">大图</a>
 					<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Img}}">原图</a>
-					<a class="btn btn-sm btn-default" href="?model=image&action=imagemanager&CategoryId={{$value.Id}}">图片</a>
+						<a class="btn btn-sm btn-default" href="?model=categoryimagerelation&action=categoryimagerelationmanager&CategoryId={{$value.Id}}">关联</a>
 					<button type="button" class="btn btn-sm btn-success" onclick="categoryImageScrawled(this,{{$value.Id}})">采集</button>
 					<button type="button" class="btn btn-sm btn-info" onclick="categoryImageEditor(this,{{$value.Id}})">编辑</button> 
 					{{if ($value.Status)}}

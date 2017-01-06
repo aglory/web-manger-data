@@ -355,6 +355,10 @@ function categoryImageScrawled(sender,id){
 	});
 }
 
+function changeAllCheckBoxStatus(sender){
+	$("#recordList :checkbox[name='Id']").prop("checked",sender.checked);
+}
+
 function changePageTemplate(sender){
 	if($("#PageTemplate").val() == 'categoryimageblock'){
 		$(sender).html('<span class="glyphicon glyphicon-th-large"></span>图块');

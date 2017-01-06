@@ -11,15 +11,17 @@
 					<fieldset>
 						<table class="table table-none">
 							<tr>
-								<td class="col2-1">
-									<div class="input-group">
-										<span class="input-group-addon">标题</span>
+								<td class="col-sm-12" colspan="2">
+									<div class="input-group col-sm-12">
+										<span class="input-group-addon wd120">标题</span>
 										<input name="Title" type="text" placeholder="标题" class="form-control input-sm" value="{{if (model)}}{{model.Title}}{{/if}}">
 									</div>
 								</td>
-								<td class="col2-2">
-									<div class="input-group">
-										<span class="input-group-addon">标签</span>
+							</tr>
+							<tr>
+								<td class="col-sm-12" colspan="2">
+									<div class="input-group col-sm-12">
+										<span class="input-group-addon wd120">标签</span>
 										<input name="Tag" type="text" placeholder="标签" class="form-control input-sm" value="{{if (model)}}{{model.Tag}}{{/if}}">
 									</div>
 								</td>
@@ -27,7 +29,7 @@
 							<tr>
 								<td class="col-sm-12" colspan="2">
 									<div class="input-group col-sm-12">
-										<span class="input-group-addon wd80">原图地址：</span>
+										<span class="input-group-addon wd120">原图地址：</span>
 										<input name="Img" type="text" placeholder="原图地址" class="form-control input-sm" value="{{if (model)}}{{model.Img}}{{/if}}">
 									</div>
 								</td>
@@ -35,7 +37,7 @@
 							<tr>
 								<td class="col-sm-12" colspan="2">
 									<div class="input-group col-sm-12">
-										<span class="input-group-addon wd80">本地地址：</span>
+										<span class="input-group-addon wd120">本地地址：</span>
 										<input name="Src" type="text" placeholder="本地地址" class="form-control input-sm" value="{{if (model)}}{{model.Src}}{{/if}}">
 									</div>
 								</td>

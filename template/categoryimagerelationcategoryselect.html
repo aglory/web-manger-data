@@ -9,6 +9,13 @@
 			{{if ($value.Title)}}{{$value.Title}}{{else}}-{{/if}}
 		</td>
 		<td>
+			{{if ($value.Tag)}}
+				{{each $value.Tag.split(',') as $item}}
+					<div class="tag inline-block">{{$item}}</div>
+				{{/each}}
+			{{/if}}
+		</td>
+		<td>
 			{{if ($value.Level)}}{{renderEnums($value.Level,Enums.CategoryImageLevel)}}{{/if}}
 		</td>
 		<td class="t_c">
@@ -29,17 +36,7 @@
 			<div class="btn-group">
 				<div class="btn-group">
 					<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Src}}">大图</a>
-					<a target="_blank" class="btn btn-sm btn-default" href="{{$value.Img}}">原图</a>
-					<a class="btn btn-sm btn-default" href="?model=categoryimagerelation&action=categoryimagerelationmanager&ImageId={{$value.Id}}">关联</a>
-					<a class="btn btn-sm btn-default" href="?model=image&action=imagemanager&CategoryId={{$value.Id}}">图片</a>
-					<button type="button" class="btn btn-sm btn-success" onclick="imageScrawled(this,{{$value.Id}})">采集</button>
-					<button type="button" class="btn btn-sm btn-info" onclick="imageEditor(this,{{$value.Id}})">编辑</button> 
-					{{if ($value.Status)}}
-						<button type="button" class="btn btn-sm btn-warning" onclick="imageChangeStatus(this,{{$value.Id}},0)">禁用</button> 
-					{{else}}
-						<button type="button" class="btn btn-sm btn-success" onclick="imageChangeStatus(this,{{$value.Id}},1)">启用</button> 
-					{{/if}}
-					<button type="button" class="btn btn-sm btn-danger" onclick="imageDelete(this,{{$value.Id}})">删除</button> 
+					<button class="btn btn-sm btn-success">添加</button>
 				</div>
 			</div>
 		</td>
@@ -47,6 +44,6 @@
 	{{/each}}
 {{else}}
 	<tr class="odd_color">
-		<td class="align_l p10_l bgr_eb" colspan="6">暂无数据</td>
+		<td class="align_l p10_l bgr_eb" colspan="7">暂无数据</td>
 	</tr>
 {{/if}}

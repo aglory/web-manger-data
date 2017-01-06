@@ -12,7 +12,9 @@
 	$PageItems = array();
 	
 	$PageColumns = array(
-		'tbImageInfo' => array('Id','Title','Img','ExtenseId','Scrawled','Src','Level','DateTimeCreate','DateTimeModify','Status')
+		'tbCategoryImageRelationInfo' => array('CategoryId','ImageId'),
+		'tbCategoryImageInfo' => array('Title','Tag','Img','Src','Level'),
+		'tbImageInfo' => array('Title','Img','Src','Level')
 	);
 
 	
@@ -28,6 +30,12 @@
 	if(array_key_exists('PageItems',$_POST) && !empty($_POST['PageItems'])){
 		foreach(explode(',',$_POST['PageItems']) as $item){
 			foreach($PageColumns as $table => $columns){
+				if($table == 'tbCategoryImageInfo')
+					$alias = ' as Category_'.$column;
+				else if($table == 'tbImageInfo')
+					$alias = ' as Image_'.$column;
+				else
+					$alias = '';
 				if(in_array($item,$columns)){
 					$PageItems[] = $table.'.'.$item;
 					break;
@@ -37,7 +45,13 @@
 	}else{
 		foreach($PageColumns as $table => $columns){
 			foreach($columns as $column){
-				$PageItems[] = $table.'.'.$column;
+				if($table == 'tbCategoryImageInfo')
+					$alias = ' as Category_'.$column;
+				else if($table == 'tbImageInfo')
+					$alias = ' as Image_'.$column;
+				else
+					$alias = '';
+				$PageItems[] = $table.'.'.$column.$alias;
 			}
 		}
 	}
@@ -60,8 +74,14 @@
 				continue;
 			}
 			foreach($PageColumns as $table => $columns){
-				if(in_array($column_orderby,$columns)){
-					$PageOrderBy[] = $table.'.'.$column_orderby.' '.$column_orderbytype;
+				if($table == 'tbCategoryImageInfo')
+					$column = str_replace('Category_','',$column_orderby);
+				else if($table == 'tbImageInfo')
+					$column = str_replace('Image_','',$column_orderby);
+				else
+					$column = $column_orderby;
+				if(in_array($column,$columns)){
+					$PageOrderBy[] = $table.'.'.$column.' '.$column_orderbytype;
 				}
 			}
 		}
@@ -70,34 +90,43 @@
 	$whereSql = array('1=1');
 	$whereParams = array();
 
-	if(array_key_exists('Title',$_POST) && !empty($_POST['Title'])){
-		$whereSql[] = 'tbImageInfo.Title like :Title';
-		$whereParams['Title'] = '%'.$_POST['Title'].'%';
+	if(array_key_exists('CategoryId',$_POST) && is_numeric($_POST['CategoryId'])){
+		$whereSql[] = 'tbCategoryImageRelationInfo.CategoryId = '.intval($_POST['CategoryId']);
 	}
-	if(array_key_exists('Level',$_POST) && is_numeric($_POST['Level'])){
-		$whereSql[] = 'tbImageInfo.Level = '.intval($_POST['Level']);
+	if(array_key_exists('ImageId',$_POST) && is_numeric($_POST['ImageId'])){
+		$whereSql[] = 'tbCategoryImageRelationInfo.ImageId = '.intval($_POST['ImageId']);
 	}
-	if(array_key_exists('Status',$_POST) && is_numeric($_POST['Status'])){
-		$whereSql[] = 'tbImageInfo.Status = '.intval($_POST['Status']);
+	
+	
+	if(array_key_exists('Category_Title',$_POST) && !empty($_POST['Category_Title'])){
+		$whereSql[] = 'tbCategoryImageInfo.Title like :Category_Title';
+		$whereParams['Category_Title'] = '%'.$_POST['Category_Title'].'%';
 	}
-	if(array_key_exists('Scrawled',$_POST) && is_numeric($_POST['Scrawled'])){
-		$whereSql[] = 'tbImageInfo.Scrawled = '.intval($_POST['Scrawled']);
+	if(array_key_exists('Category_Level',$_POST) && is_numeric($_POST['Category_Level'])){
+		$whereSql[] = 'tbCategoryImageInfo.Level = '.intval($_POST['Category_Level']);
 	}
-	if(array_key_exists('DateTimeModifyMin',$_POST) && !empty($_POST['DateTimeModifyMin'])){
-		$whereSql[] = 'tbImageInfo.DateTimeModify >= :DateTimeModifyMin';
-		$whereParams['DateTimeModifyMin'] = $_POST['DateTimeModifyMin'];
+	if(array_key_exists('Category_Status',$_POST) && is_numeric($_POST['Category_Status'])){
+		$whereSql[] = 'tbCategoryImageInfo.Status = '.intval($_POST['Category_Status']);
 	}
-	if(array_key_exists('DateTimeModifyMax',$_POST) && !empty($_POST['DateTimeModifyMax'])){
-		$whereSql[] = 'tbImageInfo.DateTimeModify <= date_add(:DateTimeModifyMax,INTERVAL 1 DAY)';
-		$whereParams['DateTimeModifyMax'] = $_POST['DateTimeModifyMax'];
+
+	if(array_key_exists('Image_Title',$_POST) && !empty($_POST['Image_Title'])){
+		$whereSql[] = 'tbImageInfo.Title like :Image_Title';
+		$whereParams['Image_Title'] = '%'.$_POST['Image_Title'].'%';
+	}
+	if(array_key_exists('Image_Level',$_POST) && is_numeric($_POST['Image_Level'])){
+		$whereSql[] = 'tbImageInfo.Level = '.intval($_POST['Image_Level']);
+	}
+	if(array_key_exists('Image_Status',$_POST) && is_numeric($_POST['Image_Status'])){
+		$whereSql[] = 'tbImageInfo.Status = '.intval($_POST['Image_Status']);
 	}
 	
 	
 	$sthList = null;
 	$sthCount = null;
 	
-	$tbFrom = 'tbImageInfo';
-	
+
+	$tbFrom = 'tbCategoryImageRelationInfo inner join tbCategoryImageInfo on tbCategoryImageRelationInfo.CategoryId = tbCategoryImageInfo.Id inner join tbImageInfo on tbCategoryImageRelationInfo.ImageId = tbImageInfo.id';
+
 	$sthList = $pdomysql -> prepare('select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(',',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
 	
 	$sthCount = $pdomysql -> prepare('select count(1) from '.$tbFrom.' where '.implode(' and ',$whereSql));

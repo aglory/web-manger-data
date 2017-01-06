@@ -1,0 +1,2 @@
+alter table tbCategoryImageRelation 
+rename to tbCategoryImageRelationInfo;

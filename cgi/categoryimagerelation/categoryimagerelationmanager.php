@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>相册管理</title>
+		<title>图片相册关联管理</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,8 +40,8 @@
 
 		<script src="common/config.js"></script>
 		
-		<link href="resource/categoryimage/categoryimagemanager.css"  rel="stylesheet"/>
-		<script src="resource/categoryimage/categoryimagemanager.js"></script>
+		<link href="resource/categoryimagerelation/categoryimagerelationmanager.css"  rel="stylesheet"/>
+		<script src="resource/categoryimagerelation/categoryimagerelationmanager.js"></script>
 		
 		<script>
 			$(function(){
@@ -54,11 +54,13 @@
 			Render('header');
 		?>
 		<div class="container">
-			<div id="main">
+		
+			<?php if(array_key_exists('ImageId',$_GET)){?>
+			<div id="divCategoryId">
 				<div class="col-md-12">
-					<form id="mainForm" class="form-inline" action="<?php ActionLink('categoryimage','categoryimagemanagerpartial')?>">
+					<form id="mainCategoryForm" class="form-inline" action="<?php ActionLink('categoryimage','categoryimagemanagerpartial')?>">
 						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
-						<input id="PageSize" name="PageSize" type="hidden" value="20" />
+						<input id="PageSize" name="PageSize" type="hidden" value="5" />
 						<input id="PageSort" name="PageSort" type="hidden" value="" />
 						<input id="PageTemplate" type="hidden" value="categoryimageblock" />
 						<input id="PageItems" name="PageItems" type="hidden" value="Id,Title,Tag,Img,Src,Level,Status,DateTimeCreate,DateTimeModify" />
@@ -133,6 +135,112 @@
 											<th class="t_c wd200"><button type="button" class="btn btn-sm btn-default" onclick="changePageTemplate(this,event);"><span class="glyphicon glyphicon-th-list"></span>列表</button></th>
 										</tr>
 									</thead>
+									<tbody id="recordCategoryList">
+									</tbody>
+									<tfoot id="recordCategoryStatic">
+										<tr>
+											<td colspan="9" class="t_r"></td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<?php }?>
+			<?php if(array_key_exists('',$_GET)){?>
+			<?php }?>
+			
+			<div id="main">
+				<div class="col-md-12">
+					<form id="mainForm" class="form-inline" action="<?php ActionLink('categoryimagerelation','categoryimagerelationmanagerpartial')?>">
+						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
+						<input id="PageSize" name="PageSize" type="hidden" value="5" />
+						<input id="PageSort" name="PageSort" type="hidden" value="" />
+						<input id="PageItems" name="PageItems" type="hidden" value="" />
+						
+						<input id="ImageId" name="ImageId" type="hidden" value="<?php if(array_key_exists('ImageId',$_GET)){echo $_GET['ImageId'];}?>" />
+
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<div class="panel-title clearfix">
+									<div class="col-sm-12 clearfix">
+										<div class="f_l">
+											<div class="btn-group">
+												<button class="btn btn-sm btn-success" type="button" onclick="changeCategoryStatus(this,0,1)">启用</button>
+												<button class="btn btn-sm btn-warning" type="button" onclick="changeCategoryStatus(this,0,0)">禁用</button>
+											</div>
+											<div class="btn-group">
+												<button class="btn btn-sm btn-success" type="button" onclick="changeImageStatus(this,0,1)">启用</button>
+												<button class="btn btn-sm btn-warning" type="button" onclick="changeImageStatus(this,0,0)">禁用</button>
+											</div>
+										</div>
+										<div class="f_r">
+											<div class="inline-block">
+												<div class="form-group">
+													<input name="CategoryId" type="text" class="form-control input-sm wd60" placeholder="分类编号" value="<?php if(array_key_exists('CategoryId',$_GET)){echo $_GET['CategoryId'];}?>" />
+												</div>
+												<div class="form-group">
+													<input name="Category_Title" type="text" class="form-control input-sm wd120" placeholder="分类标题" />
+												</div>
+												<div class="form-group">
+													<select name="Category_Level" class="form-control input-sm" placeholder="分类等级">
+														<option value="">全部</option>
+														<script type="text/javascript">
+														var categoryImageLevel = EnumConfig().CategoryImageLevel;
+														for(var i in categoryImageLevel){
+															var o = categoryImageLevel[i];
+															document.write('<option value="'+o.Key+'">'+o.Value+'</option>');
+														}
+														</script>
+													</select>
+												</div>
+											</div>
+											<div class="inline-block">
+												<div class="form-group">
+													<input name="ImageId" type="text" class="form-control input-sm wd60" placeholder="相片编号" value="<?php if(array_key_exists('ImageId',$_GET)){echo $_GET['ImageId'];}?>" />
+												</div>
+												<div class="form-group">
+													<input name="Image_Title" type="text" class="form-control input-sm wd120" placeholder="相片标题" />
+												</div>
+												<div class="form-group">
+													<select name="Image_Level" class="form-control input-sm" placeholder="相片等级">
+														<option value="">全部</option>
+														<script type="text/javascript">
+														var imageLevel = EnumConfig().ImageLevel;
+														for(var i in imageLevel){
+															var o = imageLevel[i];
+															document.write('<option value="'+o.Key+'">'+o.Value+'</option>');
+														}
+														</script>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<button type="submit" class="btn btn-info btn-sm btn-query">查询</button>
+												<button type="button" class="btn btn-default btn-sm btn-refresh">刷新</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<table class="table table-striped table-bordered">
+									<thead id="recordHead">
+										<tr>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="CategoryId"> 相册</a><input type="checkbox" onchange="changeCategoryIdSelected(this)" /></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Category_Img"> 图片</a></th>
+											<th class="t_c wd200"><a class="btn btn-sort icon-sort " sort-expression="Category_Level"> 等级</a></th>
+											<th class="t_c wd120"> 相册操作 </th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Image_Id"> 图片</a><input type="checkbox" onchange="changeImageIdSelected(this)" /></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Image_Img"> 图片</a></th>
+											<th class="t_c wd200"><a class="btn btn-sort icon-sort " sort-expression="Image_Level"> 等级</a></th>
+											<th class="t_c wd120"> 图片操作 </th>
+											<th class="t_c wd80">操作</th>
+										</tr>
+									</thead>
 									<tbody id="recordList">
 									</tbody>
 									<tfoot id="recordStatic">
@@ -146,7 +254,10 @@
 					</form>
 				</div>
 			</div>
+		
 		</div>
+		
+		
 		<?php
 			Render('footer');
 		?>

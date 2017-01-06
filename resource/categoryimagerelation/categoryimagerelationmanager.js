@@ -35,7 +35,13 @@ function doQuery(opts){
 				UI_Tips('danger',rest.message);
 				return;
 			}
-			$("#recordList").html(template($("#PageTemplate").val(),EnumConfig(rest)));
+			if($("#mainForm input[name='CategoryId']").val().length > 0){
+				rest.Merging = 1;
+			}
+			if($("#mainForm input[name='ImageId']").val().length > 0){
+				rest.Merging = 2;
+			}
+			$("#recordList").html(template('categoryimagerelationmanager',EnumConfig(rest)));
 			$("#recordStatic>tr:first>td:last").pager({pageIndex:pageIndex,pageSize:pageSize,recordCount:rest.recordCount,pageIndexChanged:doQuery});
 		},error:function(){
 			if(sender){
@@ -94,9 +100,9 @@ $(function(){
 	});
 });
 
-function imageChangeLevel(sender,id,level){
+function categoryImageChangeLevel(sender,id,level){
 	$.ajax({
-		url:"?model=image&action=imagechangelevel",
+		url:"?model=categoryimage&action=categoryimagechangelevel",
 		type:"post",
 		dataType:'json',
 		data:{"Id":id,"Level":level},
@@ -121,16 +127,16 @@ function imageChangeLevel(sender,id,level){
 }
 
 
-function imageEditor(sender,id,categoryId){
+function categoryImageEditor(sender,id){
 	if(id == 0){
-		imageEditorRender(sender,{status:true,model:{Id:id,CategoryId:categoryId}});
+		categoryImageEditorRender(sender,{status:true,model:{Id:id}});
 		return;
 	}
 	if(sender){
 		$(sender).prop('disabed',true);
 	}
 	$.ajax({
-		url:"?model=image&action=imageeditor",
+		url:"?model=categoryimage&action=categoryimageeditor",
 		type:'post',
 		dataType:'json',
 		data:{"id":id},
@@ -144,7 +150,7 @@ function imageEditor(sender,id,categoryId){
 				UI_Tips('danger',rest.message);
 				return;
 			}
-			imageEditorRender(sender,rest);
+			categoryImageEditorRender(sender,rest);
 		},error:function(e,x,r){
 			console.info(e);
 			if(sender){
@@ -155,18 +161,18 @@ function imageEditor(sender,id,categoryId){
 }
 
 
-function imageEditorRender(sender,model){
+function categoryImageEditorRender(sender,model){
 	var t = EnumConfig(model);
-	var html = $(template('imageeditor',EnumConfig(model))).appendTo('body');
+	var html = $(template('categoryimageeditor',EnumConfig(model))).appendTo('body');
 	var modal = html.modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-save").click(function(){
-		imageSave(this,modal);
+		categoryImageSave(this,modal);
 	});
 	return modal;
 }
 
-function imageSave(sender,modal){
+function categoryImageSave(sender,modal){
 	var form = modal.find(".editorForm");
 	if(sender){
 		$(sender).prop('disabed',true);
@@ -197,9 +203,9 @@ function imageSave(sender,modal){
 }
 
 
-function imageChangeStatus(sender,id,status){
+function categoryImageChangeStatus(sender,id,status){
 	if(!id && $(sender.form).find(":checked[name='Id']").length==0){
-		UI_Tips('success',"未选择图片");
+		UI_Tips('success',"未选择相册");
 		return;
 	}
 	var data = 'Status='+status;
@@ -216,7 +222,7 @@ function imageChangeStatus(sender,id,status){
 	if(status){
 		var sender = this;
 		$.ajax({
-			url:'?model=image&action=imagechangestatus',
+			url:'?model=categoryimage&action=categoryimagechangestatus',
 			type:"post",
 			data:data,
 			dataType:"json",
@@ -239,12 +245,12 @@ function imageChangeStatus(sender,id,status){
 		});
 		return;
 	}
-	var modal = $(template('confirm',{message:'确定禁用图片'})).appendTo('body').modal();
+	var modal = $(template('confirm',{message:'确定禁用相册'})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
 		$.ajax({
-			url:'?model=image&action=imagechangestatus',
+			url:'?model=categoryimage&action=categoryimagechangestatus',
 			type:"post",
 			data:data,
 			dataType:"json",
@@ -273,7 +279,7 @@ function imageChangeStatus(sender,id,status){
 	return modal;
 }
 
-function imageDelete(sender,id){
+function categoryImageDelete(sender,id){
 	if(!id && $(sender.form).find(":checked[name='Id']").length==0){
 		UI_Tips('success',"未选择相册");
 		return;
@@ -290,7 +296,7 @@ function imageDelete(sender,id){
 			}
 		});
 	}
-	var modal = $(template('confirm',{message:'确定删除图片?'})).appendTo('body').modal();
+	var modal = $(template('confirm',{message:'确定删除相册?'})).appendTo('body').modal();
 	modal.find(".modal-dialog").draggable({handle:".modal-header"});
 	modal.find(".btn-yes").click(function(){
 		var sender = this;
@@ -298,7 +304,7 @@ function imageDelete(sender,id){
 			$(sender).prop('disabed',true);
 		}
 		$.ajax({
-			url:'?model=image&action=imagedelete',
+			url:'?model=categoryimage&action=categoryimagedelete',
 			type:"post",
 			data:data,
 			dataType:"json",
@@ -327,12 +333,12 @@ function imageDelete(sender,id){
 	return modal;
 }
 
-function imageScrawled(sender,id){
+function categoryImageScrawled(sender,id){
 	if(sender){
 		$(sender).prop('disabled',true);
 	}
 	$.ajax({
-		url:'?model=image&action=imagescrawled',
+		url:'?model=categoryimage&action=categoryimagescrawled',
 		type:'post',
 		data:{Id:id},
 		dataType:'json',
@@ -355,18 +361,21 @@ function imageScrawled(sender,id){
 	});
 }
 
-function changeAllCheckBoxStatus(sender){
-	$("#recordList :checkbox[name='Id']").prop("checked",sender.checked);
+function changeCategoryIdSelected(sender){
+	$("#recordList :checkbox[name='CategoryId']").prop("checked",sender.checked);
+}
+function changeImageIdSelected(sender){
+	$("#recordList :checkbox[name='ImageId']").prop("checked",sender.checked);
 }
 
 function changePageTemplate(sender){
-	if($("#PageTemplate").val() == 'imageblock'){
+	if($("#PageTemplate").val() == 'categoryimageblock'){
 		$(sender).html('<span class="glyphicon glyphicon-th-large"></span>图块');
-		$("#PageTemplate").val("imagelist");
+		$("#PageTemplate").val("categoryimagelist");
 		//$("#PageItems").val("Id,User_Id,User_Name,Status,IsDefault,OrderNumber,DateTimeCreate,DateTimeModify");
 	}else{
 		$(sender).html('<span class="glyphicon glyphicon-th-list"></span>列表');
-		$("#PageTemplate").val("imageblock");
+		$("#PageTemplate").val("categoryimageblock");
 		//$("#PageItems").val("Id,User_Id,Src,Status,IsDefault,Description");
 	}
 	doQuery();

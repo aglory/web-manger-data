@@ -61,7 +61,7 @@
 						<input id="PageSize" name="PageSize" type="hidden" value="20" />
 						<input id="PageSort" name="PageSort" type="hidden" value="" />
 						<input id="PageTemplate" type="hidden" value="imageblock" />
-						<input id="PageItems" name="PageItems" type="hidden" value="Id,Title,CategoryId,Img,ExtenseId,Scrawled,Src,Level,Status,DateTimeCreate,DateTimeModify" />
+						<input id="PageItems" name="PageItems" type="hidden" value="Id,Title,Img,Src,Level,Status,DateTimeCreate,DateTimeModify" />
 		
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -76,9 +76,6 @@
 										<div class="f_r">
 											<div class="form-group">
 												<input id="Title" name="Title" type="text" class="form-control input-sm wd120" placeholder="标题" />
-											</div>
-											<div class="form-group">
-												<input id="CategoryId" name="CategoryId" type="text" class="form-control input-sm wd40" placeholder="相册编号" value="<?php if(array_key_exists('CategoryId',$_GET) && is_numeric($_GET['CategoryId'])){ echo $_GET['CategoryId'];}?>" />
 											</div>
 											<div class="form-group">
 												<select id="Level" name="Level" class="form-control input-sm" placeholder="等级">
@@ -122,9 +119,8 @@
 								<table class="table table-striped table-bordered">
 									<thead id="recordHead">
 										<tr>
-											<th class="t_c wd40">&nbsp;</th>
+											<th class="t_c wd40"><input type="checkbox" onchange="changeAllCheckBoxStatus(this);" /></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Title"> 标题</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="CategoryId"> 相册</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Level"> 等级</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Img"> 采集图片</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Src"> 本地图片</a></th>
@@ -137,7 +133,7 @@
 									</tbody>
 									<tfoot id="recordStatic">
 										<tr>
-											<td colspan="9" class="t_r"></td>
+											<td colspan="8" class="t_r"></td>
 										</tr>
 									</tfoot>
 								</table>

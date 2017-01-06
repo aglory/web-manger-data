@@ -1,0 +1,30 @@
+footer{
+	position:fixed;
+	bottom:0px;right:auto;left:auto;
+	width:100%;
+}
+
+body{
+	padding-bottom:35px;
+}
+
+#recordList tr td .img-thumbnail{
+	width:60px;
+	height:60px;
+}
+#main,#divCategoryId{
+	padding-top:60px;
+}
+#recordList hr{
+	border:1px solid #eee;
+	margin:0px;
+	height:0px;
+}
+#recordList .tag{
+	border-radius:3px;
+	border:1px solid #999;
+	background-color:#eee
+}
+#mainForm .v_a_m{
+	vertical-align: middle;
+}

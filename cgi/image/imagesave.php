@@ -16,10 +16,6 @@
 	if(array_key_exists('Title',$_POST) && !empty($_POST['Title'])){
 		$Title = $_POST['Title'];
 	}
-	$CategoryId = '';
-	if(array_key_exists('CategoryId',$_POST) && !empty($_POST['CategoryId'])){
-		$CategoryId = $_POST['CategoryId'];
-	}
 	$Img = '';
 	if(array_key_exists('Img',$_POST) && !empty($_POST['Img'])){
 		$Img = $_POST['Img'];
@@ -67,11 +63,10 @@
 	}
 	
 
-	$sth = $pdomysql -> prepare('update tbImageInfo set Title=:Title,CategoryId=:CategoryId,Img=:Img,Src=:Src,Scrawled=:Scrawled,Level=:Level,DateTimeModify=:DateTimeModify where Id = :Id;');
+	$sth = $pdomysql -> prepare('update tbImageInfo set Title=:Title,Img=:Img,Src=:Src,Scrawled=:Scrawled,Level=:Level,DateTimeModify=:DateTimeModify where Id = :Id;');
 	$sth -> execute(array(
 		'Id' => $Id,
 		'Title' => $Title,
-		'CategoryId' => $CategoryId,
 		'Img' => $Img,
 		'Src' => $Src,
 		'Scrawled' => $Scrawled,

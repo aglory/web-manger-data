@@ -1,0 +1,217 @@
+{{if (status && recordList.length > 0)}}
+	{{each recordList as $value $index}}
+	<tr>
+	{{if (Merging == 1)}}
+		{{if $index == 0}}
+			<td class='t_r v_a_m' rowspan="{{recordList.length}}">
+				<label>
+					<span>{{$value.CategoryId}}</span>
+					<input type="checkbox" class="form-control" name="CategoryId" value="{{$value.CategoryId}}" /> 
+				</label>
+			</td>
+			<td class='t_c v_a_m' rowspan="{{recordList.length}}">
+				<a target="_blank" href="{{$value.Category_Src}}"><img title="{{$value.Category_Title}}" class="img-thumbnail" src="{{$value.Category_Src}}" /></a>
+			</td>
+			<td class='t_c v_a_m' rowspan="{{recordList.length}}">
+				<div class="btn-group">
+					{{if ($value.Category_Level==1)}}
+					<button type="button" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok"></span></button>	
+					{{else}}
+					<button type="button" class="btn btn-sm btn-default" onclick="changeCategoryLevel(this,{{$value.CategoryId}},1)"><span class="glyphicon glyphicon-remove"></span></button>						
+					{{/if}}
+					{{if ($value.Category_Level==2)}}
+					<button type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-ok"></span></button>	
+					{{else}}
+					<button type="button" class="btn btn-sm btn-primary" onclick="changeCategoryLevel(this,{{$value.CategoryId}},2)"><span class="glyphicon glyphicon-remove"></span></button>						
+					{{/if}}
+					{{if ($value.Category_Level==3)}}
+					<button type="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-ok"></span></button>	
+					{{else}}
+					<button type="button" class="btn btn-sm btn-info" onclick="changeCategoryLevel(this,{{$value.CategoryId}},3)"><span class="glyphicon glyphicon-remove"></span></button>						
+					{{/if}}
+					{{if ($value.Category_Level==4)}}
+					<button type="button" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-ok"></span></button>	
+					{{else}}
+					<button type="button" class="btn btn-sm btn-warning" onclick="changeCategoryLevel(this,{{$value.CategoryId}},4)"><span class="glyphicon glyphicon-remove"></span></button>						
+					{{/if}}
+					{{if ($value.Category_Level==5)}}
+					<button type="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-ok"></span></button>	
+					{{else}}
+					<button type="button" class="btn btn-sm btn-danger" onclick="changeCategoryLevel(this,{{$value.CategoryId}},5)"><span class="glyphicon glyphicon-remove"></span></button>						
+					{{/if}}
+				</div>
+			</td>
+			<td class="t_c v_a_m" rowspan="{{recordList.length}}">
+				<div class="btn-group">
+				{{if ($value.Category_Status)}}
+				<button type="button" class="btn btn-sm btn-success" onclick="changeCategoryStatus(this,{{$value.CategoryId}},0)">禁用</button>
+				{{else}}
+				<button type="button" class="btn btn-sm btn-success" onclick="changeCategoryStatus(this,{{$value.CategoryId}},1)">启用</button>
+				{{/if}}
+				<a class="btn btn-sm btn-info" onclick="categoryEditor(this,{{$value.CategoryId}},null)">编辑</a>
+				</div>
+			</td>
+		{{/if}}
+	{{else}}
+		<td class='t_r'>
+				<label>
+					<span>{{$value.CategoryId}}</span>
+					<input type="checkbox" class="form-control" name="CategoryId" value="{{$value.CategoryId}}" />
+				</label>
+		</td>
+		<td class='t_c'>
+			<a target="_blank" href="{{$value.Category_Src}}"><img title="{{$value.Category_Title}}" class="img-thumbnail" src="{{$value.Category_Src}}" /></a>
+		</td>
+		<td class='t_c'>
+			<div class="btn-group">
+				{{if ($value.Category_Level==1)}}
+				<button type="button" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok"></span></button>	
+				{{else}}
+				<button type="button" class="btn btn-sm btn-default" onclick="changeCategoryLevel(this,{{$value.CategoryId}},1)"><span class="glyphicon glyphicon-remove"></span></button>						
+				{{/if}}
+				{{if ($value.Category_Level==2)}}
+				<button type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-ok"></span></button>	
+				{{else}}
+				<button type="button" class="btn btn-sm btn-primary" onclick="changeCategoryLevel(this,{{$value.CategoryId}},2)"><span class="glyphicon glyphicon-remove"></span></button>						
+				{{/if}}
+				{{if ($value.Category_Level==3)}}
+				<button type="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-ok"></span></button>	
+				{{else}}
+				<button type="button" class="btn btn-sm btn-info" onclick="changeCategoryLevel(this,{{$value.CategoryId}},3)"><span class="glyphicon glyphicon-remove"></span></button>						
+				{{/if}}
+				{{if ($value.Category_Level==4)}}
+				<button type="button" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-ok"></span></button>	
+				{{else}}
+				<button type="button" class="btn btn-sm btn-warning" onclick="changeCategoryLevel(this,{{$value.CategoryId}},4)"><span class="glyphicon glyphicon-remove"></span></button>						
+				{{/if}}
+				{{if ($value.Category_Level==5)}}
+				<button type="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-ok"></span></button>	
+				{{else}}
+				<button type="button" class="btn btn-sm btn-danger" onclick="changeCategoryLevel(this,{{$value.CategoryId}},5)"><span class="glyphicon glyphicon-remove"></span></button>						
+				{{/if}}
+			</div>
+		</td>
+		<td class="t_c">
+			<div class="btn-group">
+			{{if ($value.Category_Status)}}
+			<button type="button" class="btn btn-sm btn-success" onclick="changeCategoryStatus(this,{{$value.CategoryId}},0)">禁用</button>
+			{{else}}
+			<button type="button" class="btn btn-sm btn-success" onclick="changeCategoryStatus(this,{{$value.CategoryId}},1)">启用</button>
+			{{/if}}
+			<a class="btn btn-sm btn-info" onclick="categoryEditor(this,{{$value.CategoryId}},null)">编辑</a>
+			</div>
+		</td>
+	{{/if}}
+	{{if (Merging == 2)}}
+		{{if $index == 0}}
+			<td class="t_r v_a_m" rowspan="{{recordList.length}}">
+				<label>
+					<span>{{$value.ImageId}}</span>
+					<input type="checkbox" class="form-control" name="ImageId" value="{{$value.ImageId}}" /> 
+				</label>
+			</td>
+			<td class="t_c v_a_m" rowspan="{{recordList.length}}">
+				<a target="_blank" href="{{$value.Image_Src}}"><img title="{{$value.Image_Title}}" class="img-thumbnail" src="{{$value.Image_Src}}" /></a>
+			</td>
+			<td class="t_c v_a_m" rowspan="{{recordList.length}}">
+				<div class="btn-group">
+					{{if ($value.Image_Level==1)}}
+					<button type="button" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok"></span></button>	
+					{{else}}
+					<button type="button" class="btn btn-sm btn-default" onclick="changeImageLevel(this,{{$value.ImageId}},1)"><span class="glyphicon glyphicon-remove"></span></button>						
+					{{/if}}
+					{{if ($value.Image_Level==2)}}
+					<button type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-ok"></span></button>	
+					{{else}}
+					<button type="button" class="btn btn-sm btn-primary" onclick="changeImageLevel(this,{{$value.ImageId}},2)"><span class="glyphicon glyphicon-remove"></span></button>						
+					{{/if}}
+					{{if ($value.Image_Level==3)}}
+					<button type="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-ok"></span></button>	
+					{{else}}
+					<button type="button" class="btn btn-sm btn-info" onclick="changeImageLevel(this,{{$value.ImageId}},3)"><span class="glyphicon glyphicon-remove"></span></button>						
+					{{/if}}
+					{{if ($value.Image_Level==4)}}
+					<button type="button" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-ok"></span></button>	
+					{{else}}
+					<button type="button" class="btn btn-sm btn-warning" onclick="changeImageLevel(this,{{$value.ImageId}},4)"><span class="glyphicon glyphicon-remove"></span></button>						
+					{{/if}}
+					{{if ($value.Image_Level==5)}}
+					<button type="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-ok"></span></button>	
+					{{else}}
+					<button type="button" class="btn btn-sm btn-danger" onclick="changeImageLevel(this,{{$value.ImageId}},5)"><span class="glyphicon glyphicon-remove"></span></button>						
+					{{/if}}
+				</div>
+			</td>
+			<td class="t_c v_a_m" rowspan="{{recordList.length}}">
+				<div class="btn-group">
+				{{if ($value.Image_Status)}}
+				<button type="button" class="btn btn-sm btn-success" onclick="changeImageStatus(this,{{$value.ImageId}},0)">禁用</button>
+				{{else}}
+				<button type="button" class="btn btn-sm btn-success" onclick="changeImageStatus(this,{{$value.ImageId}},1)">启用</button>
+				{{/if}}
+				<a class="btn btn-sm btn-info" onclick="imageEditor(this,{{$value.ImageId}},null)">编辑</a>
+				</div>
+			</td>
+		{{/if}}
+	{{else}}
+		<td class='t_r'>
+			<label>
+				<span>{{$value.ImageId}}</span>
+				<input type="checkbox" class="form-control" name="ImageId" value="{{$value.ImageId}}" /> 
+			</label>
+		</td>
+		<td class='t_c'>
+			<a target="_blank" href="{{$value.Image_Src}}"><img title="{{$value.Image_Title}}" class="img-thumbnail" src="{{$value.Image_Src}}" /></a>
+		</td>
+		<td class='t_c'>
+			<div class="btn-group">
+				{{if ($value.Image_Level==1)}}
+				<button type="button" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok"></span></button>	
+				{{else}}
+				<button type="button" class="btn btn-sm btn-default" onclick="changeImageLevel(this,{{$value.Id}},1)"><span class="glyphicon glyphicon-remove"></span></button>						
+				{{/if}}
+				{{if ($value.Image_Level==2)}}
+				<button type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-ok"></span></button>	
+				{{else}}
+				<button type="button" class="btn btn-sm btn-primary" onclick="changeImageLevel(this,{{$value.Id}},2)"><span class="glyphicon glyphicon-remove"></span></button>						
+				{{/if}}
+				{{if ($value.Image_Level==3)}}
+				<button type="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-ok"></span></button>	
+				{{else}}
+				<button type="button" class="btn btn-sm btn-info" onclick="changeImageLevel(this,{{$value.Id}},3)"><span class="glyphicon glyphicon-remove"></span></button>						
+				{{/if}}
+				{{if ($value.Image_Level==4)}}
+				<button type="button" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-ok"></span></button>	
+				{{else}}
+				<button type="button" class="btn btn-sm btn-warning" onclick="changeImageLevel(this,{{$value.Id}},4)"><span class="glyphicon glyphicon-remove"></span></button>						
+				{{/if}}
+				{{if ($value.Image_Level==5)}}
+				<button type="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-ok"></span></button>	
+				{{else}}
+				<button type="button" class="btn btn-sm btn-danger" onclick="changeImageLevel(this,{{$value.Id}},5)"><span class="glyphicon glyphicon-remove"></span></button>						
+				{{/if}}
+			</div>
+		</td>
+		<td class="t_c">
+			<div class="btn-group">
+			{{if ($value.Image_Status)}}
+			<button type="button" class="btn btn-sm btn-success" onclick="changeImageStatus(this,{{$value.ImageId}},0)">禁用</button>
+			{{else}}
+			<button type="button" class="btn btn-sm btn-success" onclick="changeImageStatus(this,{{$value.ImageId}},1)">启用</button>
+			{{/if}}
+			<a class="btn btn-sm btn-info" onclick="imageEditor(this,{{$value.ImageId}},null)">编辑</a>
+			</div>
+		</td>
+	{{/if}}
+		<td class="t_c">
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-danger" onclick="categoryImageRelationDelete(this,{{$value.CategoryId}},{{$value.ImageId}})">删除</button> 
+			</div>
+		</td>
+	</tr>
+	{{/each}}
+{{else}}
+	<tr class="odd_color">
+		<td class="align_l p10_l bgr_eb" colspan="9">暂无数据</td>
+	</tr>
+{{/if}}
