@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>相册Api调试</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<script src="jquery/jquery.min.js"></script>
+		
+		<script src="My97DatePicker/WdatePicker.js"></script>
+		<script src="My97DatePicker/lang/zh-cn.js"></script>
+		<base  target="_blank" />
+	</head>
+	<body>
+		<div class="container">
+			<div id="main">
+				<div class="col-md-12">
+					<form method="post" action="api.php?model=image&action=query">
+						<fieldset>
+							<legend>图片查询</legend>
+							<dl>
+								<dt>请求地址：</dt><dd>api.php?model=image&action=query</dd>
+								<dt>分页参数：</dt>
+								<dd>
+									<ul>
+										<li>起始页：PageIndex</li>
+										<li>页码大小：PageSize</li>
+										<li>排序字段：PageSort</li>
+										<li>查询字段：PageItems
+											<ol>
+												<li>Id</li>
+												<li>Title</li>
+												<li>Src</li>
+												<li>Level</li>
+											</ol>
+										</li>
+									</ul>
+								</dd>
+								<dt>过滤参数(必填)</dt>
+								<dd>相册编号：CategoryId</dd>
+								<dd>可选参数(选填)</dd>
+								<dd>相册等级：Level</dd>
+							</dl>
+							<fieldset>
+								<legend>分页参数</legend>
+								<ul>
+									<li><label>PageIndex</label><input name="PageIndex" type="number" value="1" /></li>
+									<li><label>PageSize</label><input name="PageSize" type="number" value="20" /></li>
+									<li><label>PageSort</label><input name="PageSort" type="text" value="" placeholder="排序字段" /></li>
+									<li><label>PageItems</label><input name="PageItems" type="text" value="" placeholder="返回字段" /></li>
+								</ul>
+							</fieldset>
+							<fieldset>
+								<legend>过滤参数</legend>
+								<ul>
+									<li><input name="CategoryId" type="text" class="form-control input-sm wd120" placeholder="相册编号" /></li>
+									<li><input name="Level" type="text" class="form-control input-sm wd120" placeholder="相册等级" /></li>
+								</ul>
+							</fieldset>
+							<button type="submit">查询</button>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
