@@ -27,8 +27,13 @@
 			return false;
 		if($model == 'user' && $action == 'authorize')
 			return false;
+		if($model == 'categoryimage')
+			return false;
+		if($model == 'image')
+			return false;
 		return true;
 	}
+	
 	
 	if(ValidateModelAction($model,$action) && empty(CurrentUserId())){
 		header('Content-Type: application/json;');
