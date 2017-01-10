@@ -60,7 +60,7 @@
 						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
 						<input id="PageSize" name="PageSize" type="hidden" value="20" />
 						<input id="PageSort" name="PageSort" type="hidden" value="" />
-						<input id="PageTemplate" type="hidden" value="imageblock" />
+						<input id="PageTemplate" type="hidden" value="imagelist" />
 						<input id="PageItems" name="PageItems" type="hidden" value="Id,Title,Img,Src,Level,Status,DateTimeCreate,DateTimeModify" />
 		
 						<div class="panel panel-default">
@@ -74,6 +74,9 @@
 											<button class="btn btn-sm btn-danger" type="button" onclick="imageDelete(this,0)">删除</button>
 										</div>
 										<div class="f_r">
+											<div class="form-group">
+												<input id="Id" name="Id" type="text" class="form-control input-sm wd120" placeholder="编号" />
+											</div>
 											<div class="form-group">
 												<input id="Title" name="Title" type="text" class="form-control input-sm wd120" placeholder="标题" />
 											</div>
@@ -126,7 +129,7 @@
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Src"> 本地图片</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Status"> 状态</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeModify"> 时间（创建/修改）</a></th>
-											<th class="t_c wd200"><button type="button" class="btn btn-sm btn-default" onclick="changePageTemplate(this,event);"><span class="glyphicon glyphicon-th-list"></span>列表</button></th>
+											<th class="t_c wd200"><button type="button" class="btn btn-sm btn-default" onclick="changePageTemplate(this,event);"><span class="glyphicon glyphicon-th-list"></span>图块</button></th>
 										</tr>
 									</thead>
 									<tbody id="recordList">

@@ -20,7 +20,7 @@
 	header('Content-Type: application/json');	
 	
 	$timespan = date('Y-m-d H:i:s',time());
-	
+
 	$sth = $pdomysql -> prepare('update tbCategoryImageInfo set Status = :StatusNew,DateTimeModify = :timespan where Id in('.implode(',',$Ids).') and Status != :StatusOld;');
 	$sth -> execute(array(
 		'StatusNew' => $Status,

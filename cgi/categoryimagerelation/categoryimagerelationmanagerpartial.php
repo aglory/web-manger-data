@@ -13,8 +13,8 @@
 	
 	$PageColumns = array(
 		'tbCategoryImageRelationInfo' => array('CategoryId','ImageId'),
-		'tbCategoryImageInfo' => array('Title','Tag','Img','Src','Level'),
-		'tbImageInfo' => array('Title','Img','Src','Level')
+		'tbCategoryImageInfo' => array('Title','Tag','Img','Src','Level','Status'),
+		'tbImageInfo' => array('Title','Img','Src','Level','Status')
 	);
 
 	
@@ -150,7 +150,7 @@
 		$errors[] = $error[2];
 	}
 
-	$result = array();
+	$result = array('sql'=>'select '.implode(',',$PageItems).' from '.$tbFrom.' where '.implode(' and ',$whereSql).(!empty($PageOrderBy)?' order by '.implode(',',$PageOrderBy):'')." limit $PageStart,$PageEnd;");
 
 	if(empty($errors)){
 		$result['status'] = true;

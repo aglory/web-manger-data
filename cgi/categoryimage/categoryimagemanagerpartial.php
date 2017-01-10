@@ -70,6 +70,9 @@
 	$whereSql = array('1=1');
 	$whereParams = array();
 
+	if(array_key_exists('Id',$_POST) && is_numeric($_POST['Id'])){
+		$whereSql[] = 'tbCategoryImageInfo.Id = '.intval($_POST['Id']);
+	}
 	if(array_key_exists('Title',$_POST) && !empty($_POST['Title'])){
 		$whereSql[] = 'tbCategoryImageInfo.Title like :Title';
 		$whereParams['Title'] = '%'.$_POST['Title'].'%';
@@ -95,7 +98,9 @@
 		$whereSql[] = 'tbCategoryImageInfo.DateTimeCreate <= date_add(:DateTimeCreateMax,INTERVAL 1 DAY)';
 		$whereParams['DateTimeCreateMax'] = $_POST['DateTimeCreateMax'];
 	}
-	
+	if(array_key_exists('ExceptRelationImageId',$_POST) && is_numeric($_POST['ExceptRelationImageId'])){
+		$whereSql[] = 'tbCategoryImageInfo.Id not in(select CategoryId from tbCategoryImageRelationInfo where ImageId = '.intval($_POST['ExceptRelationImageId']).')';
+	}
 	
 	$sthList = null;
 	$sthCount = null;

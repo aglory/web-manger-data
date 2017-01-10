@@ -55,27 +55,27 @@
 		?>
 		<div class="container">
 		
-			<?php if(array_key_exists('ImageId',$_GET)){?>
+			<?php if(array_key_exists('ImageId',$_GET) && is_numeric($_GET['ImageId'])){?>
 			<div id="divCategoryId">
 				<div class="col-md-12">
 					<form id="mainCategoryForm" class="form-inline" action="<?php ActionLink('categoryimage','categoryimagemanagerpartial')?>">
-						<input id="PageIndex" name="PageIndex" type="hidden" value="1" />
-						<input id="PageSize" name="PageSize" type="hidden" value="5" />
-						<input id="PageSort" name="PageSort" type="hidden" value="" />
-						<input id="PageTemplate" type="hidden" value="categoryimageblock" />
-						<input id="PageItems" name="PageItems" type="hidden" value="Id,Title,Tag,Img,Src,Level,Status,DateTimeCreate,DateTimeModify" />
-		
+						<input id="CategoryPageIndex" name="PageIndex" type="hidden" value="1" />
+						<input id="CategoryPageSize" name="PageSize" type="hidden" value="5" />
+						<input id="CategoryPageSort" name="PageSort" type="hidden" value="" />
+						<input id="CategoryPageItems" name="PageItems" type="hidden" value="Id,Title,Tag,Img,Src,Level,Status,DateTimeCreate,DateTimeModify" />
+						<input name="ExceptRelationImageId" type="hidden" value="<?php echo $_GET['ImageId'];?>" />
+						
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="panel-title clearfix">
 									<div class="col-sm-12 clearfix">
 										<div class="btn-group f_l">
-											<button class="btn btn-sm btn-info" type="button" onclick="categoryImageEditor(this,0)">添加</button>
-											<button class="btn btn-sm btn-success" type="button" onclick="categoryImageChangeStatus(this,0,1)">启用</button>
-											<button class="btn btn-sm btn-warning" type="button" onclick="categoryImageChangeStatus(this,0,0)">禁用</button>
-											<button class="btn btn-sm btn-danger" type="button" onclick="categoryImageDelete(this,0)">删除</button>
+											<button class="btn btn-sm btn-info" type="button" onclick="categoryImageRelationAdd(this,0,<?php echo $_GET['ImageId']; ?>)">添加</button>
 										</div>
 										<div class="f_r">
+											<div class="form-group">
+												<input id="Id" name="Id" type="text" class="form-control input-sm wd120" placeholder="编号" />
+											</div>
 											<div class="form-group">
 												<input id="Title" name="Title" type="text" class="form-control input-sm wd120" placeholder="标题" />
 											</div>
@@ -95,8 +95,8 @@
 												</select>
 											</div>
 											<div class="form-group">
-												<input id="DateTimeModifyMin" name="DateTimeModifyMin" class="form-control input-sm date Wdate wd100" placeholder="开始日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'DateTimeModifyMax\')}'});" />
-												<input id="DateTimeModifyMax" name="DateTimeModifyMax" class="form-control input-sm date Wdate wd100" placeholder="结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'DateTimeModifyMin\')}'});" />
+												<input id="CategoryDateTimeModifyMin" name="DateTimeModifyMin" class="form-control input-sm date Wdate wd100" placeholder="开始日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'CategoryDateTimeModifyMax\')}'});" />
+												<input id="CategoryDateTimeModifyMax" name="DateTimeModifyMax" class="form-control input-sm date Wdate wd100" placeholder="结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'CategoryDateTimeModifyMin\')}'});" />
 											</div>
 											<div class="form-group">
 												<select id="Status" name="Status" class="form-control input-sm" placeholder="状态">
@@ -106,10 +106,88 @@
 												</select>
 											</div>
 											<div class="form-group">
-												<select id="Scrawled" name="Scrawled" class="form-control input-sm" placeholder="采集状态">
+												<button type="submit" class="btn btn-info btn-sm btn-query">查询</button>
+												<button type="button" class="btn btn-default btn-sm btn-refresh">刷新</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<table class="table table-striped table-bordered">
+									<thead id="recordCategoryHead">
+										<tr>
+											<th class="t_c wd40"><input type="checkbox" onchange="changeAllCheckBoxStatus(this);" /></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Title"> 标题</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Tag"> 标签</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Level"> 等级</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Src"> 图片</a></th>
+											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Status"> 状态</a></th>
+											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeModify"> 时间（创建/修改）</a></th>
+											<th class="t_c wd200">操作</th>
+										</tr>
+									</thead>
+									<tbody id="recordCategoryList">
+									</tbody>
+									<tfoot id="recordCategoryStatic">
+										<tr>
+											<td colspan="8" class="t_r"></td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<?php }?>
+			<?php if(array_key_exists('CategoryId',$_GET)){?>
+			
+			<div id="divImageId">
+				<div class="col-md-12">
+					<form id="mainImageForm" class="form-inline" action="<?php ActionLink('image','imagemanagerpartial')?>">
+						<input id="ImagePageIndex" name="PageIndex" type="hidden" value="1" />
+						<input id="ImagePageSize" name="PageSize" type="hidden" value="5" />
+						<input id="ImagePageSort" name="PageSort" type="hidden" value="" />
+						<input id="ImagePageTemplate" type="hidden" value="imageblock" />
+						<input id="ImagePageItems" name="PageItems" type="hidden" value="Id,Title,Img,Src,Level,Status,DateTimeCreate,DateTimeModify" />
+						<input name="ExceptRelationCategoryId" type="hidden" value="<?php echo $_GET['CategoryId'];?>" />
+						
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<div class="panel-title clearfix">
+									<div class="col-sm-12 clearfix">
+										<div class="btn-group f_l">
+											<button class="btn btn-sm btn-info" type="button" onclick="categoryCategoryRelationAdd(this,<?php echo $_GET['CategoryId']; ?>,0)">添加</button>
+										</div>
+										<div class="f_r">
+											<div class="form-group">
+												<input id="Id" name="Id" type="text" class="form-control input-sm wd120" placeholder="编号" />
+											</div>
+											<div class="form-group">
+												<input id="Title" name="Title" type="text" class="form-control input-sm wd120" placeholder="标题" />
+											</div>
+											<div class="form-group">
+												<select id="Level" name="Level" class="form-control input-sm" placeholder="等级">
 													<option value="">全部</option>
-													<option value="0">未采集</option>
-													<option value="1">已采集</option>
+													<script type="text/javascript">
+													var imageLevel = EnumConfig().ImageLevel;
+													for(var i in imageLevel){
+														var o = imageLevel[i];
+														document.write('<option value="'+o.Key+'">'+o.Value+'</option>');
+													}
+													</script>
+												</select>
+											</div>
+											<div class="form-group">
+												<input id="ImageDateTimeModifyMin" name="DateTimeModifyMin" class="form-control input-sm date Wdate wd100" placeholder="开始日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'ImageDateTimeModifyMax\')}'});" />
+												<input id="ImageDateTimeModifyMax" name="DateTimeModifyMax" class="form-control input-sm date Wdate wd100" placeholder="结束日期" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'ImageDateTimeModifyMin\')}'});" />
+											</div>
+											<div class="form-group">
+												<select id="Status" name="Status" class="form-control input-sm" placeholder="状态">
+													<option value="">全部</option>
+													<option value="1">启用</option>
+													<option value="0">禁用</option>
 												</select>
 											</div>
 											<div class="form-group">
@@ -126,20 +204,18 @@
 										<tr>
 											<th class="t_c wd40"><input type="checkbox" onchange="changeAllCheckBoxStatus(this);" /></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="Title"> 标题</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Tag"> 标签</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Level"> 等级</a></th>
-											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Img"> 采集图片</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Src"> 本地图片</a></th>
 											<th class="t_c wd80"><a class="btn btn-sort icon-sort " sort-expression="Status"> 状态</a></th>
 											<th class="t_c"><a class="btn btn-sort icon-sort " sort-expression="DateTimeModify"> 时间（创建/修改）</a></th>
-											<th class="t_c wd200"><button type="button" class="btn btn-sm btn-default" onclick="changePageTemplate(this,event);"><span class="glyphicon glyphicon-th-list"></span>列表</button></th>
+											<th class="t_c wd200">操作</th>
 										</tr>
 									</thead>
-									<tbody id="recordCategoryList">
+									<tbody id="recordImageList">
 									</tbody>
-									<tfoot id="recordCategoryStatic">
+									<tfoot id="recordImageStatic">
 										<tr>
-											<td colspan="9" class="t_r"></td>
+											<td colspan="8" class="t_r"></td>
 										</tr>
 									</tfoot>
 								</table>
@@ -148,8 +224,7 @@
 					</form>
 				</div>
 			</div>
-			<?php }?>
-			<?php if(array_key_exists('',$_GET)){?>
+			
 			<?php }?>
 			
 			<div id="main">
