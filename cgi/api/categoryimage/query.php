@@ -65,12 +65,21 @@
 	}
 	
 	
-	$whereSql = array('1=1');
+	$whereSql = array('tbCategoryImageInfo.Status = 1');
 	$whereParams = array();
 	
 	if(array_key_exists('Tag',$_POST) && !empty($_POST['Tag'])){
 		$whereSql[] = 'find_in_set(:Tag,tbCategoryImageInfo.Tag)';
 		$whereParams['Tag'] = $_POST['Tag'];
+	}
+	
+	if(array_key_exists('Tags',$_POST) && !empty($_POST['Tags'])){
+		$items = array();
+		foreach(explode(',',$_POST['Tags']) as $key => $val){
+			$items[] = 'find_in_set(:Tag'.$key.',tbCategoryImageInfo.Tag)';
+			$whereParams['Tag'.$key] = $val;
+		}
+		$whereSql[] = '('.implode(' or ',$items).')';
 	}
 	
 	if(array_key_exists('Title',$_POST) && !empty($_POST['Title'])){
@@ -81,7 +90,6 @@
 	if(array_key_exists('Level',$_POST) && is_numeric($_POST['Level'])){
 		$whereSql[] = 'tbCategoryImageInfo.Level <= '.intval($_POST['Level']);
 	}
-	
 	
 	$sthList = null;
 	$sthCount = null;

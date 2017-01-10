@@ -65,7 +65,7 @@
 	}
 	
 	
-	$whereSql = array('1=1');
+	$whereSql = array('tbImageInfo.Status=1');
 	$whereParams = array();
 	
 	if(array_key_exists('CategoryId',$_POST) && is_numeric($_POST['CategoryId'])){

@@ -31,7 +31,7 @@
 	$sthList = null;
 	$sthCount = null;
 	
-	$sthList = $pdomysql -> prepare('select Tag from '.$tbFrom.' group by Tag'.(!empty($havingSql)?' having '.implode(',',$havingSql):''));
+	$sthList = $pdomysql -> prepare('select Tag from '.$tbFrom.' where Status = 1 group by Tag'.(!empty($havingSql)?' having '.implode(',',$havingSql):''));
 	
 	if(empty($whereParams)){
 		$sthList -> execute();
