@@ -44,7 +44,7 @@
 			<td class="t_c v_a_m" rowspan="{{recordList.length}}">
 				<div class="btn-group">
 				{{if ($value.Category_Status)}}
-				<button type="button" class="btn btn-sm btn-success" onclick="changeCategoryStatus(this,{{$value.CategoryId}},0)">禁用</button>
+				<button type="button" class="btn btn-sm btn-warning" onclick="changeCategoryStatus(this,{{$value.CategoryId}},0)">禁用</button>
 				{{else}}
 				<button type="button" class="btn btn-sm btn-success" onclick="changeCategoryStatus(this,{{$value.CategoryId}},1)">启用</button>
 				{{/if}}
@@ -94,7 +94,7 @@
 		<td class="t_c">
 			<div class="btn-group">
 			{{if ($value.Category_Status)}}
-			<button type="button" class="btn btn-sm btn-success" onclick="changeCategoryStatus(this,{{$value.CategoryId}},0)">禁用</button>
+			<button type="button" class="btn btn-sm btn-warning" onclick="changeCategoryStatus(this,{{$value.CategoryId}},0)">禁用</button>
 			{{else}}
 			<button type="button" class="btn btn-sm btn-success" onclick="changeCategoryStatus(this,{{$value.CategoryId}},1)">启用</button>
 			{{/if}}
@@ -145,7 +145,7 @@
 			<td class="t_c v_a_m" rowspan="{{recordList.length}}">
 				<div class="btn-group">
 				{{if ($value.Image_Status)}}
-				<button type="button" class="btn btn-sm btn-success" onclick="changeImageStatus(this,{{$value.ImageId}},0)">禁用</button>
+				<button type="button" class="btn btn-sm btn-warning" onclick="changeImageStatus(this,{{$value.ImageId}},0)">禁用</button>
 				{{else}}
 				<button type="button" class="btn btn-sm btn-success" onclick="changeImageStatus(this,{{$value.ImageId}},1)">启用</button>
 				{{/if}}
@@ -168,34 +168,34 @@
 				{{if ($value.Image_Level==1)}}
 				<button type="button" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok"></span></button>	
 				{{else}}
-				<button type="button" class="btn btn-sm btn-default" onclick="changeImageLevel(this,{{$value.Id}},1)"><span class="glyphicon glyphicon-remove"></span></button>						
+				<button type="button" class="btn btn-sm btn-default" onclick="changeImageLevel(this,{{$value.ImageId}},1)"><span class="glyphicon glyphicon-remove"></span></button>						
 				{{/if}}
 				{{if ($value.Image_Level==2)}}
 				<button type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-ok"></span></button>	
 				{{else}}
-				<button type="button" class="btn btn-sm btn-primary" onclick="changeImageLevel(this,{{$value.Id}},2)"><span class="glyphicon glyphicon-remove"></span></button>						
+				<button type="button" class="btn btn-sm btn-primary" onclick="changeImageLevel(this,{{$value.ImageId}},2)"><span class="glyphicon glyphicon-remove"></span></button>						
 				{{/if}}
 				{{if ($value.Image_Level==3)}}
 				<button type="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-ok"></span></button>	
 				{{else}}
-				<button type="button" class="btn btn-sm btn-info" onclick="changeImageLevel(this,{{$value.Id}},3)"><span class="glyphicon glyphicon-remove"></span></button>						
+				<button type="button" class="btn btn-sm btn-info" onclick="changeImageLevel(this,{{$value.ImageId}},3)"><span class="glyphicon glyphicon-remove"></span></button>						
 				{{/if}}
 				{{if ($value.Image_Level==4)}}
 				<button type="button" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-ok"></span></button>	
 				{{else}}
-				<button type="button" class="btn btn-sm btn-warning" onclick="changeImageLevel(this,{{$value.Id}},4)"><span class="glyphicon glyphicon-remove"></span></button>						
+				<button type="button" class="btn btn-sm btn-warning" onclick="changeImageLevel(this,{{$value.ImageId}},4)"><span class="glyphicon glyphicon-remove"></span></button>						
 				{{/if}}
 				{{if ($value.Image_Level==5)}}
 				<button type="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-ok"></span></button>	
 				{{else}}
-				<button type="button" class="btn btn-sm btn-danger" onclick="changeImageLevel(this,{{$value.Id}},5)"><span class="glyphicon glyphicon-remove"></span></button>						
+				<button type="button" class="btn btn-sm btn-danger" onclick="changeImageLevel(this,{{$value.ImageId}},5)"><span class="glyphicon glyphicon-remove"></span></button>						
 				{{/if}}
 			</div>
 		</td>
 		<td class="t_c">
 			<div class="btn-group">
 			{{if ($value.Image_Status)}}
-			<button type="button" class="btn btn-sm btn-success" onclick="changeImageStatus(this,{{$value.ImageId}},0)">禁用</button>
+			<button type="button" class="btn btn-sm btn-warning" onclick="changeImageStatus(this,{{$value.ImageId}},0)">禁用</button>
 			{{else}}
 			<button type="button" class="btn btn-sm btn-success" onclick="changeImageStatus(this,{{$value.ImageId}},1)">启用</button>
 			{{/if}}

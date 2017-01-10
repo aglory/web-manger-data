@@ -12,7 +12,7 @@ body{
 	width:60px;
 	height:60px;
 }
-#main,#divCategoryId{
+#main,#divCategoryId,#mainImageForm{
 	padding-top:60px;
 }
 #recordList hr{

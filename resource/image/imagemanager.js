@@ -123,7 +123,7 @@ function imageChangeLevel(sender,id,level){
 
 function imageEditor(sender,id,categoryId){
 	if(id == 0){
-		imageEditorRender(sender,{status:true,model:{Id:id,CategoryId:categoryId}});
+		imageEditorRender(sender,{status:true,model:{Id:id}});
 		return;
 	}
 	if(sender){
